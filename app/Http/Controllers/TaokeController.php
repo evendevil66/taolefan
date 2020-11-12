@@ -71,7 +71,7 @@ class TaokeController extends Controller
         $status = $dataArr['code'];
         switch ($status){
             case "0":
-                $goodsid = $dataArr['data']['goodsId'];
+                    $goodsid = $dataArr['data']['goodsId'];
                     $dataArr = $this->privilegeLink($goodsid);
                     Log::info($dataArr['code']);
                     if ($dataArr['code'] == '0') {
@@ -96,7 +96,7 @@ class TaokeController extends Controller
                         //$title= substr($longTpwd,$start+1,$end-$start-1);
                         $maxCommissionRate = $dataArr['data']['maxCommissionRate']; //佣金比例
                         return
-                            $title . "\n".
+                            "1".$title . "\n".
                             "售价：" . $price . "元\n".
                             "优惠券：" . $couponInfo . "\n".
                             "预计付款金额：" . $estimate . "元\n".
@@ -117,7 +117,7 @@ class TaokeController extends Controller
             case "20002":
                 return "您发送的信息解析失败\n您可以发送【关键词】获取可解析信息的列表";
             case "25003":
-                return "券信息解析失败，请确保您发送的链接为商品链接，如链接中包含优惠券（如导购群链接等）请先进入商品再分享链接到公众号转链";
+                return "券信息解析失败，请确保您发送的链接为商品链接，如链接中包含优惠券（如导购群链接等）请先进入商品再分享链接到公众号转链（注意：不要领取第三方淘礼金否则无法返利）";
             default:
                 return "出现未知异常，请稍后再试或联系客服";
         }

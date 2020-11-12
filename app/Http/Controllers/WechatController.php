@@ -17,13 +17,23 @@ class WeChatController extends Controller
 
         $app = app('wechat.official_account');
         $app->server->push(function ($message) {
+            $openid = $message['FromUserName'];
+            //访问数据库获取openid对应用户信息并返回用户对象
             switch ($message['MsgType']) {
                 case 'event':
+                    if($message['Event'] == 'subscribe'){
+                        return "关注事件";
+                    }
                     return '收到事件消息，系统暂时不处理该业务！请进行其他操作';
                     break;
                 case 'text':
                     $content = $message['Content'];
-                    $openid = $message['FromUserName'];
+                    
+                    //通过用户对象检测空信息，如有信息为空，则依次使用$content填充
+                    //if()
+                    
+                    
+                    
                     if (stristr($content,'关键词') != false) {
                         return
                             "1、发送包含【淘口令】的内容，系统将自动转链为返利链接回复\n".

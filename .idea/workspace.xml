@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +21,9 @@
         <option value="composer.json" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -140,6 +147,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1hYIJ4z4XHWkqUBPzIylD02kqjg" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -173,12 +181,26 @@
       <workItem from="1600588542050" duration="13277000" />
       <workItem from="1600607685613" duration="2187000" />
       <workItem from="1600610002829" duration="3214000" />
-      <workItem from="1600616570838" duration="1399000" />
+      <workItem from="1600616570838" duration="1599000" />
+      <workItem from="1602927115224" duration="1429000" />
+      <workItem from="1605185968375" duration="17000" />
+      <workItem from="1605186160548" duration="1193000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="698" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1600617088082">
@@ -189,6 +211,10 @@
       <screen x="0" y="25" width="1920" height="970" />
     </state>
     <state x="833" y="411" key="Github.ShareDialog/0.25.1920.970@0.25.1920.970" timestamp="1600617993548" />
+    <state x="701" y="219" key="Github.UntrackedFilesDialog" timestamp="1600618031733">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="701" y="219" key="Github.UntrackedFilesDialog/0.25.1920.970@0.25.1920.970" timestamp="1600618031733" />
     <state x="904" y="234" key="NewPhpClassDialog" timestamp="1600593190745">
       <screen x="0" y="25" width="1920" height="970" />
     </state>
