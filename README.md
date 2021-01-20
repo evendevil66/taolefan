@@ -12,3 +12,4 @@
 ## 主要配置文件
 1、/config/config.php &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件主要保存站点/平台基本信息、淘宝联盟和大淘客APPKEY等信息
 2、/config/wechat.php &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件主要微信公众平台APPKEY相关信息
+ 
