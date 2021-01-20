@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="修复了一些bug">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +44,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -201,31 +222,16 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="698" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1600617088082">
-      <screen x="0" y="25" width="1920" height="970" />
+    <state x="94" y="134" width="2360" height="770" key="DiffContextDialog" timestamp="1611157458876">
+      <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="698" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1920.970@0.25.1920.970" timestamp="1600617088082" />
-    <state x="833" y="411" key="Github.ShareDialog" timestamp="1600617993548">
-      <screen x="0" y="25" width="1920" height="970" />
+    <state x="94" y="134" width="2360" height="770" key="DiffContextDialog/0.25.2560.970@0.25.2560.970" timestamp="1611157458876" />
+    <state x="339" y="494" width="2360" height="770" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1611157530347">
+      <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="833" y="411" key="Github.ShareDialog/0.25.1920.970@0.25.1920.970" timestamp="1600617993548" />
-    <state x="701" y="219" key="Github.UntrackedFilesDialog" timestamp="1600618031733">
-      <screen x="0" y="25" width="1920" height="970" />
-    </state>
-    <state x="701" y="219" key="Github.UntrackedFilesDialog/0.25.1920.970@0.25.1920.970" timestamp="1600618031733" />
-    <state x="904" y="234" key="NewPhpClassDialog" timestamp="1600593190745">
-      <screen x="0" y="25" width="1920" height="970" />
-    </state>
-    <state x="904" y="234" key="NewPhpClassDialog/0.25.1920.970@0.25.1920.970" timestamp="1600593190745" />
-    <state x="1378" y="623" key="NewPhpFileDialog" timestamp="1600349306571">
-      <screen x="0" y="25" width="1920" height="970" />
-    </state>
-    <state x="1378" y="623" key="NewPhpFileDialog/0.25.1920.970@0.25.1920.970" timestamp="1600349306571" />
-    <state x="996" y="319" width="670" height="676" key="search.everywhere.popup" timestamp="1600349804649">
-      <screen x="0" y="25" width="1920" height="970" />
-    </state>
-    <state x="996" y="319" width="670" height="676" key="search.everywhere.popup/0.25.1920.970@0.25.1920.970" timestamp="1600349804649" />
+    <state x="339" y="494" width="2360" height="770" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.2560.970@0.25.2560.970" timestamp="1611157530347" />
   </component>
 </project>

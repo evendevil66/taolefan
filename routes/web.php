@@ -19,3 +19,15 @@ Route::get('/', function () {
 });
 
 Route::any('/wechat', [Controllers\WeChatController::class,'serve']);
+Route::get('/reg/{openid}', function ($openid) {
+    $name = "";
+    $alert="";
+    $ua = $_SERVER['HTTP_USER_AGENT'];
+    if (strpos($ua, 'MicroMessenger') == false && strpos($ua, 'Windows Phone') == false) {
+        $name = config('config.name');
+    } else {
+        $name = "请使用浏览器打开再进行注册";
+        $alert="alert(\"请点击右上角浏览器打开后再注册～\");";
+    }
+    return view('reg', ['title' => $name,'openid' => $openid,'alert'=>$alert]);
+});

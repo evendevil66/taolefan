@@ -22,18 +22,19 @@ class WeChatController extends Controller
             switch ($message['MsgType']) {
                 case 'event':
                     if($message['Event'] == 'subscribe'){
-                        return "关注事件";
+                        $url = config('config.apiUrl')."/reg/".$openid;
+                        return "欢迎关注".config('config.name')."，<a href=\"".$url."\">请点此进行注册</a>";
                     }
                     return '收到事件消息，系统暂时不处理该业务！请进行其他操作';
                     break;
                 case 'text':
                     $content = $message['Content'];
-                    
+
                     //通过用户对象检测空信息，如有信息为空，则依次使用$content填充
                     //if()
-                    
-                    
-                    
+
+
+
                     if (stristr($content,'关键词') != false) {
                         return
                             "1、发送包含【淘口令】的内容，系统将自动转链为返利链接回复\n".
@@ -50,6 +51,10 @@ class WeChatController extends Controller
                     }else if(stristr($content,'提现') != false){
                         //调用提现函数，清除对应openid下的可结算金额，记录提现后台等待人工返现
                         return "进入提现模块,openid:".$openid ;
+                    }else if(stristr($content,'注册') != false){
+                        //调用提现函数，清除对应openid下的可结算金额，记录提现后台等待人工返现
+                        $url = config('config.apiUrl')."/reg/".$openid;
+                        return "<a href=\"".$url."\">请点此进行注册</a>" ;
                     }else if(preg_match("/^\d{17,20}$/",$content)){
                         //调用淘宝联盟订单查询函数，查询对应订单号，如结果不为false，则存入用户订单列表，并返回预估返现信息
                         return "进入订单绑定模块,openid:".$openid ;

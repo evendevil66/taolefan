@@ -71,44 +71,44 @@ class TaokeController extends Controller
         $status = $dataArr['code'];
         switch ($status){
             case "0":
-                    $goodsid = $dataArr['data']['goodsId'];
-                    $dataArr = $this->privilegeLink($goodsid);
-                    Log::info($dataArr['code']);
-                    if ($dataArr['code'] == '0') {
-                        $tbArr = $this->aliParse($goodsid);
-                        $title = $tbArr['results']['n_tbk_item'][0]['title']; //商品标题
-                        $price = $tbArr['results']['n_tbk_item'][0]['zk_final_price']; //商品价格
-                        $couponInfo = "商品无优惠券";
-                        $amount = "0";
-                        if($dataArr['data']['couponInfo'] != null){
-                            $couponInfo = $dataArr['data']['couponInfo']; //优惠券信息
-                            $start= (strpos($couponInfo,"元"));
-                            $ci= mb_substr($couponInfo,$start);
-                            //return $ci;
-                            $end= (strpos($ci,"元"));
-                            $amount= mb_substr($ci,0,$end);
-                        }
-                        $tpwd = $dataArr['data']['tpwd']; //淘口令
-                        $estimate = $price - $amount; //预估付款金额
-                        //$longTpwd = $dataArr['data']['longTpwd']; //长淘口令
-                        //$start= (strpos($longTpwd,"【"));
-                        //$end= (strpos($longTpwd,"】"));
-                        //$title= substr($longTpwd,$start+1,$end-$start-1);
-                        $maxCommissionRate = $dataArr['data']['maxCommissionRate']; //佣金比例
-                        return
-                            "1".$title . "\n".
-                            "售价：" . $price . "元\n".
-                            "优惠券：" . $couponInfo . "\n".
-                            "预计付款金额：" . $estimate . "元\n".
-                            "用户返现比例：" . ($rate * 100) . "%\n".
-                            "商品返现比例：" . $maxCommissionRate . "%\n".
-                            "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n".
-                            "计算公式：" . $estimate . " * " . ($rate * 100) . "% * " . $maxCommissionRate . "%\n".
-                            "最终返现以实际情况为准，绑定订单后可查询到实际返现金额，如出现比价情况，官方会自动对返现金额降低，绑定后如对返现金额不满意可退款。\n".
-                            "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现";
-                    }else {
-                        return "出现未知异常，请稍后再试或联系客服000";
+                $goodsid = $dataArr['data']['goodsId'];
+                $dataArr = $this->privilegeLink($goodsid);
+                Log::info($dataArr['code']);
+                if ($dataArr['code'] == '0') {
+                    $tbArr = $this->aliParse($goodsid);
+                    $title = $tbArr['results']['n_tbk_item'][0]['title']; //商品标题
+                    $price = $tbArr['results']['n_tbk_item'][0]['zk_final_price']; //商品价格
+                    $couponInfo = "商品无优惠券";
+                    $amount = "0";
+                    if($dataArr['data']['couponInfo'] != null){
+                        $couponInfo = $dataArr['data']['couponInfo']; //优惠券信息
+                        $start= (strpos($couponInfo,"元"));
+                        $ci= mb_substr($couponInfo,$start);
+                        //return $ci;
+                        $end= (strpos($ci,"元"));
+                        $amount= mb_substr($ci,0,$end);
                     }
+                    $tpwd = $dataArr['data']['tpwd']; //淘口令
+                    $estimate = $price - $amount; //预估付款金额
+                    //$longTpwd = $dataArr['data']['longTpwd']; //长淘口令
+                    //$start= (strpos($longTpwd,"【"));
+                    //$end= (strpos($longTpwd,"】"));
+                    //$title= substr($longTpwd,$start+1,$end-$start-1);
+                    $maxCommissionRate = $dataArr['data']['maxCommissionRate']; //佣金比例
+                    return
+                        "1".$title . "\n".
+                        "售价：" . $price . "元\n".
+                        "优惠券：" . $couponInfo . "\n".
+                        "预计付款金额：" . $estimate . "元\n".
+                        "用户返现比例：" . ($rate * 100) . "%\n".
+                        "商品返现比例：" . $maxCommissionRate . "%\n".
+                        "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n".
+                        "计算公式：" . $estimate . " * " . ($rate * 100) . "% * " . $maxCommissionRate . "%\n".
+                        "最终返现以实际情况为准，绑定订单后可查询到实际返现金额，如出现比价情况，官方会自动对返现金额降低，绑定后如对返现金额不满意可退款。\n".
+                        "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现";
+                }else {
+                    return "出现未知异常，请稍后再试或联系客服000";
+                }
             case "-1":
                 return "哎呀，服务器出错了，请您再发送尝试一次或稍后再试";
                 break;
@@ -129,11 +129,23 @@ class TaokeController extends Controller
      */
     public function privilegeLink($goodsid){
         $host = "https://openapi.dataoke.com/api/tb-service/get-privilege-link";
+
         $data = [
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.2.0',
-            'goodsId'=>$goodsid
+            'goodsId'=>$goodsid,
         ];
+        $channelId = config('config.relationId');
+        if($channelId != 0){
+            $data = [
+                'appKey' => config('config.dtkAppKey'),
+                'version' => '1.2.0',
+                'goodsId'=>$goodsid,
+                'channelId'=> $channelId
+
+            ];
+        }
+
         $data['sign'] = $this->makeSign($data);
         $url = $host .'?'. http_build_query($data);
         var_dump($url);
