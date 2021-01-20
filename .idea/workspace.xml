@@ -20,11 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="修复了一些bug">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +41,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -176,7 +172,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/css" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/css" />
+      <recent name="$PROJECT_DIR$/resources/views" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -205,8 +210,33 @@
       <workItem from="1600616570838" duration="1599000" />
       <workItem from="1602927115224" duration="1429000" />
       <workItem from="1605185968375" duration="17000" />
-      <workItem from="1605186160548" duration="1193000" />
+      <workItem from="1605186160548" duration="1287000" />
+      <workItem from="1611061008888" duration="1546000" />
+      <workItem from="1611062896389" duration="4432000" />
+      <workItem from="1611145873959" duration="5030000" />
     </task>
+    <task id="LOCAL-00001" summary="修复了一些bug">
+      <created>1605190784351</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1605190784351</updated>
+    </task>
+    <task id="LOCAL-00002" summary="修复了一些bug">
+      <created>1605190792430</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1605190792430</updated>
+    </task>
+    <task id="LOCAL-00003" summary="修复了一些bug">
+      <created>1611156356799</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611156356799</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,14 +254,22 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修复了一些bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复了一些bug" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="94" y="134" width="2360" height="770" key="DiffContextDialog" timestamp="1611157458876">
+    <state x="435" y="247" key="Vcs.Push.Dialog.v2" timestamp="1605190705578">
+      <screen x="0" y="25" width="1920" height="971" />
+    </state>
+    <state x="435" y="247" key="Vcs.Push.Dialog.v2/0.25.1920.971@0.25.1920.971" timestamp="1605190705578" />
+    <state x="636" y="428" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605190810934">
+      <screen x="0" y="25" width="1920" height="971" />
+    </state>
+    <state x="636" y="428" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1920.971@0.25.1920.971" timestamp="1605190810934" />
+    <state x="1871" y="319" width="670" height="676" key="search.everywhere.popup" timestamp="1611147104268">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="94" y="134" width="2360" height="770" key="DiffContextDialog/0.25.2560.970@0.25.2560.970" timestamp="1611157458876" />
-    <state x="339" y="494" width="2360" height="770" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1611157530347">
-      <screen x="0" y="25" width="2560" height="970" />
-    </state>
-    <state x="339" y="494" width="2360" height="770" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.2560.970@0.25.2560.970" timestamp="1611157530347" />
+    <state x="1871" y="319" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1611147104268" />
   </component>
 </project>
