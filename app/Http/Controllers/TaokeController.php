@@ -2,7 +2,7 @@
 
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeChatController;
 use TopClient;
 use TbkItemInfoGetRequest;
 use Log;
@@ -52,7 +52,8 @@ class TaokeController extends Controller
      */
     public function parse($openid,$content)
     {
-        $user = app(UserController::class) -> getUser($openid);
+
+        //$user = app(UserController::class) -> getUser($openid);
         $rate = 0.8; //后期数据从$user用户对象中获取
         $host = "https://openapi.dataoke.com/api/tb-service/parse-taokouling";
         $data = [
@@ -62,18 +63,21 @@ class TaokeController extends Controller
         ];
         $data['sign'] = $this->makeSign($data);
         $url = $host .'?'. http_build_query($data);
-        var_dump($url);
+        //var_dump($url);
         //处理大淘客解析请求url
         $output = $this->curlGet($url,'get');
         //调用统一请求函数
 
         $dataArr = json_decode($output, true);//将返回数据转为数组
+
         $status = $dataArr['code'];
+        Log::info($dataArr);
+        Log::info($status);
         switch ($status){
             case "0":
                 $goodsid = $dataArr['data']['goodsId'];
                 $dataArr = $this->privilegeLink($goodsid);
-                Log::info($dataArr['code']);
+                Log::info($dataArr);
                 if ($dataArr['code'] == '0') {
                     $tbArr = $this->aliParse($goodsid);
                     $title = $tbArr['results']['n_tbk_item'][0]['title']; //商品标题
@@ -100,26 +104,29 @@ class TaokeController extends Controller
                         "售价：" . $price . "元\n".
                         "优惠券：" . $couponInfo . "\n".
                         "预计付款金额：" . $estimate . "元\n".
-                        "用户返现比例：" . ($rate * 100) . "%\n".
-                        "商品返现比例：" . $maxCommissionRate . "%\n".
+                        "商品返现比例：" . $maxCommissionRate*0.8 . "%\n". //用户返现比例为0.8 后续将从用户表中获取
                         "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n".
-                        "计算公式：" . $estimate . " * " . ($rate * 100) . "% * " . $maxCommissionRate . "%\n".
-                        "最终返现以实际情况为准，绑定订单后可查询到实际返现金额，如出现比价情况，官方会自动对返现金额降低，绑定后如对返现金额不满意可退款。\n".
-                        "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现";
+                        "返现计算：实付款 * " . $maxCommissionRate*0.8 . "%\n\n".
+                        "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n".
+                        "点击下方账号管理，绑定淘宝账号，下单后系统将支持自动同步，无需回传订单号（个别情况自动同步未成功可提交订单号手动绑定）";
                 }else {
                     return "出现未知异常，请稍后再试或联系客服000";
                 }
             case "-1":
                 return "哎呀，服务器出错了，请您再发送尝试一次或稍后再试";
                 break;
-            case "20001":
-                return "您发送的淘口令商品暂时不参与任何返利活动哦";
-            case "20002":
-                return "您发送的信息解析失败\n您可以发送【关键词】获取可解析信息的列表";
+            case "20002" || "200001":
+                return "您发送的信息解析失败，可能不是有效口令，请检查";
+                break;
+            case "20001" || "200003":
+                return "您发送的信息解析失败，可能是商品无任何饭粒活动";
+                break;
             case "25003":
                 return "券信息解析失败，请确保您发送的链接为商品链接，如链接中包含优惠券（如导购群链接等）请先进入商品再分享链接到公众号转链（注意：不要领取第三方淘礼金否则无法返利）";
+                break;
             default:
                 return "出现未知异常，请稍后再试或联系客服";
+                break;
         }
 
     }
@@ -129,23 +136,11 @@ class TaokeController extends Controller
      */
     public function privilegeLink($goodsid){
         $host = "https://openapi.dataoke.com/api/tb-service/get-privilege-link";
-
         $data = [
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.2.0',
-            'goodsId'=>$goodsid,
+            'goodsId'=>$goodsid
         ];
-        $channelId = config('config.relationId');
-        if($channelId != 0){
-            $data = [
-                'appKey' => config('config.dtkAppKey'),
-                'version' => '1.2.0',
-                'goodsId'=>$goodsid,
-                'channelId'=> $channelId
-
-            ];
-        }
-
         $data['sign'] = $this->makeSign($data);
         $url = $host .'?'. http_build_query($data);
         var_dump($url);
