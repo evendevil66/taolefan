@@ -26,7 +26,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/taolefan.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
@@ -188,7 +187,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -239,7 +238,7 @@
       <workItem from="1638780035494" duration="1556000" />
       <workItem from="1638857549796" duration="24864000" />
       <workItem from="1638899457748" duration="2335000" />
-      <workItem from="1638901805167" duration="382000" />
+      <workItem from="1638901805167" duration="905000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -297,7 +296,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638901849237</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update">
+      <created>1638902199442</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1638902199442</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,17 +339,17 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state x="1024" y="240" key="NewPhpClassDialog/0.25.2560.970@0.25.2560.970" timestamp="1638858052032" />
-    <state x="962" y="185" key="SettingsEditor" timestamp="1638883417337">
+    <state x="962" y="185" key="SettingsEditor" timestamp="1638902624789">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1638883417337" />
+    <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1638902624789" />
     <state width="550" height="445" key="SwitcherDM" timestamp="1638878983916">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638901875760">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638902632349">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638901875760" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638902632349" />
   </component>
 </project>

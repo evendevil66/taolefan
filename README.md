@@ -70,7 +70,7 @@ DB_PASSWORD=  #数据库密码
 wechat.mttgo.com/wechat
 ````
 使用任意账号给公众号发送"创建菜单"即可创建自定义菜单（仅限服务号或认证订阅号）  
-订阅号请在WechatController.php中找到case 'text'自行添加文本响应  
+未认证订阅号请在WechatController.php中找到case 'text'自行添加文本响应  
 添加方法如下
 ````php
 case 'text':
