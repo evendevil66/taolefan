@@ -34,7 +34,7 @@ composer dump-auto
 ````shell script
 cp .env.example .env
 ````
-修改.env中的数据库配置
+修改.env中的数据库配置并导入项目根目录下的 taolefan.sql 到数据库
 ````shell script
 DB_CONNECTION=mysql  #默认使用mysql请勿修改 可支持MariaDB
 DB_HOST=127.0.0.1  #数据库连接地址
@@ -81,7 +81,7 @@ if (stristr($content, '提现'){
 ````
 具体处理代码可以在WechatController.php找到 switch ($message['EventKey'])  自行复制  
 
-至此，淘乐饭项目已经部署完成，可以正常使用了。
+至此，淘乐饭项目已经部署完成，可以正常使用了。如果在部署项目前已经关注过公众号，取关再次关注即可自动注册账号到数据库。
 
 
 
