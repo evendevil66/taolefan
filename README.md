@@ -50,6 +50,38 @@ DB_PASSWORD=  #数据库密码
 'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'token'),
 'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', 'aeskey')
 ````
+注册大淘客并授权淘宝联盟 获取Appkey
 修改/config/config.php配置
+````php
+'name' => "淘乐饭", //产品名称 会反应在用户交互等场景
+'url' => "https://fanli.mttgo.com", //站点url 如有饭粒网等网站可添加
+'apiUrl' => "https://wechat.mttgo.com", //APIurl 调用本程序使用的url
+'dtkAppKey' => "****", //大淘客appKey 使用大淘客接口快速解析商品信息
+'dtkAppSecret' => "****", //大淘客AppSecret
+'aliAppKey' => "****", //淘宝联盟AppKey
+'aliAppSecret' => "****", //淘宝联盟AppSecret
+'pubpid' => 'mm_***_***_***', //公用PID 未绑定淘宝账号的默认使用
+'relationId'=>'****' //渠道ID 代理商使用 暂未开发
+````
+设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
+例如：
+````shell script
+wechat.mttgo.com/wechat
+````
+使用任意账号给公众号发送"创建菜单"即可创建自定义菜单（仅限服务号或认证订阅号）  
+订阅号请在WechatController.php中找到case 'text'自行添加文本响应  
+添加方法如下
+````php
+case 'text':
+$content = $message['Content'];
+if (stristr($content, '提现'){
+    return "提现处理"
+}
+````
+具体处理代码可以在WechatController.php找到 switch ($message['EventKey'])  自行复制  
+
+至此，淘乐饭项目已经部署完成，可以正常使用了。
+
+
 
 
