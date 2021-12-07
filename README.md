@@ -12,7 +12,7 @@
 ## 主要配置文件
 1、/config/config.php &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件保存站点/平台基本信息、淘宝联盟和大淘客APPKEY等信息  
 2、/config/wechat.php &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件保存微信公众平台APPKEY相关信息  
-2、.evn &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件保存数据库相关信息
+2、.env &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件保存数据库相关信息
 
 ## 已实现功能
 1、公众号转链，用户发送原始或其他淘客的淘口令到公众号，后台转链并计算出返利金额、获取优惠券信息返回给用户。  

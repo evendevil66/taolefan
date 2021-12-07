@@ -16,12 +16,19 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="修复了一些bug">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +48,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -173,6 +181,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/css" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -214,6 +229,15 @@
       <workItem from="1611061008888" duration="1546000" />
       <workItem from="1611062896389" duration="4432000" />
       <workItem from="1611145873959" duration="5030000" />
+      <workItem from="1614332462273" duration="517000" />
+      <workItem from="1614342217926" duration="229000" />
+      <workItem from="1614484540025" duration="614000" />
+      <workItem from="1616243493073" duration="3608000" />
+      <workItem from="1624802373893" duration="902000" />
+      <workItem from="1638780035494" duration="1556000" />
+      <workItem from="1638857549796" duration="24864000" />
+      <workItem from="1638899457748" duration="2335000" />
+      <workItem from="1638901805167" duration="32000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -236,7 +260,35 @@
       <option name="project" value="LOCAL" />
       <updated>1611156356799</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update">
+      <created>1638897357912</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1638897357912</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update">
+      <created>1638900610586</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1638900610586</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update">
+      <created>1638901403417</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1638901403417</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update">
+      <created>1638901710510</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1638901710510</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,20 +308,33 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修复了一些bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复了一些bug" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="435" y="247" key="Vcs.Push.Dialog.v2" timestamp="1605190705578">
-      <screen x="0" y="25" width="1920" height="971" />
-    </state>
-    <state x="435" y="247" key="Vcs.Push.Dialog.v2/0.25.1920.971@0.25.1920.971" timestamp="1605190705578" />
-    <state x="636" y="428" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605190810934">
-      <screen x="0" y="25" width="1920" height="971" />
-    </state>
-    <state x="636" y="428" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1920.971@0.25.1920.971" timestamp="1605190810934" />
-    <state x="1871" y="319" width="670" height="676" key="search.everywhere.popup" timestamp="1611147104268">
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1638888422148">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1871" y="319" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1611147104268" />
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.970@0.25.2560.970" timestamp="1638888422148" />
+    <state x="429" y="147" key="DiffContextDialog" timestamp="1638901823032">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="429" y="147" key="DiffContextDialog/0.25.2560.970@0.25.2560.970" timestamp="1638901823032" />
+    <state x="1024" y="240" key="NewPhpClassDialog" timestamp="1638858052032">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="1024" y="240" key="NewPhpClassDialog/0.25.2560.970@0.25.2560.970" timestamp="1638858052032" />
+    <state x="962" y="185" key="SettingsEditor" timestamp="1638883417337">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1638883417337" />
+    <state width="550" height="445" key="SwitcherDM" timestamp="1638878983916">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638901824502">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638901824502" />
   </component>
 </project>
