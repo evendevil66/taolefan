@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.dg.vegas.tlj.create request
  * 
  * @author auto create
- * @since 1.0, 2020.08.18
+ * @since 1.0, 2021.11.24
  */
 class TbkDgVegasTljCreateRequest
 {
@@ -13,12 +13,12 @@ class TbkDgVegasTljCreateRequest
 	private $adzoneId;
 	
 	/** 
-	 * CPS佣金计划类型
+	 * CPS佣金类型
 	 **/
 	private $campaignType;
 	
 	/** 
-	 * 宝贝id
+	 * 宝贝ID
 	 **/
 	private $itemId;
 	
@@ -33,12 +33,12 @@ class TbkDgVegasTljCreateRequest
 	private $perFace;
 	
 	/** 
-	 * 安全等级，0：适用于常规淘礼金投放场景；1：更高安全级别，适用于淘礼金面额偏大等安全性较高的淘礼金投放场景，可能导致更多用户拦截。security_switch为true，此字段不填写时，使用0作为默认安全级别。如果security_switch为false，不进行安全判断。
+	 * 必须传入0
 	 **/
 	private $securityLevel;
 	
 	/** 
-	 * 安全开关，若不进行安全校验，可能放大您的资损风险，请谨慎选择
+	 * 必须设置为true，默认开启安全
 	 **/
 	private $securitySwitch;
 	

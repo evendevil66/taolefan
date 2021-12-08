@@ -3,12 +3,12 @@
  * TOP API: taobao.tbk.dg.newuser.order.get request
  * 
  * @author auto create
- * @since 1.0, 2019.07.04
+ * @since 1.0, 2021.11.23
  */
 class TbkDgNewuserOrderGetRequest
 {
 	/** 
-	 * 活动id， 活动名称与活动ID列表，请参见https://tbk.bbs.taobao.com/detail.html?appId=45301&postId=8599277
+	 * 活动id， 活动名称与活动ID列表（该字段已废弃）
 	 **/
 	private $activityId;
 	
@@ -119,8 +119,6 @@ class TbkDgNewuserOrderGetRequest
 	{
 		
 		RequestCheckUtil::checkNotNull($this->activityId,"activityId");
-		RequestCheckUtil::checkMaxValue($this->pageSize,100,"pageSize");
-		RequestCheckUtil::checkMinValue($this->pageSize,1,"pageSize");
 	}
 	
 	public function putOtherTextParam($key, $value) {

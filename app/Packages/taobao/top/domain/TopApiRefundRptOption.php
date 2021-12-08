@@ -28,7 +28,7 @@ class TopApiRefundRptOption
 	public $refund_type;
 	
 	/** 
-	 * 1-维权发起时间，2-订单结算时间（正向订单），3-维权完成时间，4-订单创建时间
+	 * 1-维权发起时间，2-订单结算时间（正向订单），3-维权完成时间，4-订单创建时间，5-订单更新时间
 	 **/
 	public $search_type;
 	

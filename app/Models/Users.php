@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
+use mysql_xdevapi\Exception;
 
 class Users extends Model
 {
@@ -33,17 +34,17 @@ class Users extends Model
      * @param $openid 微信openid
      * @return 返回结果如果为true则调用成功
      */
-    public function userReg($openid){
+    public function userRegistration($openid){
         return DB::table($this->table)->insert(['id' => $openid]);
     }
 
     /**
      * 用户信息补全更新 通过Request获取参数
-     * @param $openid 微信openid
-     * @param $nickname 用户填写的昵称
-     * @param $username ～姓名
-     * @param $alipay_id ～支付宝账号
-     * @return 返回true或false
+     * $openid 微信openid
+     * $nickname 用户填写的昵称
+     * $username ～姓名
+     * $alipay_id ～支付宝账号
+     * @return int 如执行成功返回1
      */
     public function userUpdate(){
         $openid = Request::post("openid");
@@ -57,5 +58,24 @@ class Users extends Model
                 'username' => $username,
                 'alipay_id' => $alipay_id
             ]);
+    }
+
+    /**
+     * 更新用户的粉丝运营id
+     * @param $openid 微信openid
+     * @param $special_id 粉丝运营id
+     * @return int 如执行成功返回1
+     */
+    public function updateSpecial_id($openid,$special_id){
+        try {
+            return DB::table($this->table)
+                ->where('id', $openid)
+                ->update([
+                    'special_id' => $special_id
+                ]);
+        }catch (Exception $e){
+            return 0;
+        }
+
     }
 }

@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.shop.get request
  * 
  * @author auto create
- * @since 1.0, 2020.02.24
+ * @since 1.0, 2021.05.31
  */
 class TbkShopGetRequest
 {

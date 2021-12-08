@@ -44,3 +44,16 @@ Route::get('/reg/{openid}', function ($openid) {
 });
 
 Route::post('/userUpdate', [App\Models\Users::class,'userUpdate']);
+
+Route::get('/bind/{openid}', function ($openid) {
+    Cookie::queue('openid', $openid, 60);
+    $code = Request::get("code");
+    if($code == null || $code == ""){
+        return redirect('https://oauth.taobao.com/authorize?response_type=code&client_id='.config('config.aliAppKey')."&redirect_uri=".config('config.apiUrl')."/bind/".$openid."&view=wap");
+    }else{
+        return redirect("/bind/".$openid."/".$code);
+    }
+
+});
+
+Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class,'regMember']);

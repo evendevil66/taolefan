@@ -23,6 +23,11 @@ class Result
 	public $earning_time;
 	
 	/** 
+	 * 更新时间
+	 **/
+	public $modified_time;
+	
+	/** 
 	 * 维权金额
 	 **/
 	public $refund_fee;

@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.sc.publisher.info.save request
  * 
  * @author auto create
- * @since 1.0, 2019.07.04
+ * @since 1.0, 2021.11.23
  */
 class TbkScPublisherInfoSaveRequest
 {
@@ -13,7 +13,7 @@ class TbkScPublisherInfoSaveRequest
 	private $infoType;
 	
 	/** 
-	 * 渠道备案 - 淘宝客邀请渠道的邀请码
+	 * 淘宝客邀请渠道或会员的邀请码
 	 **/
 	private $inviterCode;
 	

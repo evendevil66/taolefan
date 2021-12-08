@@ -68,6 +68,16 @@ class PublisherOrderDto
 	public $is_lx;
 	
 	/** 
+	 * 商品二级类目名称
+	 **/
+	public $item_category_level2_name;
+	
+	/** 
+	 * 商品三级类目名称
+	 **/
+	public $item_category_level3_name;
+	
+	/** 
 	 * 商品所属的一级类目名称
 	 **/
 	public $item_category_name;
@@ -106,6 +116,16 @@ class PublisherOrderDto
 	 * 激励池对应的rid
 	 **/
 	public $lx_rid;
+	
+	/** 
+	 * 营销类型：该字段中视订单情况有单个或多个值。 例如：淘礼金（自助充值），特价版客户端染色，特价版客户端锁粉，特价版客户端推广。
+	 **/
+	public $marketing_type;
+	
+	/** 
+	 * 订单更新时间
+	 **/
+	public $modified_time;
 	
 	/** 
 	 * 订单所属平台类型，包括天猫、淘宝、聚划算等
@@ -193,9 +213,19 @@ class PublisherOrderDto
 	public $subsidy_type;
 	
 	/** 
+	 * 专用（不对外开放）
+	 **/
+	public $talent_pid;
+	
+	/** 
 	 * 预售时期，用户对预售商品支付定金的付款时间
 	 **/
 	public $tb_deposit_time;
+	
+	/** 
+	 * 买家拍下金额（不包含运费金额）
+	 **/
+	public $tb_gmv_total_price;
 	
 	/** 
 	 * 订单在淘宝拍下付款的时间
@@ -223,6 +253,21 @@ class PublisherOrderDto
 	public $tk_commission_rate_for_media_platform;
 	
 	/** 
+	 * 契约id
+	 **/
+	public $tk_contract_id;
+	
+	/** 
+	 * 契约方memberId
+	 **/
+	public $tk_contract_member_id;
+	
+	/** 
+	 * 当前媒体对应契约方的分成比例
+	 **/
+	public $tk_contract_share_rate;
+	
+	/** 
 	 * 订单创建的时间，该时间同步淘宝，可能会略晚于买家在淘宝的订单创建时间
 	 **/
 	public $tk_create_time;
@@ -248,7 +293,7 @@ class PublisherOrderDto
 	public $tk_paid_time;
 	
 	/** 
-	 * 已付款：指订单已付款，但还未确认收货 已收货：指订单已确认收货，但商家佣金未支付 已结算：指订单已确认收货，且商家佣金已支付成功 已失效：指订单关闭/订单佣金小于0.01元，订单关闭主要有：1）买家超时未付款； 2）买家付款前，买家/卖家取消了订单；3）订单付款后发起售中退款成功；3：订单结算，12：订单付款， 13：订单失效，14：订单成功
+	 * 已拍下：指订单已拍下，但还未付款 已付款：指订单已付款，但还未确认收货 已收货：指订单已确认收货，但商家佣金未支付 已结算：指订单已确认收货，且商家佣金已支付成功 已失效：指订单关闭/订单佣金小于0.01元，订单关闭主要有：1）买家超时未付款； 2）买家付款前，买家/卖家取消了订单；3）订单付款后发起售中退款成功；3：订单结算，11：拍下未付款，12：订单付款， 13：订单失效，14：订单成功
 	 **/
 	public $tk_status;
 	

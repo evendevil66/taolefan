@@ -33,6 +33,11 @@ class NTbkItem
 	public $h_pay_rate30;
 	
 	/** 
+	 * 是否是热门商品，0不是，1是
+	 **/
+	public $hot_flag;
+	
+	/** 
 	 * 退款率是否低于行业均值
 	 **/
 	public $i_rfd_rate;
@@ -173,6 +178,11 @@ class NTbkItem
 	public $small_images;
 	
 	/** 
+	 * 是否品牌精选，0不是，1是
+	 **/
+	public $superior_brand;
+	
+	/** 
 	 * 商品标题
 	 **/
 	public $title;
@@ -188,7 +198,7 @@ class NTbkItem
 	public $tmall_play_activity_start_time;
 	
 	/** 
-	 * 卖家类型，0表示集市，1表示商城
+	 * 卖家类型，0表示集市，1表示商城，3表示特价版
 	 **/
 	public $user_type;
 	

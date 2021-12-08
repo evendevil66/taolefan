@@ -66,7 +66,7 @@ class Autoloader{
             return;
         }         
 		
-		$filename = TOP_AUTOLOADER_PATH."/QimenCloud/".$name.".php";
+		$filename = TOP_AUTOLOADER_PATH."/QimenCloud/top/request/".$name.".php";
         if(is_file($filename)) {
             include $filename;
             return;

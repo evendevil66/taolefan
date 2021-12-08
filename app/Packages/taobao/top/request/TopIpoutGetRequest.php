@@ -3,7 +3,7 @@
  * TOP API: taobao.top.ipout.get request
  * 
  * @author auto create
- * @since 1.0, 2018.08.07
+ * @since 1.0, 2021.03.22
  */
 class TopIpoutGetRequest
 {

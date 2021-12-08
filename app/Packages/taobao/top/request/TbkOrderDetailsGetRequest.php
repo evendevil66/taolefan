@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.order.details.get request
  * 
  * @author auto create
- * @since 1.0, 2020.09.02
+ * @since 1.0, 2021.11.24
  */
 class TbkOrderDetailsGetRequest
 {
@@ -43,7 +43,7 @@ class TbkOrderDetailsGetRequest
 	private $positionIndex;
 	
 	/** 
-	 * 查询时间类型，1：按照订单淘客创建时间查询，2:按照订单淘客付款时间查询，3:按照订单淘客结算时间查询
+	 * 查询时间类型，1：按照订单淘客创建时间查询，2:按照订单淘客付款时间查询，3:按照订单淘客结算时间查询，4:按照订单更新时间；
 	 **/
 	private $queryType;
 	
@@ -53,7 +53,7 @@ class TbkOrderDetailsGetRequest
 	private $startTime;
 	
 	/** 
-	 * 淘客订单状态，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
+	 * 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
 	 **/
 	private $tkStatus;
 	

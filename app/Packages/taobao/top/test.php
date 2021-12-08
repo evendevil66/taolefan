@@ -2,8 +2,8 @@
     include "TopSdk.php";
     date_default_timezone_set('Asia/Shanghai'); 
     $c = new TopClient;
-    $c->appkey = '********';
-    $c->secretKey = '*********************';
+    $c->appkey = '***********';
+    $c->secretKey = '*****************';
 
     $req = new HttpdnsGetRequest;
 

@@ -3,7 +3,7 @@
  * TOP API: taobao.appip.get request
  * 
  * @author auto create
- * @since 1.0, 2020.08.28
+ * @since 1.0, 2021.12.08
  */
 class AppipGetRequest
 {

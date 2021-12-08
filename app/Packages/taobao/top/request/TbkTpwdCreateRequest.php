@@ -3,32 +3,32 @@
  * TOP API: taobao.tbk.tpwd.create request
  * 
  * @author auto create
- * @since 1.0, 2020.08.31
+ * @since 1.0, 2021.11.24
  */
 class TbkTpwdCreateRequest
 {
 	/** 
-	 * [已废弃]扩展字段JSON格式
+	 * 兼容旧版本api参数，无实际作用
 	 **/
 	private $ext;
 	
 	/** 
-	 * 口令弹框logoURL
+	 * 兼容旧版本api参数，无实际作用
 	 **/
 	private $logo;
 	
 	/** 
-	 * 口令弹框内容
+	 * 兼容旧版本api参数，无实际作用
 	 **/
 	private $text;
 	
 	/** 
-	 * 口令跳转目标页
+	 * 联盟官方渠道获取的淘客推广链接，请注意，不要随意篡改官方生成的链接，否则可能无法生成淘口令
 	 **/
 	private $url;
 	
 	/** 
-	 * 生成口令的淘宝用户ID
+	 * 兼容旧版本api参数，无实际作用
 	 **/
 	private $userId;
 	
@@ -102,7 +102,6 @@ class TbkTpwdCreateRequest
 	public function check()
 	{
 		
-		RequestCheckUtil::checkNotNull($this->text,"text");
 		RequestCheckUtil::checkNotNull($this->url,"url");
 	}
 	

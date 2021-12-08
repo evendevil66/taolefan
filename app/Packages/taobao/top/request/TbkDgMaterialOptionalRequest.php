@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.dg.material.optional request
  * 
  * @author auto create
- * @since 1.0, 2020.07.09
+ * @since 1.0, 2021.11.24
  */
 class TbkDgMaterialOptionalRequest
 {
@@ -51,6 +51,11 @@ class TbkDgMaterialOptionalRequest
 	 * 商品筛选-淘客佣金比率上限。如：1234表示12.34%
 	 **/
 	private $endTkRate;
+	
+	/** 
+	 * 是否获取前N件佣金信息	0否，1是，其他值否
+	 **/
+	private $getTopnRate;
 	
 	/** 
 	 * 优惠券筛选-是否有优惠券。true表示该商品有优惠券，false或不设置表示不限
@@ -138,6 +143,11 @@ class TbkDgMaterialOptionalRequest
 	private $pageNo;
 	
 	/** 
+	 * 本地化业务入参-分页唯一标识，非首页的请求必传，值为上一页返回结果中的page_result_key字段值
+	 **/
+	private $pageResultKey;
+	
+	/** 
 	 * 页大小，默认20，1~100
 	 **/
 	private $pageSize;
@@ -163,7 +173,7 @@ class TbkDgMaterialOptionalRequest
 	private $sellerIds;
 	
 	/** 
-	 * 排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price）
+	 * 排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price），匹配分（match）
 	 **/
 	private $sort;
 	
@@ -191,6 +201,16 @@ class TbkDgMaterialOptionalRequest
 	 * 商品筛选-淘客佣金比率下限。如：1234表示12.34%
 	 **/
 	private $startTkRate;
+	
+	/** 
+	 * 人群ID，仅适用于物料评估场景material_id=41377
+	 **/
+	private $ucrowdId;
+	
+	/** 
+	 * 物料评估-商品列表
+	 **/
+	private $ucrowdRankItems;
 	
 	private $apiParas = array();
 	
@@ -291,6 +311,17 @@ class TbkDgMaterialOptionalRequest
 	public function getEndTkRate()
 	{
 		return $this->endTkRate;
+	}
+
+	public function setGetTopnRate($getTopnRate)
+	{
+		$this->getTopnRate = $getTopnRate;
+		$this->apiParas["get_topn_rate"] = $getTopnRate;
+	}
+
+	public function getGetTopnRate()
+	{
+		return $this->getTopnRate;
 	}
 
 	public function setHasCoupon($hasCoupon)
@@ -480,6 +511,17 @@ class TbkDgMaterialOptionalRequest
 		return $this->pageNo;
 	}
 
+	public function setPageResultKey($pageResultKey)
+	{
+		$this->pageResultKey = $pageResultKey;
+		$this->apiParas["page_result_key"] = $pageResultKey;
+	}
+
+	public function getPageResultKey()
+	{
+		return $this->pageResultKey;
+	}
+
 	public function setPageSize($pageSize)
 	{
 		$this->pageSize = $pageSize;
@@ -601,6 +643,28 @@ class TbkDgMaterialOptionalRequest
 		return $this->startTkRate;
 	}
 
+	public function setUcrowdId($ucrowdId)
+	{
+		$this->ucrowdId = $ucrowdId;
+		$this->apiParas["ucrowd_id"] = $ucrowdId;
+	}
+
+	public function getUcrowdId()
+	{
+		return $this->ucrowdId;
+	}
+
+	public function setUcrowdRankItems($ucrowdRankItems)
+	{
+		$this->ucrowdRankItems = $ucrowdRankItems;
+		$this->apiParas["ucrowd_rank_items"] = $ucrowdRankItems;
+	}
+
+	public function getUcrowdRankItems()
+	{
+		return $this->ucrowdRankItems;
+	}
+
 	public function getApiMethodName()
 	{
 		return "taobao.tbk.dg.material.optional";
@@ -615,7 +679,6 @@ class TbkDgMaterialOptionalRequest
 	{
 		
 		RequestCheckUtil::checkNotNull($this->adzoneId,"adzoneId");
-		RequestCheckUtil::checkMaxValue($this->startDsr,50000,"startDsr");
 	}
 	
 	public function putOtherTextParam($key, $value) {

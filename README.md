@@ -51,7 +51,13 @@ DB_PASSWORD=  #数据库密码
 'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'token'),
 'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', 'aeskey')
 ````
-注册大淘客并授权淘宝联盟 获取Appkey
+  
+接下来请先完成以下步骤：  
+1、淘宝联盟开放平台创建应用 获取AppKey  
+2、注册大淘客开放平台并授权淘宝联盟 获取Appkey  
+3、如需淘宝私域管理功能（自动跟单），请在淘宝联盟申请好私域权限，申请邀请码。邀请码可通过调试 [官方接口](https://open.taobao.com/doc.htm?spm=a219a.15212433.0.0.4398669aXaoE2Y&docId=1&docType=15&apiName=taobao.tbk.sc.invitecode.get)
+进行快速申请，调用接口请确保relation_app参数为common，code_type参数为3  
+
 修改/config/config.php配置
 ````php
 'name' => "淘乐饭", //产品名称 会反应在用户交互等场景
@@ -62,7 +68,9 @@ DB_PASSWORD=  #数据库密码
 'aliAppKey' => "****", //淘宝联盟AppKey
 'aliAppSecret' => "****", //淘宝联盟AppSecret
 'pubpid' => 'mm_***_***_***', //公用PID 未绑定淘宝账号的默认使用
-'relationId'=>'****' //渠道ID 代理商使用 暂未开发
+'relationId'=>'****', //渠道ID 代理商使用 暂未开发
+'inviter_code'=>'******' //会员私域邀请码
+''
 ````
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：
@@ -70,6 +78,7 @@ DB_PASSWORD=  #数据库密码
 wechat.mttgo.com/wechat
 ````
 使用任意账号给公众号发送"创建菜单"即可创建自定义菜单（仅限服务号或认证订阅号）  
+如需对菜单进行删改，请修改/app/Http/Controllers/WechatController.php中的$buttons变量  
 未认证订阅号请在WechatController.php中找到case 'text'自行添加文本响应  
 添加方法如下
 ````php

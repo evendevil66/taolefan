@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.relation.refund request
  * 
  * @author auto create
- * @since 1.0, 2020.03.23
+ * @since 1.0, 2021.11.24
  */
 class TbkRelationRefundRequest
 {

@@ -3,7 +3,7 @@
  * TOP API: taobao.tbk.dg.punish.order.get request
  * 
  * @author auto create
- * @since 1.0, 2019.11.10
+ * @since 1.0, 2021.11.23
  */
 class TbkDgPunishOrderGetRequest
 {

@@ -94,8 +94,6 @@ class WeChatController extends Controller
                             return "欢迎回到" . config('config.name') . "，已为您恢复账号。" . "\n您可以点击下方个人中心-资料补全，确保资料完整即可开始省钱之旅";
                         }
                     }
-
-                    $user = app(Users::class)->getUserById($openid);
                     switch ($message['EventKey']) {
                         case 'Course':
                             return
@@ -117,7 +115,12 @@ class WeChatController extends Controller
                             return "注册请求已提交，请等待人工为您处理。";
                         case 'Bind':
                             $url = config('config.apiUrl') . "/bind/" . $openid;
-                            return "<a href=\"" . $url . "\">请点此进行淘宝绑定</a>";
+                            if($user->special_id == null && $user->special_id == ""){
+                                return "<a href=\"" . $url . "\">请点此进行淘宝绑定</a>，如提示复制到浏览器打开，可在浏览器继续完成绑定";
+                            }else{
+                                return "您已经绑定过淘宝账号了，<a href=\"" . $url . "\">点此进行更换或重新绑定</a>，如提示复制到浏览器打开，可在浏览器继续完成绑定";
+                            }
+
                         case 'Receive':
                             if ($user->alipay_id != null && $user->alipay_id != "") {
                                 return "您还没有绑定提现账号，请在资料补全功能下填写";
@@ -161,12 +164,12 @@ class WeChatController extends Controller
                     } else if (preg_match("/^\d{17,20}$/", $content)) {
                         //调用淘宝联盟订单查询函数，查询对应订单号，如结果不为false，则存入用户订单列表，并返回预估返现信息
                         return "进入订单绑定模块,openid:" . $openid;
-                    } else if (stristr($content, 'kkb5201314') != false) {
+                    } else if (stristr($content, '创建菜单') != false) {
                         $this->setButton();
                         return "设置菜单";
                     } else {
                         //调用大淘客接口对所收到的信息进行解析转链，并将优惠券、返利信息返回
-                        return app(TaokeController::class)->parse($openid, $content);
+                        return app(TaokeController::class)->parse($user, $content);
                     }
                     break;
                 default:

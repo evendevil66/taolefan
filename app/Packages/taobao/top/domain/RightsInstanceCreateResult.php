@@ -13,6 +13,11 @@ class RightsInstanceCreateResult
 	public $available_fee;
 	
 	/** 
+	 * 媒体针对此商品今日剩余可领取淘礼金数量
+	 **/
+	public $item_today_num_left;
+	
+	/** 
 	 * 淘礼金Id
 	 **/
 	public $rights_id;

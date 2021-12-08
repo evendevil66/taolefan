@@ -110,6 +110,9 @@ class DingTalkClient
 
         foreach ($apiFields as $key => $value)
         {
+            if(!is_string($value)){
+                $value = json_encode($value);
+            }
             $url .= "&" ."$key=" . urlencode($value);
         }
 
