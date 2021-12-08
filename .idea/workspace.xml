@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -71,6 +72,10 @@
       <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
+=======
+  <component name="ChangeListManager">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="" />
+>>>>>>> a9101a5 (完成淘口令解析和转链功能)
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,10 +92,13 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+=======
+>>>>>>> a9101a5 (完成淘口令解析和转链功能)
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
@@ -213,7 +221,10 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1hYIJ4z4XHWkqUBPzIylD02kqjg" />
+<<<<<<< HEAD
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+=======
+>>>>>>> a9101a5 (完成淘口令解析和转链功能)
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -221,6 +232,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/css" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -239,6 +251,9 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/public" />
     </key>
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+>>>>>>> a9101a5 (完成淘口令解析和转链功能)
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -264,6 +279,7 @@
       <workItem from="1600588542050" duration="13277000" />
       <workItem from="1600607685613" duration="2187000" />
       <workItem from="1600610002829" duration="3214000" />
+<<<<<<< HEAD
       <workItem from="1600616570838" duration="1599000" />
       <workItem from="1602927115224" duration="1429000" />
       <workItem from="1605185968375" duration="17000" />
@@ -353,11 +369,16 @@
       <updated>1638902718558</updated>
     </task>
     <option name="localTasksCounter" value="11" />
+=======
+      <workItem from="1600616570838" duration="1399000" />
+    </task>
+>>>>>>> a9101a5 (完成淘口令解析和转链功能)
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+<<<<<<< HEAD
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -404,5 +425,28 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1638966844704" />
+=======
+  <component name="WindowStateProjectService">
+    <state x="698" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1600617088082">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="698" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.1920.970@0.25.1920.970" timestamp="1600617088082" />
+    <state x="833" y="411" key="Github.ShareDialog" timestamp="1600617993548">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="833" y="411" key="Github.ShareDialog/0.25.1920.970@0.25.1920.970" timestamp="1600617993548" />
+    <state x="904" y="234" key="NewPhpClassDialog" timestamp="1600593190745">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="904" y="234" key="NewPhpClassDialog/0.25.1920.970@0.25.1920.970" timestamp="1600593190745" />
+    <state x="1378" y="623" key="NewPhpFileDialog" timestamp="1600349306571">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="1378" y="623" key="NewPhpFileDialog/0.25.1920.970@0.25.1920.970" timestamp="1600349306571" />
+    <state x="996" y="319" width="670" height="676" key="search.everywhere.popup" timestamp="1600349804649">
+      <screen x="0" y="25" width="1920" height="970" />
+    </state>
+    <state x="996" y="319" width="670" height="676" key="search.everywhere.popup/0.25.1920.970@0.25.1920.970" timestamp="1600349804649" />
+>>>>>>> a9101a5 (完成淘口令解析和转链功能)
   </component>
 </project>
