@@ -16,61 +16,10 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </select>
+    <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/Autoloader.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/Autoloader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/dingtalk/DingTalkClient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/dingtalk/DingTalkClient.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/TopClient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/TopClient.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Data.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Data.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/MapData.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/MapData.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/NTbkItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/NTbkItem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/PublisherOrderDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/PublisherOrderDto.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Result.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Result.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/RightsInstanceCreateResult.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/RightsInstanceCreateResult.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/TopApiRefundRptOption.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/TopApiRefundRptOption.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/fileTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/fileTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/AppipGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/AppipGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/FilesGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/FilesGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/HttpdnsGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/HttpdnsGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/JuItemsSearchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/JuItemsSearchRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBymixnickRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBymixnickRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBytradeRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBytradeRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkCouponGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkCouponGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgMaterialOptionalRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgMaterialOptionalRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgNewuserOrderGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgNewuserOrderGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgPunishOrderGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgPunishOrderGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljCreateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljInstanceReportRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljInstanceReportRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkItemInfoGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkItemInfoGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkOrderDetailsGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkOrderDetailsGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkRelationRefundRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkRelationRefundRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScInvitecodeGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScInvitecodeGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoSaveRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoSaveRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkShopGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkShopGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkTpwdCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkTpwdCreateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopAuthTokenRefreshRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopAuthTokenRefreshRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopIpoutGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopIpoutGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSdkFeedbackUploadRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSdkFeedbackUploadRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSecretGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSecretGetRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/test.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/test.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-    </list>
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -396,10 +345,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638902726412">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638969192799">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638902726412" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638969192799" />
     <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1638966844704">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
