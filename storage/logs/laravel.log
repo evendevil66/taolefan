@@ -1,0 +1,143 @@
+[2021-12-08 12:29:17] local.INFO: request arrived.  
+[2021-12-08 12:29:18] local.INFO: array (
+  'requestId' => '098b1e8a62f07dad06bca79276be9681',
+  'time' => 1638966558061,
+  'code' => 0,
+  'msg' => '成功',
+  'data' => 
+  array (
+    'itemId' => '628959905919',
+    'itemName' => '2斤鲜鹿肉生鲜肉鹿腿肉顺丰',
+    'itemLink' => 'https://detail.tmall.com/item.htm?id=628959905919',
+    'couponLink' => 'https://uland.taobao.com/quan/detail?sellerId=484682200&activityId=',
+    'couponSrcScene' => 0,
+    'mainPic' => 'https://img.alicdn.com/bao/uploaded/i3/484682200/O1CN01jomZPI1S7dyPyuQl5_!!484682200.png',
+    'dataType' => 'goods',
+    'goodsId' => '628959905919',
+    'sellerId' => '484682200',
+    'originUrl' => 'https://a.m.taobao.com/i628959905919.htm?price=49-276&sourceType=item&detailSharePosition=interactBar&sourceType=item&suid=cc75be34-443c-46fa-9ade-81802e4dc7ff&shareUniqueId=13974776839&ut_sk=1.XyLFpN76ATQDADf%2FTA8Vese4_21646297_1638965916535.Copy.1&un=b50c39f847289a7ac8173a2742a8d707&share_crt_v=1&spm=a2159r.13376460.0.0&sp_tk=6IO95Lq65p2l5Lmf5LuW5a+55Lq65Ye65Lya5a+55b+D&bxsign=tcdzu_1iW8Z2ETMkSeMNnW3AZbBodgs36wwJWc95VNGRLKkjrfW4bSIaEb4YH9iOfrV24YSP5_Oozvlxegl7AF_jjdDibKKNij_6hqxIee0oZo',
+    'originType' => '商品',
+    'commissionRate' => 1.5,
+    'commissionType' => 'COMMON',
+    'originInfo' => 
+    array (
+      'title' => '新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮',
+      'price' => 49,
+      'shopName' => '御鹿堂',
+      'shopLogo' => '',
+      'image' => 'https://img.alicdn.com/bao/uploaded/i3/484682200/O1CN01jomZPI1S7dyPyuQl5_!!484682200.png',
+      'startTime' => '',
+      'endTime' => '',
+      'amount' => 0,
+      'startFee' => 0,
+      'activityId' => '',
+      'pid' => '',
+      'status' => 1,
+    ),
+  ),
+)  
+[2021-12-08 12:29:18] local.INFO: 0  
+[2021-12-08 12:29:18] local.INFO: 进入带有会员id的转换  
+[2021-12-08 12:29:18] local.INFO: 2798429484  
+[2021-12-08 12:29:18] local.INFO: array (
+  'requestId' => 'a31dc4499bcdf55f35a65a0ded33cc86',
+  'time' => 1638966558637,
+  'code' => 0,
+  'msg' => '成功',
+  'data' => 
+  array (
+    'couponClickUrl' => '',
+    'couponEndTime' => '',
+    'couponInfo' => '',
+    'couponStartTime' => '',
+    'itemId' => '628959905919',
+    'couponTotalCount' => '0',
+    'couponRemainCount' => '0',
+    'itemUrl' => 'https://s.click.taobao.com/t?e=m%3D2%26s%3DadSVcmyOeXdw4vFB6t2Z2ueEDrYVVa64XoO8tOebS%2BfLWlSKdGSYDv0FvWH%2FqoxEMMgx22UI05aNH%2FUPdmdIBQvQj6K0DltwayXGfY%2B3N6N%2F1sdgvQhy7KlY1y8CQgaw1qrpxiwMoCNxc1AtbZGVSy3zwk1VS3J6yRUsjmaYV7GMHuv7RoNv0YzeH%2FA0sTcbkVLHvX4bX%2F6lnnk1UjjEb9uNXaBods9T7j0V6Rc2FAhJePhRdRyQGjYUOPchRy%2BexgxdTc00KD8%3D&union_lens=lensId:TAPI@1638966558@21048632_083f_17d9a04ff04_5631@01;linkRuleId:2',
+    'tpwd' => '2￥xPUdXzffGkK￥/',
+    'maxCommissionRate' => '',
+    'shortUrl' => 'https://s.click.taobao.com/XmxQAdu',
+    'minCommissionRate' => '1.35',
+    'longTpwd' => '2￥xPUdXzffGkK￥/ https://m.tb.cn/h.fSGbV3H  新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮',
+    'kuaiZhanUrl' => '',
+    'originalPrice' => 49,
+    'actualPrice' => 49,
+  ),
+)  
+[2021-12-08 12:31:36] local.INFO: request arrived.  
+[2021-12-08 12:31:36] local.INFO: array (
+  'requestId' => '8739b76ed54f16a355e72ef7f8090008',
+  'time' => 1638966696544,
+  'code' => 0,
+  'msg' => '成功',
+  'data' => 
+  array (
+    'itemId' => '628959905919',
+    'itemName' => '2斤鲜鹿肉生鲜肉鹿腿肉顺丰',
+    'itemLink' => 'https://detail.tmall.com/item.htm?id=628959905919',
+    'couponLink' => 'https://uland.taobao.com/quan/detail?sellerId=484682200&activityId=',
+    'couponSrcScene' => 0,
+    'mainPic' => 'https://img.alicdn.com/bao/uploaded/i3/484682200/O1CN01jomZPI1S7dyPyuQl5_!!484682200.png',
+    'dataType' => 'goods',
+    'goodsId' => '628959905919',
+    'sellerId' => '484682200',
+    'originUrl' => 'https://a.m.taobao.com/i628959905919.htm?price=49-276&sourceType=item&detailSharePosition=interactBar&sourceType=item&suid=cc75be34-443c-46fa-9ade-81802e4dc7ff&shareUniqueId=13974776839&ut_sk=1.XyLFpN76ATQDADf%2FTA8Vese4_21646297_1638965916535.Copy.1&un=b50c39f847289a7ac8173a2742a8d707&share_crt_v=1&spm=a2159r.13376460.0.0&sp_tk=6IO95Lq65p2l5Lmf5LuW5a+55Lq65Ye65Lya5a+55b+D&bxsign=tcd38SCk5G5Im7fFvT1B59TjCu3oxXi4Pbewlg00lOCCjbB-d-cAUvlHFBirK0IbVFXtmoahpkf6dUcrEbHIYGArXaRjaOnc9TD12UDQqwYx1g',
+    'originType' => '商品',
+    'commissionRate' => 1.5,
+    'commissionType' => 'COMMON',
+    'originInfo' => 
+    array (
+      'title' => '新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮',
+      'price' => 49,
+      'shopName' => '御鹿堂',
+      'shopLogo' => '',
+      'image' => 'https://img.alicdn.com/bao/uploaded/i3/484682200/O1CN01jomZPI1S7dyPyuQl5_!!484682200.png',
+      'startTime' => '',
+      'endTime' => '',
+      'amount' => 0,
+      'startFee' => 0,
+      'activityId' => '',
+      'pid' => '',
+      'status' => 1,
+    ),
+  ),
+)  
+[2021-12-08 12:31:36] local.INFO: 0  
+[2021-12-08 12:31:36] local.INFO: 进入带有会员id的转换  
+[2021-12-08 12:31:36] local.INFO: 2798429484  
+[2021-12-08 12:31:37] local.INFO: array (
+  'requestId' => '1339fcd201c0ac7aac131668326ef6b7',
+  'time' => 1638966697222,
+  'code' => 0,
+  'msg' => '成功',
+  'data' => 
+  array (
+    'couponClickUrl' => '',
+    'couponEndTime' => '',
+    'couponInfo' => '',
+    'couponStartTime' => '',
+    'itemId' => '628959905919',
+    'couponTotalCount' => '0',
+    'couponRemainCount' => '0',
+    'itemUrl' => 'https://s.click.taobao.com/t?e=m%3D2%26s%3DQ%2F6SC13jNb5w4vFB6t2Z2ueEDrYVVa64XoO8tOebS%2BfLWlSKdGSYDrG7KsdtRfv91aH1Hk3GeOiNH%2FUPdmdIBQvQj6K0DltwayXGfY%2B3N6N%2F1sdgvQhy7KlY1y8CQgaw1qrpxiwMoCNxc1AtbZGVSy3zwk1VS3J6yRUsjmaYV7GMHuv7RoNv0YzeH%2FA0sTcbkVLHvX4bX%2F6lnnk1UjjEb9uNXaBods9T7j0V6Rc2FAhJePhRdRyQGjYUOPchRy%2BexgxdTc00KD8%3D&union_lens=lensId:TAPI@1638966696@21077c1d_0819_17d9a071c05_c447@01;linkRuleId:2',
+    'tpwd' => '9￥i96AXzfgd7K￥/',
+    'maxCommissionRate' => '',
+    'shortUrl' => 'https://s.click.taobao.com/2B8QAdu',
+    'minCommissionRate' => '1.35',
+    'longTpwd' => '9￥i96AXzfgd7K￥/ https://m.tb.cn/h.fRqRnTZ  新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮',
+    'kuaiZhanUrl' => '',
+    'originalPrice' => 49,
+    'actualPrice' => 49,
+  ),
+)  
+[2021-12-08 12:37:04] local.INFO: request arrived.  
+[2021-12-08 12:38:15] local.INFO: array (
+  'data' => 
+  array (
+    'account_name' => 't**2',
+    'desc' => '绑定成功',
+    'special_id' => 2798481115,
+  ),
+  'request_id' => '8eh6h43o9s0p',
+)  
+[2021-12-08 12:42:36] local.INFO: request arrived.  

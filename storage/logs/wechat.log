@@ -1,0 +1,52 @@
+[2021-12-08T12:29:17.691598+00:00] EasyWeChat.DEBUG: Request received: {"method":"POST","uri":"https://wechat.mttgo.com/wechat?nonce=80490791&openid=oTT_k5tQNfbBjxBMki0ERv3vMfxA&signature=9e7428ae55124cf5180be408727adfe62419e16f&timestamp=1638966557","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_40b774ef7854]]></ToUserName>
+<FromUserName><![CDATA[oTT_k5tQNfbBjxBMki0ERv3vMfxA]]></FromUserName>
+<CreateTime>1638966557</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[58啊能人来也他对人出会对心， https://m.tb.cn/h.fRqSVyM?sm=35e38b  新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮]]></Content>
+<MsgId>23464355754727969</MsgId>
+</xml>"} 
+[2021-12-08T12:29:18.754753+00:00] EasyWeChat.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[1新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮
+售价：49元
+优惠券：商品无优惠券
+预计付款金额：49元
+商品返现比例：1.08%
+预计返现金额：0.5292元
+返现计算：实付款 * 1.08%
+
+复制2￥xPUdXzffGkK￥/打开淘宝下单后将订单号发送至公众号即可绑定返现
+
+点击下方账号管理，绑定淘宝账号，下单后系统将支持自动同步，无需回传订单号（个别情况自动同步未成功可提交订单号手动绑定）]]></Content><ToUserName><![CDATA[oTT_k5tQNfbBjxBMki0ERv3vMfxA]]></ToUserName><FromUserName><![CDATA[gh_40b774ef7854]]></FromUserName><CreateTime>1638966558</CreateTime></xml>"} 
+[2021-12-08T12:31:36.172507+00:00] EasyWeChat.DEBUG: Request received: {"method":"POST","uri":"https://wechat.mttgo.com/wechat?nonce=287244128&openid=oTT_k5tQNfbBjxBMki0ERv3vMfxA&signature=8c5285061d645ca53ee141b21d08777b513e77e5&timestamp=1638966695","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_40b774ef7854]]></ToUserName>
+<FromUserName><![CDATA[oTT_k5tQNfbBjxBMki0ERv3vMfxA]]></FromUserName>
+<CreateTime>1638966695</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[58啊能人来也他对人出会对心， https://m.tb.cn/h.fRqSVyM?sm=35e38b  新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮]]></Content>
+<MsgId>23464363109565478</MsgId>
+</xml>"} 
+[2021-12-08T12:31:37.350101+00:00] EasyWeChat.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[1新鲜现杀东北吉林梅花鹿肉2斤5斤 鲜鹿肉生鲜肉鹿腿肉顺丰包邮
+售价：49元
+优惠券：商品无优惠券
+预计付款金额：49元
+商品返现比例：1.08%
+预计返现金额：0.5292元
+返现计算：实付款 * 1.08%
+
+复制9￥i96AXzfgd7K￥/打开淘宝下单后将订单号发送至公众号即可绑定返现
+
+您已绑定过淘宝账号，下单后系统将尝试自动跟单，如1小时后仍查询不到，您可以手动绑定订单。]]></Content><ToUserName><![CDATA[oTT_k5tQNfbBjxBMki0ERv3vMfxA]]></ToUserName><FromUserName><![CDATA[gh_40b774ef7854]]></FromUserName><CreateTime>1638966697</CreateTime></xml>"} 
+[2021-12-08T12:37:04.958815+00:00] EasyWeChat.DEBUG: Request received: {"method":"POST","uri":"https://wechat.mttgo.com/wechat?nonce=1627660141&openid=oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ&signature=63c7f8ca4586c13506493ac6ffcfdb4ab8caf71f&timestamp=1638967024","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_40b774ef7854]]></ToUserName>
+<FromUserName><![CDATA[oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ]]></FromUserName>
+<CreateTime>1638967024</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[Bind]]></EventKey>
+</xml>"} 
+[2021-12-08T12:37:04.997249+00:00] EasyWeChat.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[<a href=\"https://wechat.mttgo.com/bind/oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ\">请点此进行淘宝绑定</a>，如提示复制到浏览器打开，可在浏览器继续完成绑定]]></Content><ToUserName><![CDATA[oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ]]></ToUserName><FromUserName><![CDATA[gh_40b774ef7854]]></FromUserName><CreateTime>1638967024</CreateTime></xml>"} 
+[2021-12-08T12:42:36.155886+00:00] EasyWeChat.DEBUG: Request received: {"method":"POST","uri":"https://wechat.mttgo.com/wechat?nonce=1479351732&openid=oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ&signature=995f445efc9cddc408ebde734798b6d0f360ade0&timestamp=1638967355","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_40b774ef7854]]></ToUserName>
+<FromUserName><![CDATA[oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ]]></FromUserName>
+<CreateTime>1638967355</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[Bind]]></EventKey>
+</xml>"} 
+[2021-12-08T12:42:36.196669+00:00] EasyWeChat.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[您已经绑定过淘宝账号了，<a href=\"https://wechat.mttgo.com/bind/oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ\">点此进行更换或重新绑定</a>，如提示复制到浏览器打开，可在浏览器继续完成绑定]]></Content><ToUserName><![CDATA[oTT_k5vnf_-l3Wf9Bpl1kRRw3goQ]]></ToUserName><FromUserName><![CDATA[gh_40b774ef7854]]></FromUserName><CreateTime>1638967356</CreateTime></xml>"} 
