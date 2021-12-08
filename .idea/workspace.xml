@@ -16,13 +16,58 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="修复了一些bug">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/Autoloader.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/Autoloader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/dingtalk/DingTalkClient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/dingtalk/DingTalkClient.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/TopClient.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/TopClient.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Data.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Data.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/MapData.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/MapData.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/NTbkItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/NTbkItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/PublisherOrderDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/PublisherOrderDto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Result.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/Result.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/RightsInstanceCreateResult.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/RightsInstanceCreateResult.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/domain/TopApiRefundRptOption.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/domain/TopApiRefundRptOption.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/fileTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/fileTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/AppipGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/AppipGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/FilesGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/FilesGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/HttpdnsGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/HttpdnsGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/JuItemsSearchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/JuItemsSearchRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBymixnickRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBymixnickRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBytradeRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetBytradeRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/OpenuidGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkCouponGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkCouponGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgMaterialOptionalRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgMaterialOptionalRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgNewuserOrderGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgNewuserOrderGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgPunishOrderGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgPunishOrderGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljCreateRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljInstanceReportRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkDgVegasTljInstanceReportRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkItemInfoGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkItemInfoGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkOrderDetailsGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkOrderDetailsGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkRelationRefundRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkRelationRefundRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScInvitecodeGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScInvitecodeGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoSaveRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkScPublisherInfoSaveRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkShopGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkShopGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkTpwdCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TbkTpwdCreateRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopAuthTokenRefreshRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopAuthTokenRefreshRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopIpoutGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopIpoutGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSdkFeedbackUploadRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSdkFeedbackUploadRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSecretGetRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/request/TopSecretGetRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/taobao/top/test.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/taobao/top/test.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -176,7 +221,24 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/css" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/css" />
+      <recent name="$PROJECT_DIR$/resources/views" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -205,8 +267,92 @@
       <workItem from="1600616570838" duration="1599000" />
       <workItem from="1602927115224" duration="1429000" />
       <workItem from="1605185968375" duration="17000" />
-      <workItem from="1605186160548" duration="1193000" />
+      <workItem from="1605186160548" duration="1287000" />
+      <workItem from="1611061008888" duration="1546000" />
+      <workItem from="1611062896389" duration="4432000" />
+      <workItem from="1611145873959" duration="5030000" />
+      <workItem from="1614332462273" duration="517000" />
+      <workItem from="1614342217926" duration="229000" />
+      <workItem from="1614484540025" duration="614000" />
+      <workItem from="1616243493073" duration="3608000" />
+      <workItem from="1624802373893" duration="902000" />
+      <workItem from="1638780035494" duration="1556000" />
+      <workItem from="1638857549796" duration="24864000" />
+      <workItem from="1638899457748" duration="2335000" />
+      <workItem from="1638901805167" duration="1442000" />
+      <workItem from="1638949074923" duration="12860000" />
     </task>
+    <task id="LOCAL-00001" summary="修复了一些bug">
+      <created>1605190784351</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1605190784351</updated>
+    </task>
+    <task id="LOCAL-00002" summary="修复了一些bug">
+      <created>1605190792430</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1605190792430</updated>
+    </task>
+    <task id="LOCAL-00003" summary="修复了一些bug">
+      <created>1611156356799</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611156356799</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update">
+      <created>1638897357912</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1638897357912</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update">
+      <created>1638900610586</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1638900610586</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update">
+      <created>1638901403417</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1638901403417</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update">
+      <created>1638901710510</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1638901710510</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update">
+      <created>1638901849237</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1638901849237</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update">
+      <created>1638902199442</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1638902199442</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update">
+      <created>1638902718558</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1638902718558</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,14 +370,39 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修复了一些bug" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="94" y="134" width="2360" height="770" key="DiffContextDialog" timestamp="1611157458876">
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1638888422148">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="94" y="134" width="2360" height="770" key="DiffContextDialog/0.25.2560.970@0.25.2560.970" timestamp="1611157458876" />
-    <state x="339" y="494" width="2360" height="770" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1611157530347">
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.970@0.25.2560.970" timestamp="1638888422148" />
+    <state x="429" y="147" key="DiffContextDialog" timestamp="1638901867714">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="339" y="494" width="2360" height="770" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.2560.970@0.25.2560.970" timestamp="1611157530347" />
+    <state x="429" y="147" key="DiffContextDialog/0.25.2560.970@0.25.2560.970" timestamp="1638901867714" />
+    <state x="1024" y="240" key="NewPhpClassDialog" timestamp="1638858052032">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="1024" y="240" key="NewPhpClassDialog/0.25.2560.970@0.25.2560.970" timestamp="1638858052032" />
+    <state x="962" y="185" key="SettingsEditor" timestamp="1638902624789">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1638902624789" />
+    <state width="550" height="445" key="SwitcherDM" timestamp="1638878983916">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638902726412">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638902726412" />
+    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1638966844704">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1638966844704" />
   </component>
 </project>

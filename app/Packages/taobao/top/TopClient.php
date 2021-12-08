@@ -77,7 +77,7 @@ class TopClient
 			{
 				if("@" != substr($v, 0, 1))//判断是不是文件上传
 				{
-					$postBodyString .= "$k=" . urlencode($v) . "&"; 
+					$postBodyString .= "$k=" . urlencode($v) . "&";
 				}
 				else//文件上传用multipart/form-data，否则用www-form-urlencoded
 				{
@@ -108,7 +108,7 @@ class TopClient
 			}
 		}
 		$reponse = curl_exec($ch);
-		
+
 		if (curl_errno($ch))
 		{
 			throw new Exception(curl_error($ch),0);
@@ -174,7 +174,7 @@ class TopClient
 		curl_setopt($ch, CURLOPT_HTTPHEADER , array(
 		    'Content-Type: multipart/form-data; boundary=' . $delimiter,
 		    'Content-Length: ' . strlen($data))
-		); 
+		);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
@@ -219,7 +219,7 @@ class TopClient
 
 	public function execute($request, $session = null,$bestUrl = null)
 	{
-		$result =  new ResultSet(); 
+		$result =  new ResultSet();
 		if($this->checkRequest) {
 			try {
 				$request->check();
