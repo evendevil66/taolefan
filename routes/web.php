@@ -57,3 +57,4 @@ Route::get('/bind/{openid}', function ($openid) {
 });
 
 Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class,'regMember']);
+Route::get('/getOrderList', [Controllers\TaokeController::class,'getOrderList']);

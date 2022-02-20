@@ -14,8 +14,9 @@ class Users extends Model
 
     /**
      * 获取所有用户
-     * @return 返回用户表集合
+     * @return \Illuminate\Support\Collection 返回用户对象
      */
+
     public function getAll(){
         return DB::table($this->table)->get();
     }
@@ -23,7 +24,7 @@ class Users extends Model
     /**
      * 通过openid获取用户信息
      * @param $openid 微信openid
-     * @return 返回用户对象或NULL
+     * @return \Illuminate\Support\Collection 返回用户对象或NULL
      */
     public function getUserById($openid){
         return DB::table($this->table)->where('id',$openid)->first();
@@ -32,7 +33,7 @@ class Users extends Model
     /**
      * 注册用户
      * @param $openid 微信openid
-     * @return 返回结果如果为true则调用成功
+     * @return int 如执行成功返回1
      */
     public function userRegistration($openid){
         return DB::table($this->table)->insert(['id' => $openid]);
