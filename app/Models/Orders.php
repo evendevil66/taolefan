@@ -14,11 +14,11 @@ class Orders extends Model
     protected $table = "orders";
 
     /**
-     * 获取所有订单
-     * @return \Illuminate\Support\Collection 返回用户对象
+     * 获取所有订单信息（备用函数，一般使用时间段及分页查询）
+     * @return \Illuminate\Support\Collection 返回订单对象
      */
-
-    public function getAll(){
+    public function getAll()
+    {
         return DB::table($this->table)->get();
     }
 
@@ -36,8 +36,8 @@ class Orders extends Model
      * @param $special_id 会员运营id
      * @return bool 如执行成功返回1
      */
-    public function saveOrder($trade_parent_id,$item_title,$tk_create_time,$tk_status,$pay_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,$special_id){
-
+    public function saveOrder($trade_parent_id, $item_title, $tk_create_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $share_pre_fee, $rebate_pre_fee, $special_id)
+    {
         $flag = DB::table($this->table)->insert([
             'trade_parent_id' => $trade_parent_id,
             'item_title' => $item_title,
@@ -49,9 +49,9 @@ class Orders extends Model
             'share_pre_fee' => $share_pre_fee,
             'rebate_pre_fee' => $rebate_pre_fee
         ]);
-        if($flag){
-            if($special_id!=-1){
-                $this->findOpenIdBySpecialId($trade_parent_id,$special_id);
+        if ($flag) {
+            if ($special_id != -1) {
+                $this->findOpenIdBySpecialId($trade_parent_id, $special_id);
             }
         }
         return $flag;
@@ -64,20 +64,21 @@ class Orders extends Model
      * @param $special_id 会员运营id
      * @return int 检索成功并绑定返回1，否则为0
      */
-    public function findOpenIdBySpecialId($trade_parent_id,$special_id){
-         $user = DB::table($this->table)->where('special_id',$special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
-         if($user!=null){//判断是否成功获取到会员信息
-             try {
-                 return DB::table($this->table)
-                     ->where('trade_parent_id', $trade_parent_id)
-                     ->update([
-                         'openid' => $user->id
-                     ]);
-                 //将会员信息中的openid补充到订单信息中
-             }catch (Exception $e){
-                 return 0;
-             }
-         }
+    public function findOpenIdBySpecialId($trade_parent_id, $special_id)
+    {
+        $user = DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
+        if ($user != null) {//判断是否成功获取到会员信息
+            try {
+                return DB::table($this->table)
+                    ->where('trade_parent_id', $trade_parent_id)
+                    ->update([
+                        'openid' => $user->id
+                    ]);
+                //将会员信息中的openid补充到订单信息中
+            } catch (Exception $e) {
+                return 0;
+            }
+        }
         return 0;
     }
 
@@ -89,7 +90,8 @@ class Orders extends Model
      * $alipay_id ～支付宝账号
      * @return int 如执行成功返回1
      */
-    public function userUpdate(){
+    public function userUpdate()
+    {
         $openid = Request::post("openid");
         $nickname = Request::post("nickname");
         $username = Request::post("username");
@@ -102,23 +104,5 @@ class Orders extends Model
                 'alipay_id' => $alipay_id
             ]);
     }
-
-    /**
-     * 更新用户的粉丝运营id
-     * @param $openid 微信openid
-     * @param $special_id 粉丝运营id
-     * @return int 如执行成功返回1
-     */
-    public function updateSpecial_id($openid,$special_id){
-        try {
-            return DB::table($this->table)
-                ->where('id', $openid)
-                ->update([
-                    'special_id' => $special_id
-                ]);
-        }catch (Exception $e){
-            return 0;
-        }
-
-    }
 }
+
