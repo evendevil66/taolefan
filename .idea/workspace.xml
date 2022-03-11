@@ -20,8 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +237,8 @@
       <workItem from="1638972206988" duration="1325000" />
       <workItem from="1639314870286" duration="6628000" />
       <workItem from="1645275838148" duration="5039000" />
-      <workItem from="1645362352505" duration="5638000" />
+      <workItem from="1645362352505" duration="6978000" />
+      <workItem from="1647012082320" duration="821000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -330,7 +331,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645369124635</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="update">
+      <created>1645370394801</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1645370394801</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,6 +362,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1376" y="370" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1647013064935">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="1376" y="370" key="#com.intellij.fileTypes.FileTypeChooser/0.25.2560.970@0.25.2560.970" timestamp="1647013064935" />
     <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1638888422148">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
@@ -374,10 +386,14 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1638969392354">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1645370559967">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1638969392354" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1645370559967" />
+    <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1647012954812">
+      <screen x="0" y="25" width="2560" height="970" />
+    </state>
+    <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog/0.25.2560.970@0.25.2560.970" timestamp="1647012954812" />
     <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1645369818364">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
