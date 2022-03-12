@@ -22,7 +22,7 @@
 环境要求：PHP > 7 && PHP < 8  ｜ MySQL  
 
 下载或clone项目代码到所需环境  
-````shell script
+````PHP
 git clone https://github.com/evendevil66/taolefan.git
 ````
 执行Composer命令安装依赖包及自动加载  
@@ -35,7 +35,7 @@ composer dump-auto
 cp .env.example .env
 ````
 修改.env中的数据库配置并导入项目根目录下的 taolefan.sql 到数据库
-````shell script
+````text
 DB_CONNECTION=mysql  #默认使用mysql请勿修改 可支持MariaDB
 DB_HOST=127.0.0.1  #数据库连接地址
 DB_PORT=3306  #数据库连接端口
@@ -74,8 +74,8 @@ DB_PASSWORD=  #数据库密码
 ````
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：
-````shell script
-wechat.mttgo.com/wechat
+````text
+www.***.com/wechat
 ````
 使用任意账号给公众号发送"创建菜单"即可创建自定义菜单（仅限服务号或认证订阅号）  
 如需对菜单进行删改，请修改/app/Http/Controllers/WechatController.php中的$buttons变量  
@@ -89,6 +89,15 @@ if (stristr($content, '提现'){
 }
 ````
 具体处理代码可以在WechatController.php找到 switch ($message['EventKey'])  自行复制  
+
+设置定时器crontab用于查询并存储订单
+````PHP
+0 * * * * curl 你的域名/wechat/getOrderList?promotion=0
+#每小时执行一次，promotion为0表示非大促状态，程序默认查询最近80分钟订单信息
+*/15 * * * * curl 你的域名/wechat/getOrderList?promotion=0
+#每15分钟执行一次，promotion为1表示目前为大促状态，程序默认查询最近20分钟订单信息
+#以上命令默认设置第一条即可，大促前一天改为第二条，大促结束后改回第一条，以减少服务器压力。
+````
 
 至此，淘乐饭项目已经部署完成，可以正常使用了。如果在部署项目前已经关注过公众号，取关再次关注即可自动注册账号到数据库。
 

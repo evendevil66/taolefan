@@ -300,7 +300,7 @@ class TaokeController extends Controller
      * 获取订单信息-联盟接口
      */
     public function getOrderList(){
-        $timeQuantum = 60*100;  //默认100分钟
+        $timeQuantum = 60*80;  //默认80分钟
         $promotion = Request::post("promotion");//通过Request获取url中的promotion参数
         if($promotion == null){ //为防止报类型错误先判断是否为null
         }else if($promotion == 1 || $promotion =="1"){
@@ -311,6 +311,8 @@ class TaokeController extends Controller
         $c->appkey = config('config.aliAppKey');
         $c->secretKey = config('config.aliAppSecret');
 
+
+        //开始处理未包含会员运营ID的普通订单
         $pageNo=1;
         $testStr="";
         while (true){
@@ -345,21 +347,43 @@ class TaokeController extends Controller
             return $testStr;
 
         }
-
-
         $dataStr = "普通订单：\n".$Jsondata;
-        $req = new TbkOrderDetailsGetRequest;
-        $req->setQueryType("1");
-        $req->setPageSize("100");
-        $req->setTkStatus("12");
-        $req->setEndTime(date("Y-m-d H:i:s",time()));
-        $req->setStartTime(date("Y-m-d H:i:s",time()-$timeQuantum));
-        //开始当前时间-时间间隔，结束为当前时间，传入大促参数默认15分钟，其余时间默认100分钟
-        $req->setPageNo("1");
-        $req->setOrderScene("3");
-        $resp = $c->execute($req);
-        $Jsondata= json_encode($resp, true);
-        //$data  = json_decode($Jsondata, true);
+
+        //开始处理包含会员运营ID的订单
+        $pageNo=1;
+        $testStr="";
+        while (true){
+            $req = new TbkOrderDetailsGetRequest;
+            $req->setQueryType("1");
+            $req->setPageSize("100");
+            $req->setTkStatus("12");
+            $req->setEndTime(date("Y-m-d H:i:s",time()));
+            $req->setStartTime(date("Y-m-d H:i:s",time()-$timeQuantum));
+            //开始当前时间-时间间隔，结束为当前时间，传入大促参数默认15分钟，其余时间默认100分钟
+            $req->setPageNo("1");
+            $req->setOrderScene("3");
+            $resp = $c->execute($req);
+            $Jsondata= json_encode($resp, true);
+            $data  = json_decode($Jsondata, true);
+            if($data['data']['has_next']=='false'){
+                break;
+            }else{
+                $pageNo++;
+            }
+            $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
+            for($i=0;$i<sizeof($publisher_order_dto);$i++){
+                $testStr=$testStr."检测到第".($i+1)."个订单\n";
+                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id'];
+                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];
+                $item_title=$publisher_order_dto[i]['item_title'];
+                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];
+                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];
+                $special_id=$publisher_order_dto[i]['special_id'];
+                $testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
+            }
+
+        }
+
 
         $dataStr = $dataStr."\n会员订单：".$Jsondata.date("Y-m-d h:i:s",time()).date("Y-m-d h:i:s",time()-900).time();
         return $dataStr;
