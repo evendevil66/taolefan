@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-    </list>
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -255,7 +252,7 @@
       <workItem from="1647012082320" duration="2239000" />
       <workItem from="1647062152620" duration="3151000" />
       <workItem from="1647094589375" duration="7027000" />
-      <workItem from="1647105047176" duration="464000" />
+      <workItem from="1647105047176" duration="719000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -397,7 +394,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647103743725</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update">
+      <created>1647105694841</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1647105694841</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -449,10 +453,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647103755455">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647105870270">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647103755455" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647105870270" />
     <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1647013284994">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
