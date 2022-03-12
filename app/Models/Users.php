@@ -31,6 +31,15 @@ class Users extends Model
     }
 
     /**
+     * 通过会员运营id获取用户信息
+     * @param $special_id 会员运营id
+     * @return \Illuminate\Support\Collection 返回用户对象或NULL
+     */
+    public function getUserBySpecialId($special_id){
+        $user = DB::table($this->table)->where('special_id', $special_id)->first();
+    }
+
+    /**
      * 注册用户
      * @param $openid 微信openid
      * @return int 如执行成功返回1

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 use mysql_xdevapi\Exception;
+use App\Models\Users;
 
 class Orders extends Model
 {
@@ -26,7 +27,7 @@ class Orders extends Model
      * 储存订单
      * @param $trade_parent_id 订单号
      * @param $item_title 商品名称
-     * @param $tk_create_time 下单时间
+     * @param $tk_paid_time 下单时间
      * @param $tk_status 订单状态 3：订单结算，12：订单付款， 13：订单失效，14：订单成功
      * @param $pay_price 付款金额
      * @param $pub_share_pre_fee 付款预估收入
@@ -36,12 +37,16 @@ class Orders extends Model
      * @param $special_id 会员运营id
      * @return bool 如执行成功返回1
      */
-    public function saveOrder($trade_parent_id, $item_title, $tk_create_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $share_pre_fee, $rebate_pre_fee, $special_id)
+    public function saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $share_pre_fee, $rebate_pre_fee, $special_id)
     {
+        $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first();
+        if($order!=null){
+            return false;
+        }
         $flag = DB::table($this->table)->insert([
             'trade_parent_id' => $trade_parent_id,
             'item_title' => $item_title,
-            'tk_create_time' => $tk_create_time,
+            'tk_create_time' => $tk_paid_time,
             'tk_status' => $tk_status,
             'pay_price' => $pay_price,
             'pub_share_pre_fee' => $pub_share_pre_fee,
@@ -51,7 +56,7 @@ class Orders extends Model
         ]);
         if ($flag) {
             if ($special_id != -1) {
-                $this->findOpenIdBySpecialId($trade_parent_id, $special_id);
+                $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id,$rebate_pre_fee);
             }
         }
         return $flag;
@@ -62,19 +67,22 @@ class Orders extends Model
      * 根据订单号内会员运营id，检索openid并绑定
      * @param $trade_parent_id 订单号
      * @param $special_id 会员运营id
+     * @param $rebate_pre_fee 联盟返利金额
      * @return int 检索成功并绑定返回1，否则为0
      */
-    public function findOpenIdBySpecialId($trade_parent_id, $special_id)
+    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id,$rebate_pre_fee)
     {
-        $user = DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
+        $user = app(Orders::class)->getUserBySpecialId($special_id);
+        //DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
         if ($user != null) {//判断是否成功获取到会员信息
             try {
                 return DB::table($this->table)
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
-                        'openid' => $user->id
+                        'openid' => $user->id,
+                        'rebate_pre_fee' => ($user->rebate_ratio)*$rebate_pre_fee
                     ]);
-                //将会员信息中的openid补充到订单信息中
+                //将会员信息中的openid补充到订单信息中,并根据会员返利比例自动修正返利金额
             } catch (Exception $e) {
                 return 0;
             }

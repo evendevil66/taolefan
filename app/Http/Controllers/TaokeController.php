@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\WeChatController;
 use Log;
 use App\Models\Users;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Request;
 use TopClient;
 use TbkItemInfoGetRequest;
@@ -132,7 +133,7 @@ class TaokeController extends Controller
                             "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n".
                             "返现计算：实付款 * " . $maxCommissionRate*0.8 . "%\n\n".
                             "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n".
-                            "您已绑定过淘宝账号，下单后系统将尝试自动跟单，如1小时后仍查询不到，您可以手动绑定订单。";
+                            "您已绑定过淘宝账号，下单后系统将尝试自动跟单，请下单后5分钟左右进行查询，如无法查询到您的订单，您可以手动发送订单号绑定订单。";
                     }else{
                         return
                             "1".$title . "\n".
@@ -300,93 +301,92 @@ class TaokeController extends Controller
      * 获取订单信息-联盟接口
      */
     public function getOrderList(){
-        $timeQuantum = 60*80;  //默认80分钟
+        $count = 0;
+        $timeQuantum = 90;  //默认1分30秒用于冗余以免漏单
+        /**
+        用于区分大促和非大促的代码，已废弃
         $promotion = Request::post("promotion");//通过Request获取url中的promotion参数
         if($promotion == null){ //为防止报类型错误先判断是否为null
         }else if($promotion == 1 || $promotion =="1"){
             $timeQuantum = 60*15; //如果当前状态为大促期间 间隔时间缩短为15分钟
-        }
+        }**/
         date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
         $c = new TopClient;
         $c->appkey = config('config.aliAppKey');
         $c->secretKey = config('config.aliAppSecret');
-
-
+        $flag = true;
         //开始处理未包含会员运营ID的普通订单
         $pageNo=1;
-        $testStr="";
-        while (true){
+        while ($flag){
             $req = new TbkOrderDetailsGetRequest;
             $req->setQueryType("1");
             $req->setPageSize("100");
-            $req->setTkStatus("12");
+            //$req->setTkStatus("12"); 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
             $req->setEndTime(date("Y-m-d H:i:s",time()));
             $req->setStartTime(date("Y-m-d H:i:s",time()-$timeQuantum));
-            //开始当前时间-时间间隔，结束为当前时间，传入大促状态默认15分钟，其余时间默认100分钟
-            $req->setPageNo("1");
+            //开始为（当前时间-时间间隔），结束为当前时间
+            $req->setPageNo($pageNo);
             $req->setOrderScene("1");
             $resp = $c->execute($req);
             $Jsondata= json_encode($resp, true);
             $data  = json_decode($Jsondata, true);
-
-            if($data['data']['has_next']=='false'){
-                break;
-            }else{
-                $pageNo++;
-            }
+            if($data['data']['has_next']=='false'){$flag=false;}else{$pageNo++;} //如不包含下一页，则本次执行结束后终止循环
             $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
             for($i=0;$i<sizeof($publisher_order_dto);$i++){
-                $testStr=$testStr."检测到第".($i+1)."个订单\n";
-                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id'];
-                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];
-                $item_title=$publisher_order_dto[i]['item_title'];
-                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];
-                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];
-                $testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\预估佣金".$pub_share_pre_fee."\n\n";
+                $count++;
+                //$testStr=$testStr."检测到第".($i+1)."个订单\n";
+                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id']; //订单号
+                $item_title=$publisher_order_dto[i]['item_title'];//商品名称
+                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];//付款时间
+                $tk_status = $publisher_order_dto[i]['tk_status'];//订单状态
+                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];//付款金额
+                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];//付款预估收入
+                $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
+                $share_pre_fee = $publisher_order_dto[i]['share_pre_fee'];//预估专项服务费
+                $rebate_pre_fee = $publisher_order_dto[i]['rebate_pre_fee']; //预估返利金额
+                app(Orders::class)->saveOrder($trade_parent_id,$item_title,$tk_paid_time,$tk_status,$alipay_total_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,-1);
+
+                //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\预估佣金".$pub_share_pre_fee."\n\n";*/
             }
-            return $testStr;
+            //return $testStr;
 
         }
-        $dataStr = "普通订单：\n".$Jsondata;
-
         //开始处理包含会员运营ID的订单
+        $flag = true;
         $pageNo=1;
-        $testStr="";
-        while (true){
+        while ($flag){
             $req = new TbkOrderDetailsGetRequest;
             $req->setQueryType("1");
             $req->setPageSize("100");
-            $req->setTkStatus("12");
+            //$req->setTkStatus("12"); 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
             $req->setEndTime(date("Y-m-d H:i:s",time()));
             $req->setStartTime(date("Y-m-d H:i:s",time()-$timeQuantum));
-            //开始当前时间-时间间隔，结束为当前时间，传入大促参数默认15分钟，其余时间默认100分钟
             $req->setPageNo("1");
             $req->setOrderScene("3");
             $resp = $c->execute($req);
             $Jsondata= json_encode($resp, true);
             $data  = json_decode($Jsondata, true);
-            if($data['data']['has_next']=='false'){
-                break;
-            }else{
-                $pageNo++;
-            }
+            if($data['data']['has_next']=='false'){$flag=false;}else{$pageNo++;} //如不包含下一页，则本次执行结束后终止循环
             $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
             for($i=0;$i<sizeof($publisher_order_dto);$i++){
-                $testStr=$testStr."检测到第".($i+1)."个订单\n";
-                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id'];
-                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];
-                $item_title=$publisher_order_dto[i]['item_title'];
-                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];
-                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];
-                $special_id=$publisher_order_dto[i]['special_id'];
-                $testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
+                $count++;
+                //$testStr=$testStr."检测到第".($i+1)."个订单\n";
+                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id']; //订单号
+                $item_title=$publisher_order_dto[i]['item_title'];//商品名称
+                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];//付款时间
+                $tk_status = $publisher_order_dto[i]['tk_status'];//订单状态
+                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];//付款金额
+                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];//付款预估收入
+                $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
+                $share_pre_fee = $publisher_order_dto[i]['share_pre_fee'];//预估专项服务费
+                $rebate_pre_fee = $publisher_order_dto[i]['rebate_pre_fee']; //预估返利金额
+                app(Orders::class)->saveOrder($trade_parent_id,$item_title,$tk_paid_time,$tk_status,$alipay_total_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,-1);
+
+                //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
             }
 
         }
-
-
-        $dataStr = $dataStr."\n会员订单：".$Jsondata.date("Y-m-d h:i:s",time()).date("Y-m-d h:i:s",time()-900).time();
-        return $dataStr;
+        return $count;
 
     }
 
