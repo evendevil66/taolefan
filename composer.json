@@ -1,12 +1,17 @@
 {
-    "name": "laravel/laravel",
+    "name": "evendevil66/taolefan",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "微信公众号淘宝返利项目",
     "keywords": [
         "framework",
         "laravel"
     ],
-    "license": "MIT",
+    "authors": [{
+        "name":         "Zhang Jiaqi",
+        "email":        "zhangjiaqi@maomengte.com",
+        "homepage":     "http://www.maomengte.com"
+    }],
+    "license": "GPL-3.0-or-later",
     "require": {
         "php": "^7.3",
         "fideloper/proxy": "^4.2",
