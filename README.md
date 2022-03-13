@@ -2,7 +2,7 @@
 
 ## 关于项目
 
-本项目使用 [Laravel](https://laravel.com/) 作为主架构进行开发，公众号交互使用 [EasyWechat](https://www.easywechat.com) 实现。
+本项目使用 [Laravel](https://laravel.com/) 作为主架构进行开发，公众号交互使用 [EasyWechat](https://www.easywechat.com) 实现，后端基于 [X-admin](http://x.xuebingsi.com)二次开发。
 本项目使用GPLv3协议，允许复制、传播、修改及商业使用，禁止将修改后和衍生的代码做为闭源的商业软件发布和销售。
 
 ## 对接API
@@ -26,7 +26,8 @@
 未实现功能仍在逐渐开发中，也可以自动去开发相关功能，大家的Star是我持续开发的动力
 
 ## 部署方法
-环境要求：PHP > 7 && PHP < 8  ｜ MySQL  
+环境要求：PHP > 7 && PHP < 8  ｜ MySQL/MariaDB  
+微信公众号：订阅号/服务号均可，服务号或认证订阅号可以使用自定义菜单，未认证订阅号仅可文本响应。
 
 下载或clone项目代码到所需环境  
 ````PHP
