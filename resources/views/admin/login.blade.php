@@ -2,11 +2,12 @@
 <html  class="x-admin-sm">
 <head>
 	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.2</title>
+	<title>淘乐饭后台登录</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/login.css">
 	  <link rel="stylesheet" href="./css/xadmin.css">
@@ -24,6 +25,7 @@
         <div id="darkbannerwrap"></div>
 
         <form method="post" class="layui-form" >
+            @csrf
             <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
@@ -41,14 +43,37 @@
               //   //关闭后的操作
               //   });
               //监听提交
-              //form.on('submit(login)', function(data){
+              form.on('submit(login)', function(data){
                 // alert(888)
-              //  layer.msg(JSON.stringify(data.field),function(){
-              //      location.href='index.html'
-              //  });
-              //  return false;
-              //});
+                  $.ajax({
+                      type: 'POST',
+                      url: '/admin/getAdmin',
+                      data:{
+                          username: data.field.username,
+                          password: data.field.password,
+                          _token : data.field._token
+                      },
+                      dataType: "text",
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      },
+                      success: function (data) {//res为相应体,function为回调函数
+                          if (data == 1 || data == "1") {
+                              layer.msg("登陆成功",function(){
+                                  location.href='index'
+                              });
+                          }else{
+                              layer.msg("登陆失败，请检查账号密码");
+                          }
+                      },
+                      error: function (XMLHttpRequest, textStatus, errorThrown) {
+                          layer.alert('操作失败！！！' + XMLHttpRequest.status + "|" + XMLHttpRequest.readyState + "|" + textStatus, { icon: 5 });
+                      }
+                  });
+
+
                 return false;
+              });
             });
         })
     </script>

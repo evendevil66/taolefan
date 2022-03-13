@@ -3,8 +3,8 @@
 return [
 
     'name' => "猫乐饭", //产品名称 会反应在用户交互等场景
-    'url' => "https://fanli.mttgo.com", //站点url
-    'apiUrl' => "https://wechat.mttgo.com", //站点url
+    'url' => "https://wechat.mttgo.com", //站点url
+    'apiUrl' => "https://wechat.mttgo.com", //微信url
     'dtkAppKey' => "******", //大淘客appKey 使用大淘客接口快速解析商品信息
     'dtkAppSecret' => "******", //大淘客AppSecret
     'aliAppKey' => "******", //淘宝联盟AppKey

@@ -106,3 +106,12 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
         return view('admin/welcome');
     });
 });
+
+Route::post('/admin/getAdmin', function () {
+    $admin = app(\App\Models\Admin::class)->getAdmin(Request::post("username"),Request::post("password"));
+    if($admin!=null){
+        return response('1')->cookie('username', $admin->username, 14400);
+    }else{
+        return 0;
+    }
+});

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class CheckAdminLogin
 {
@@ -16,9 +17,15 @@ class CheckAdminLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(request()->cookie('admin') == null){
-            return redirect('/admin/login');
+        if(Cookie::get('username') != null){
+            return $next($request);;
+            $admin = app(\App\Models\Admin::class)->getAdminByUsername(Cookie::get('username'));
+            if($admin!=null){
+                return $next($request);
+            }
         }
-        return $next($request);
+        return redirect('/admin/login');
+
+
     }
 }
