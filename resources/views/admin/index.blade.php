@@ -26,13 +26,13 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">淘乐饭后台管理</a></div>
+                <a href="./index">淘乐饭后台管理</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
             <ul class="layui-nav right" lay-filter="">
                 <li class="layui-nav-item to-index">
-                    <a href="/">退出登陆</a></li>
+                    <a href="./loginout">退出登陆</a></li>
             </ul>
         </div>
         <!-- 顶部结束 -->

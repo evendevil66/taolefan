@@ -15,15 +15,26 @@
     <script src="./js/html5.min.js"></script>
     <script src="./js/respond.min.js"></script>
     <![endif]-->
+    <script>
+        window.onload = clock;
+        self.setInterval("clock()",1000);
+        function clock(){
+            var myDate = new Date();
+            var time = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+"  "+myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds();
+            document.getElementById("time").innerHTML=time;
+        }
+
+
+    </script>
 </head>
-<body>
+<body >
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
                     <blockquote class="layui-elem-quote">欢迎管理员：
-                        <span class="x-red">test</span>！当前时间:2022-03-10 20:50:53
+                        <span class="x-red">{{Cookie::get('username')}}</span>,当前时间:<span id="time"></span>
                     </blockquote>
                 </div>
             </div>
@@ -127,9 +138,9 @@
                             <th>淘乐饭版本</th>
                             <td>1.0</td></tr>
                         <tr>
-                            <th>服务器地址</th>
+                            <th>服务器URL</th>
                             <td>
-                                {{$_SERVER['APP_URL']}}
+                                {{$_SERVER['SERVER_NAME']}}
                             </td></tr>
                         <tr>
                             <th>操作系统</th>

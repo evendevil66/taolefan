@@ -107,6 +107,11 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
     });
 });
 
+Route::get('/admin/loginout', function () {
+    Cookie::queue(Cookie::forget('username'));
+    return view('admin/login');
+});
+
 Route::post('/admin/getAdmin', function () {
     $admin = app(\App\Models\Admin::class)->getAdmin(Request::post("username"),Request::post("password"));
     if($admin!=null){

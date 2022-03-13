@@ -18,7 +18,6 @@ class CheckAdminLogin
     public function handle(Request $request, Closure $next)
     {
         if(Cookie::get('username') != null){
-            return $next($request);;
             $admin = app(\App\Models\Admin::class)->getAdminByUsername(Cookie::get('username'));
             if($admin!=null){
                 return $next($request);
