@@ -58,3 +58,47 @@ Route::get('/bind/{openid}', function ($openid) {
 
 Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class,'regMember']);
 Route::get('/getOrderList', [Controllers\TaokeController::class,'getOrderList']);
+
+Route::get('/admin/login', function () {
+    return view('admin/login');
+});
+Route::get('/admin/error', function () {
+    return view('admin/error');
+});
+Route::get('/admin/unicode', function () {
+    return view('admin/unicode');
+});
+
+Route::middleware(['CheckAdminLogin'])->group(function () {
+    Route::get('/admin/index', function () {
+        return view('admin/index');
+    });
+
+    Route::get('/admin/admin-add', function () {
+        return view('admin/admin-add');
+    });
+
+    Route::get('/admin/admin-edit', function () {
+        return view('admin/admin-edit');
+    });
+
+    Route::get('/admin/admin-list', function () {
+        return view('admin/admin-list');
+    });
+
+    Route::get('/admin/member-list', function () {
+        return view('admin/member-list');
+    });
+
+    Route::get('/admin/order-list', function () {
+        return view('admin/order-list');
+    });
+
+    Route::get('/admin/receive', function () {
+        return view('admin/receive');
+    });
+
+    Route::get('/admin/welcome', function () {
+        return view('admin/welcome');
+    });
+});

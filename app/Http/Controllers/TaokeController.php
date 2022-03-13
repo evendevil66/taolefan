@@ -343,7 +343,7 @@ class TaokeController extends Controller
                 $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];//付款预估收入
                 $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
                 $share_pre_fee = $publisher_order_dto[i]['share_pre_fee'];//预估专项服务费
-                $rebate_pre_fee = $publisher_order_dto[i]['rebate_pre_fee']; //预估返利金额
+                $rebate_pre_fee = $publisher_order_dto[i]['pub_share_pre_fee']; //预估返利金额
                 app(Orders::class)->saveOrder($trade_parent_id,$item_title,$tk_paid_time,$tk_status,$alipay_total_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,-1);
 
                 //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\预估佣金".$pub_share_pre_fee."\n\n";*/
@@ -379,7 +379,7 @@ class TaokeController extends Controller
                 $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];//付款预估收入
                 $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
                 $share_pre_fee = $publisher_order_dto[i]['share_pre_fee'];//预估专项服务费
-                $rebate_pre_fee = $publisher_order_dto[i]['rebate_pre_fee']; //预估返利金额
+                $rebate_pre_fee = $publisher_order_dto[i]['pub_share_pre_fee']; //预估返利金额
                 app(Orders::class)->saveOrder($trade_parent_id,$item_title,$tk_paid_time,$tk_status,$alipay_total_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,-1);
 
                 //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
