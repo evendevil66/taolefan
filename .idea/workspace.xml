@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -19,7 +22,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -252,7 +260,8 @@
       <workItem from="1647012082320" duration="2239000" />
       <workItem from="1647062152620" duration="3151000" />
       <workItem from="1647094589375" duration="7027000" />
-      <workItem from="1647105047176" duration="719000" />
+      <workItem from="1647105047176" duration="834000" />
+      <workItem from="1647151809794" duration="3002000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -401,7 +410,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647105694841</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="update">
+      <created>1647105962405</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1647105962405</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -433,10 +449,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state x="1376" y="370" key="#com.intellij.fileTypes.FileTypeChooser/0.25.2560.970@0.25.2560.970" timestamp="1647013064935" />
-    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1638888422148">
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1647155034816">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.970@0.25.2560.970" timestamp="1638888422148" />
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.970@0.25.2560.970" timestamp="1647155034816" />
     <state x="427" y="163" key="DiffContextDialog" timestamp="1647013916670">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
@@ -453,17 +469,17 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647105870270">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647105975443">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647105870270" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647105975443" />
     <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1647013284994">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog/0.25.2560.970@0.25.2560.970" timestamp="1647013284994" />
-    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1645369818364">
+    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1647153789561">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1645369818364" />
+    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1647153789561" />
   </component>
 </project>

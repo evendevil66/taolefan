@@ -64,7 +64,7 @@ class Orders extends Model
 
 
     /**
-     * 根据订单号内会员运营id，检索openid并绑定
+     * 根据订单内会员运营id，检索openid并绑定，并根据用户返利比例修改返利金额
      * @param $trade_parent_id 订单号
      * @param $special_id 会员运营id
      * @param $rebate_pre_fee 联盟返利金额
@@ -80,7 +80,8 @@ class Orders extends Model
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio)*$rebate_pre_fee
+                        'rebate_pre_fee' => ($user->rebate_ratio)*0.01*$rebate_pre_fee,
+                        'special_id' => $special_id
                     ]);
                 //将会员信息中的openid补充到订单信息中,并根据会员返利比例自动修正返利金额
             } catch (Exception $e) {
@@ -88,6 +89,46 @@ class Orders extends Model
             }
         }
         return 0;
+    }
+
+    /**
+     * 根据订单号绑定openid，并根据用户返利比例修改返利金额
+     * @param $trade_parent_id 订单号
+     * @param $user 用户对象
+     * @return string 返回处理结果文本
+     */
+    public function ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $user)
+    {
+        $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first(); //查询订单信息
+        if($order == null){
+            return "无法查询到订单信息，您可以5分钟后再尝试，如仍无法绑定可能是未通过链接下单，您可以退款后重新下单。\n注意：如使用了大促活动红包可能导致无法返利";
+        }else if($order->openid != null && trim($order->openid) != ""){
+            if($order->special_id != null && trim($order->special_id) != ""){
+                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为".$order->pay_price."，返利金额为".$order->rebate_pre_fee;
+            }else{
+                return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
+            }
+        }
+        if ($user != null) {//判断是否成功获取到会员信息
+            try {
+                $result = DB::table($this->table)
+                    ->where('trade_parent_id', $trade_parent_id)
+                    ->update([
+                        'openid' => $user->id,
+                        'rebate_pre_fee' => ($user->rebate_ratio)*0.01*($order->rebate_pre_fee)
+                    ]);
+                if($result>0){
+                    return "订单绑定成功，您的付款金额为".$order->pay_price."，返利金额为".($user->rebate_ratio)*0.01*($order->rebate_pre_fee);
+                }else{
+                    return "系统错误，绑定失败，请稍后再试或联系客服";
+                }
+            } catch (Exception $e) {
+                return "系统错误，绑定失败，请稍后再试或联系客服";
+            }
+        }else{
+            return "获取用户信息失败，请重新尝试绑定订单";
+        }
+        return "系统错误，绑定失败，请稍后再试或联系客服";
     }
 
     /**

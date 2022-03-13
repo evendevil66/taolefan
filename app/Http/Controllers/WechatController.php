@@ -6,6 +6,7 @@ use EasyWeChat\OfficialAccount\Application;
 use Log;
 use App\Http\Controllers\TaokeController;
 use App\Models\Users;
+use App\Models\Orders;
 
 class WeChatController extends Controller
 {
@@ -162,8 +163,8 @@ class WeChatController extends Controller
                         $url = config('config.apiUrl') . "/reg/" . $openid;
                         return "<a href=\"" . $url . "\">请点此进行注册</a>";
                     } else if (preg_match("/^\d{17,20}$/", $content)) {
-                        //调用淘宝联盟订单查询函数，查询对应订单号，如结果不为false，则存入用户订单列表，并返回预估返现信息
-                        return "进入订单绑定模块,openid:" . $openid;
+                        //根据数据库存储订单信息匹配订单并操作数据绑定
+                        return app(Orders::class)->ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio(trim($content), $user);
                     } else if (stristr($content, '创建菜单') != false) {
                         $this->setButton();
                         return "设置菜单";
