@@ -24,7 +24,135 @@
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/font.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/theme1.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/theme2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/theme3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/theme4.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/theme5.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/css/xadmin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/fonts/iconfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/fonts/iconfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/fonts/iconfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/fonts/iconfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/images/aiwrap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/images/bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/js/html5.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/js/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/js/respond.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/js/xadmin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/js/xcity.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/layui.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/layui.mobile.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/code.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/laydate/default/laydate.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/layer/default/icon-ext.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/layer/default/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/layer/default/layer.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/layer/default/loading-0.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/layer/default/loading-1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/css/modules/layer/default/loading-2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/font/iconfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/font/iconfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/font/iconfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/font/iconfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/0.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/10.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/11.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/12.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/13.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/14.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/15.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/16.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/17.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/18.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/19.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/20.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/21.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/22.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/23.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/24.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/25.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/26.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/27.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/28.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/29.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/3.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/30.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/31.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/32.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/33.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/34.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/35.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/36.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/37.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/38.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/39.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/4.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/40.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/41.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/42.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/43.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/44.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/45.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/46.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/47.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/48.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/49.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/5.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/50.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/51.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/52.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/53.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/54.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/55.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/56.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/57.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/58.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/59.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/6.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/60.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/61.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/62.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/63.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/64.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/65.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/66.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/67.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/68.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/69.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/7.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/70.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/71.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/8.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/images/face/9.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/carousel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/code.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/colorpicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/element.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/flow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/laydate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/layedit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/layer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/laypage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/laytpl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/mobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/rate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/slider.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/table.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/tree.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/upload.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/lay/modules/util.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/layui.all.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/lib/layui/layui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/login.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -269,7 +397,7 @@
       <workItem from="1647062152620" duration="3151000" />
       <workItem from="1647094589375" duration="7027000" />
       <workItem from="1647105047176" duration="834000" />
-      <workItem from="1647151809794" duration="13971000" />
+      <workItem from="1647151809794" duration="15606000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -432,7 +560,21 @@
       <option name="project" value="LOCAL" />
       <updated>1647156106083</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="update">
+      <created>1647180974302</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1647180974303</updated>
+    </task>
+    <task id="LOCAL-00025" summary="update">
+      <created>1647180996790</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1647180996790</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -484,10 +626,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647156118303">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647181009042">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647156118303" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647181009042" />
     <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1647013284994">
       <screen x="0" y="25" width="2560" height="970" />
     </state>

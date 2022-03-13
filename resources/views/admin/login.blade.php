@@ -13,16 +13,16 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+      <script src="./js/html5.min.js"></script>
+      <script src="./js/respond.min.js"></script>
     <![endif]-->
 </head>
 <body class="login-bg">
-    
+
     <div class="login layui-anim layui-anim-up">
-        <div class="message">x-admin2.0-管理登录</div>
+        <div class="message">淘乐饭-管理登录</div>
         <div id="darkbannerwrap"></div>
-        
+
         <form method="post" class="layui-form" >
             <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">
@@ -41,13 +41,14 @@
               //   //关闭后的操作
               //   });
               //监听提交
-              form.on('submit(login)', function(data){
+              //form.on('submit(login)', function(data){
                 // alert(888)
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });
+              //  layer.msg(JSON.stringify(data.field),function(){
+              //      location.href='index.html'
+              //  });
+              //  return false;
+              //});
                 return false;
-              });
             });
         })
     </script>
@@ -58,7 +59,7 @@
     (function() {
       var hm = document.createElement("script");
       hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-      var s = document.getElementsByTagName("script")[0]; 
+      var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
     </script>

@@ -70,6 +70,10 @@ Route::get('/admin/unicode', function () {
 });
 
 Route::middleware(['CheckAdminLogin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin/index');
+    });
+
     Route::get('/admin/index', function () {
         return view('admin/index');
     });

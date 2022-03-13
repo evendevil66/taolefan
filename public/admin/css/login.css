@@ -6,7 +6,7 @@
 */
 .login-bg{
     /*background: #eeeeee url() 0 0 no-repeat;*/
-     background:url(../images/bg.png) no-repeat center;
+     background:url(../images/bg.jpeg) no-repeat center;
     background-size: cover;
     overflow: hidden;
 }
@@ -87,7 +87,7 @@
     width:100%;
 }
 .login hr {
-    background: #fff url() 0 0 no-repeat;
+    background: #fff  0 0 no-repeat;
 }
 .login hr.hr15 {
     height: 15px;
