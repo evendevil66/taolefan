@@ -146,19 +146,33 @@ class Orders extends Model
         return DB::select($sql);
     }
 
+    /**
+     * 分页查询订单信息
+     * @param null $trade_parent_id 订单号
+     * @param null $start 起始日期
+     * @param null $end 结束日期
+     * @param null $tk_status 订单状态
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
+     */
     public function getAllByPaginate($trade_parent_id=null,$start=null,$end=null,$tk_status=null){
         if($trade_parent_id==null && $start==null && $end==null &&$tk_status==null){
-            return DB::table($this->table)->paginate(10);
+            //判断是否有筛选条件，如所有筛选条件均为null，则直接查询所有
+            return DB::table($this->table)->orderBy('id', 'desc')->paginate(10);
         }else{
             $orders = DB::table($this->table)
-                ->where('trade_parent_id','like',$trade_parent_id==null||trim($trade_parent_id)==""?"%":$trade_parent_id)
-                ->where('tk_status','like',$tk_status==null||trim($tk_status)==""||$tk_status<=0?"%":$tk_status);
-            if($start!=null && trim($start)!="" && $end!=null && trim($end)!=""){
+                ->where('trade_parent_id','like',trim($trade_parent_id)==""?"%":$trade_parent_id)
+                ->where('tk_status','like',trim($tk_status)==""||$tk_status<=0?"%":$tk_status);
+            //二次判断筛选内容是否为空字符串，如为空则直接%模糊查询
+            if(trim($start)!="" && trim($end)!=""){
+                //判断起始日期和终止日期是否都不为空
                 return $orders
                     ->whereBetween('tk_paid_time', [$start,$end])
+                    ->orderBy('id', 'desc')
                     ->paginate(10);
             }else{
-                return $orders->paginate(10);
+                return $orders
+                    ->orderBy('id', 'desc')
+                    ->paginate(10);
             }
 
         }

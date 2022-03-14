@@ -43,12 +43,33 @@ class Admin extends Model
      * @return int 成功返回1 否则0
      */
     public function updateAdminById($id,$username,$password){
-        return DB::table($this->table)
-            ->where('id', $id)
-            ->update([
-                'username' => $username,
-                'password' => md5($password)
-            ]);
+        try{
+            return DB::table($this->table)
+                ->where('id', $id)
+                ->update([
+                    'username' => $username,
+                    'password' => md5($password)
+                ]);
+        }catch (Exception $e){
+            return 0;
+        }
+
+    }
+
+    /**
+     * 根据ID删除管理员
+     * @param $id
+     * @return int 成功返回1 否则0
+     */
+    public function delAdminById($id){
+        try{
+            return DB::table($this->table)
+                ->where('id', $id)
+                ->delete();
+        }catch (Exception $e){
+            return 0;
+        }
+
     }
 
     /**
@@ -57,7 +78,7 @@ class Admin extends Model
      * @param $password
      * @return int 成功返回1 否则0
      */
-    public function addAdminById($username,$password){
+    public function addAdmin($username,$password){
         return DB::table($this->table)
             ->insert([
                 'username' => $username,
@@ -65,5 +86,12 @@ class Admin extends Model
             ]);
     }
 
+    /**
+     * 获取所有管理信息
+     * @return \Illuminate\Support\Collection 返回管理对象
+     */
+    public function getAll(){
+        return DB::table($this->table)->get();
+    }
 
 }

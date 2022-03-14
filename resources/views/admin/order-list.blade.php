@@ -151,20 +151,7 @@
 </div>
 </body>
 <script>
-    layui.use(['laydate', 'form'],
-        function() {
-            var laydate = layui.laydate;
 
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
-            });
-        });
 
     $(function () {
         layui.use('form', function () {

@@ -103,18 +103,47 @@ class Users extends Model
 
     }
 
+    /**
+     * 更新可用金额
+     * @param $openid
+     * @param $available_balance
+     * @return int
+     */
+    public function updateAvailable_balance($openid,$available_balance){
+        return DB::table($this->table)
+            ->where('id', $openid)
+            ->update([
+                'available_balance' => $available_balance
+            ]);
+
+    }
+
+    /**
+     * 分页查询用户信息
+     * @param null $openid 筛选openid或昵称精准查询
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
+     */
     public function getAllByPaginate($openid=null){
         if($openid==null){
-            return DB::table('users')->paginate(5);
+            //判断是否传入筛选条件，如未传入则全量分页查询
+            return DB::table('users')->paginate(10);
         }else{
             return DB::table('users')
                 ->where('id',$openid)
                 ->orWhere('nickname','like',"%".$openid."%")
                 ->paginate(5);
+            //分别对openid和nickname执行条件筛选，openid为精准，nickname为模糊
         }
 
     }
 
+    /**
+     * 根据openid修改返利比例和运营id
+     * @param $id openid
+     * @param $rebate_ratio 返利比例
+     * @param $special_id 用户运营id
+     * @return int 修改成功返回1否则0
+     */
     public function modifyUserById($id,$rebate_ratio,$special_id){
         return DB::table($this->table)
             ->where('id', $id)

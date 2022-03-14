@@ -74,20 +74,72 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
         return view('admin/index');
     });
 
+    //后台主页
     Route::get('/admin/index', function () {
         return view('admin/index');
     });
-
+    //新增管理员小窗口
     Route::get('/admin/admin-add', function () {
-        return view('admin/admin-add');
+        if(Cookie::get('adminId') == 1){
+            return view('admin/admin-add');
+        }else{
+            return view('admin/error');
+        }
+
+    });
+    //提交新增管理员post请求
+    Route::post('/admin/admin-add', function () {
+        $result = app(\App\Models\Admin::class)->addAdmin(Request::post("username"),Request::post("password"));
+        if ($result>0) {
+            return 1;
+        } else {
+            return 0;
+        }
     });
 
+    //提交删除管理员get请求
+    Route::get('/admin/admin-del', function () {
+        if(Cookie::get('adminId') == 1){
+            $result = app(\App\Models\Admin::class)->delAdminById(Request::get("id"));
+            if ($result>0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }else{
+            return -1;
+        }
+
+    });
+
+    //管理员账号密码修改小窗
     Route::get('/admin/admin-edit', function () {
-        return view('admin/admin-edit');
+        if(Cookie::get('adminId') == 1 || Cookie::get('adminId') ==Request::get('id')){
+            return view('admin/admin-edit', [
+                'id' => Request::get('id') ,
+                'username' => Request::get('username') ,
+            ]);
+        }else{
+            return view('admin/error');
+        }
+
+    });
+    //提交修改管理员账号密码post请求
+    Route::post('/admin/admin-edit', function () {
+        $result = app(\App\Models\Admin::class)->updateAdminById(Request::post("id"),Request::post("username"),Request::post("password"));
+        if ($result>0) {
+            return 1;
+        } else {
+            return 0;
+        }
     });
 
+    //管理员列表
     Route::get('/admin/admin-list', function () {
-        return view('admin/admin-list');
+        $admins = app(\App\Models\Admin::class)->getAll();
+        return view('admin/admin-list',[
+            'admins' => $admins,
+        ]);
     });
 
     Route::get('/admin/member-list', function () {
@@ -129,7 +181,24 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
     });
 
     Route::get('/admin/receive', function () {
-        return view('admin/receive');
+        $openid=Request::get("openid");
+        $status=Request::get("status");
+        $receives = app(\App\Models\Receive::class)->getAllByPaginate($openid,$status);
+        return view('admin/receive',[
+            'receives' => $receives,
+            'openid' => $openid,
+            'status' => $status
+        ]);
+    });
+    Route::get('/admin/receivePass', function () {
+        $id=Request::get("id");
+        return app(\App\Models\Receive::class)->receivePass($id);
+    });
+    Route::get('/admin/receiveRefuse', function () {
+        $id=Request::get("id");
+        $reason=Request::get("reason");
+
+        return app(\App\Models\Receive::class)->receiveRefuse($id,$reason);
     });
 
     Route::get('/admin/welcome', function () {
@@ -171,7 +240,7 @@ Route::get('/admin/loginout', function () {
 Route::post('/admin/getAdmin', function () {
     $admin = app(\App\Models\Admin::class)->getAdmin(Request::post("username"), Request::post("password"));
     if ($admin != null) {
-        return response('1')->cookie('username', $admin->username, 14400);
+        return response('1')->cookie('username', $admin->username, 14400)->cookie('adminId', $admin->id, 14400);
     } else {
         return 0;
     }
