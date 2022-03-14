@@ -114,7 +114,18 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
     });
 
     Route::get('/admin/order-list', function () {
-        return view('admin/order-list');
+        $trade_parent_id=Request::get("trade_parent_id");
+        $start=Request::get("start");
+        $end=Request::get("end");
+        $tk_status=Request::get("tk_status");
+        $orders = app(\App\Models\Orders::class)->getAllByPaginate($trade_parent_id,$start,$end,$tk_status);
+        return view('admin/order-list',[
+            'orders' => $orders,
+            'trade_parent_id' => $trade_parent_id,
+            'start' => $start,
+            'end' => $end,
+            'tk_status' => $tk_status
+        ]);
     });
 
     Route::get('/admin/receive', function () {

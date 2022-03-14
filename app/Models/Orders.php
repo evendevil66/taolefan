@@ -145,5 +145,25 @@ class Orders extends Model
         $sql = "SELECT count(*) AS count, SUM(pub_share_pre_fee) AS pub_share_pre_fee, SUM(rebate_pre_fee) AS rebate_pre_fee FROM `orders` WHERE to_days(`tk_paid_time`) = to_days(now())";
         return DB::select($sql);
     }
+
+    public function getAllByPaginate($trade_parent_id=null,$start=null,$end=null,$tk_status=null){
+        if($trade_parent_id==null && $start==null && $end==null &&$tk_status==null){
+            return DB::table($this->table)->paginate(10);
+        }else{
+            $orders = DB::table($this->table)
+                ->where('trade_parent_id','like',$trade_parent_id==null||trim($trade_parent_id)==""?"%":$trade_parent_id)
+                ->where('tk_status','like',$tk_status==null||trim($tk_status)==""||$tk_status<=0?"%":$tk_status);
+            if($start!=null && trim($start)!="" && $end!=null && trim($end)!=""){
+                return $orders
+                    ->whereBetween('tk_paid_time', [$start,$end])
+                    ->paginate(10);
+            }else{
+                return $orders->paginate(10);
+            }
+
+        }
+
+    }
+
 }
 

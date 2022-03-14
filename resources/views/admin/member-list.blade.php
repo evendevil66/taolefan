@@ -2,7 +2,7 @@
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.2</title>
+    <title>用户列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -130,7 +130,7 @@
         layui.use('form', function () {
             let form = layui.form;
             form.on('submit(sreach)', function (data) {
-                location.replace("?openid=".data.field.openid);
+                location.replace("?openid="+data.field.openid);
             });
         });
     })
