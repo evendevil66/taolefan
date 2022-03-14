@@ -4,11 +4,11 @@
 namespace App\Models;
 
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use App\Models\Users;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 use mysql_xdevapi\Exception;
-use App\Models\Users;
 
 class Orders extends Model
 {
@@ -40,7 +40,7 @@ class Orders extends Model
     public function saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $share_pre_fee, $rebate_pre_fee, $special_id)
     {
         $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first();
-        if($order!=null){
+        if ($order != null) {
             return false;
         }
         $flag = DB::table($this->table)->insert([
@@ -56,7 +56,7 @@ class Orders extends Model
         ]);
         if ($flag) {
             if ($special_id != -1) {
-                $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id,$rebate_pre_fee);
+                $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $rebate_pre_fee);
             }
         }
         return $flag;
@@ -70,22 +70,27 @@ class Orders extends Model
      * @param $rebate_pre_fee 联盟返利金额
      * @return int 检索成功并绑定返回1，否则为0
      */
-    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id,$rebate_pre_fee)
+    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $rebate_pre_fee)
     {
-        $user = app(Orders::class)->getUserBySpecialId($special_id);
+        $user = app(Users::class)->getUserBySpecialId($special_id);
         //DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
         if ($user != null) {//判断是否成功获取到会员信息
             try {
-                return DB::table($this->table)
+                DB::beginTransaction();
+                DB::table($this->table)
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio)*0.01*$rebate_pre_fee,
-                        'special_id' => $special_id
+                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * $rebate_pre_fee,
+                        'special_id' => $special_id,
+                        'tlf_status' => 1
                     ]);
-                //将会员信息中的openid补充到订单信息中,并根据会员返利比例自动修正返利金额
+                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + (($user->rebate_ratio) * 0.01 * $rebate_pre_fee));
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $rebate_pre_fee . "元", ($user->rebate_ratio) * 0.01 * $rebate_pre_fee);
+                DB::commit();
+                return 1;
             } catch (Exception $e) {
-                return 0;
+                DB::rollBack();
             }
         }
         return 0;
@@ -100,58 +105,45 @@ class Orders extends Model
     public function ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $user)
     {
         $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first(); //查询订单信息
-        if($order == null){
+        if ($order == null) {
             return "无法查询到订单信息，您可以5分钟后再尝试，如仍无法绑定可能是未通过链接下单，您可以退款后重新下单。\n注意：如使用了大促活动红包可能导致无法返利";
-        }else if($order->openid != null && trim($order->openid) != ""){
-            if($order->special_id != null && trim($order->special_id) != ""){
-                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为".$order->pay_price."，返利金额为".$order->rebate_pre_fee;
-            }else{
+        } else if ($order->openid != null && trim($order->openid) != "") {
+            if ($order->special_id != null && trim($order->special_id) != "") {
+                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为" . $order->pay_price . "，返利金额为" . $order->rebate_pre_fee;
+            } else {
                 return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
             }
         }
         if ($user != null) {//判断是否成功获取到会员信息
             try {
-                $result = DB::table($this->table)
+                DB::beginTransaction();
+                DB::table($this->table)
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio)*0.01*($order->rebate_pre_fee)
+                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee)
                     ]);
-                if($result>0){
-                    return "订单绑定成功，您的付款金额为".$order->pay_price."，返利金额为".($user->rebate_ratio)*0.01*($order->rebate_pre_fee);
-                }else{
-                    return "系统错误，绑定失败，请稍后再试或联系客服";
-                }
+                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee));
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee));
+                DB::commit();
+                return "订单绑定成功，您的付款金额为" . $order->pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee);
             } catch (Exception $e) {
+                DB::rollBack();
                 return "系统错误，绑定失败，请稍后再试或联系客服";
             }
-        }else{
+        } else {
             return "获取用户信息失败，请重新尝试绑定订单";
         }
+
         return "系统错误，绑定失败，请稍后再试或联系客服";
     }
 
     /**
-     * 用户信息补全更新 通过Request获取参数
-     * $openid 微信openid
-     * $nickname 用户填写的昵称
-     * $username ～姓名
-     * $alipay_id ～支付宝账号
-     * @return int 如执行成功返回1
+     * 获取当天的订单数量及返利金额等
      */
-    public function userUpdate()
-    {
-        $openid = Request::post("openid");
-        $nickname = Request::post("nickname");
-        $username = Request::post("username");
-        $alipay_id = Request::post("alipay_id");
-        return DB::table($this->table)
-            ->where('id', $openid)
-            ->update([
-                'nickname' => $nickname,
-                'username' => $username,
-                'alipay_id' => $alipay_id
-            ]);
+    public function getOrderCountAndFee(){
+        $sql = "SELECT count(*) AS count, SUM(pub_share_pre_fee) AS pub_share_pre_fee, SUM(rebate_pre_fee) AS rebate_pre_fee FROM `orders` WHERE to_days(`tk_paid_time`) = to_days(now())";
+        return DB::select($sql);
     }
 }
 

@@ -36,15 +36,10 @@
     </div>
 
     <script>
-        $(function  () {
+        $(function() {
             layui.use('form', function(){
               var form = layui.form;
-              // layer.msg('玩命卖萌中', function(){
-              //   //关闭后的操作
-              //   });
-              //监听提交
               form.on('submit(login)', function(data){
-                // alert(888)
                   $.ajax({
                       type: 'POST',
                       url: '/admin/getAdmin',

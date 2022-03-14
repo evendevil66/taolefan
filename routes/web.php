@@ -20,17 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::any('/wechat', [Controllers\WeChatController::class,'serve']);
+Route::any('/wechat', [Controllers\WeChatController::class, 'serve']);
 Route::get('/reg/{openid}', function ($openid) {
     $name = config('config.name');
-    $alert="";
+    $alert = "";
     /** $ua = $_SERVER['HTTP_USER_AGENT'];
-    if (strpos($ua, 'MicroMessenger') == false && strpos($ua, 'Windows Phone') == false) {
-    $name = config('config.name');
-    } else {
-    $name = "请使用浏览器打开再进行注册";
-    $alert="alert(\"请点击右上角浏览器打开后再注册～\");";
-    }**/
+     * if (strpos($ua, 'MicroMessenger') == false && strpos($ua, 'Windows Phone') == false) {
+     * $name = config('config.name');
+     * } else {
+     * $name = "请使用浏览器打开再进行注册";
+     * $alert="alert(\"请点击右上角浏览器打开后再注册～\");";
+     * }**/
     $nickname = Request::get("nickname");
     $username = Request::get("username");
     $alipay = Request::get("alipay");
@@ -43,21 +43,21 @@ Route::get('/reg/{openid}', function ($openid) {
     ]);
 });
 
-Route::post('/userUpdate', [App\Models\Users::class,'userUpdate']);
+Route::post('/userUpdate', [App\Models\Users::class, 'userUpdate']);
 
 Route::get('/bind/{openid}', function ($openid) {
     Cookie::queue('openid', $openid, 60);
     $code = Request::get("code");
-    if($code == null || $code == ""){
-        return redirect('https://oauth.taobao.com/authorize?response_type=code&client_id='.config('config.aliAppKey')."&redirect_uri=".config('config.apiUrl')."/bind/".$openid."&view=wap");
-    }else{
-        return redirect("/bind/".$openid."/".$code);
+    if ($code == null || $code == "") {
+        return redirect('https://oauth.taobao.com/authorize?response_type=code&client_id=' . config('config.aliAppKey') . "&redirect_uri=" . config('config.apiUrl') . "/bind/" . $openid . "&view=wap");
+    } else {
+        return redirect("/bind/" . $openid . "/" . $code);
     }
 
 });
 
-Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class,'regMember']);
-Route::get('/getOrderList', [Controllers\TaokeController::class,'getOrderList']);
+Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class, 'regMember']);
+Route::get('/getOrderList', [Controllers\TaokeController::class, 'getOrderList']);
 
 Route::get('/admin/login', function () {
     return view('admin/login');
@@ -91,7 +91,26 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
     });
 
     Route::get('/admin/member-list', function () {
-        return view('admin/member-list');
+        $openid=Request::get("openid");
+        $users =null;
+        if($openid!=null){
+            $users = app(\App\Models\Users::class)->getAllByPaginate($openid);
+        }else{
+            $users = app(\App\Models\Users::class)->getAllByPaginate();
+        }
+
+        return view('admin/member-list',['users' => $users]);
+    });
+
+    Route::get('/admin/member-edit', function () {
+        $id=Request::get("id");
+        $rebate_ratio=Request::get("rebate_ratio");
+        $special_id=Request::get("special_id");
+        return view('admin/member-edit', [
+            'id' => $id,
+            'rebate_ratio' => $rebate_ratio,
+            'special_id' => $special_id
+        ]);
     });
 
     Route::get('/admin/order-list', function () {
@@ -103,8 +122,34 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
     });
 
     Route::get('/admin/welcome', function () {
-        return view('admin/welcome');
+        $orderCount = app(\App\Models\Orders::class)->getOrderCountAndFee();
+        $receiveCount = app(\App\Models\Receive::class)->getReceiveCountOfTheDay();
+        if ($orderCount != null && count($orderCount) > 0) {
+            return view('admin/welcome', [
+                'count' => $orderCount[0]->count,
+                'pub_share_pre_fee' => $orderCount[0]->pub_share_pre_fee,
+                'rebate_pre_fee' => $orderCount[0]->rebate_pre_fee,
+                'receiveCount' => $receiveCount[0]->count
+            ]);
+        } else {
+            return view('admin/welcome', [
+                'count' => 0,
+                'pub_share_pre_fee' => 0,
+                'rebate_pre_fee' => 0,
+                'receiveCount' => $receiveCount[0]->count
+            ]);
+        }
     });
+
+    Route::post('/admin/modifyUser', function () {
+        $result = app(\App\Models\Users::class)->modifyUserById(Request::post("id"), Request::post("rebate_ratio"), Request::post("special_id"));
+        if ($result>0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
 });
 
 Route::get('/admin/loginout', function () {
@@ -113,10 +158,10 @@ Route::get('/admin/loginout', function () {
 });
 
 Route::post('/admin/getAdmin', function () {
-    $admin = app(\App\Models\Admin::class)->getAdmin(Request::post("username"),Request::post("password"));
-    if($admin!=null){
+    $admin = app(\App\Models\Admin::class)->getAdmin(Request::post("username"), Request::post("password"));
+    if ($admin != null) {
         return response('1')->cookie('username', $admin->username, 14400);
-    }else{
+    } else {
         return 0;
     }
 });

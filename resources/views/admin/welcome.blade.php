@@ -48,28 +48,28 @@
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>今日订单数量</h3>
                                 <p>
-                                    <cite>527254</cite></p>
+                                    <cite>{{$count}}</cite></p>
                             </a>
                         </li>
                         <li class="layui-col-md3 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>今日预估总收入</h3>
                                 <p>
-                                    <cite>2458542.45</cite></p>
+                                    <cite>{{$pub_share_pre_fee}}</cite></p>
                             </a>
                         </li>
                         <li class="layui-col-md3 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>今日预估返利金额</h3>
                                 <p>
-                                    <cite>1242534.21</cite></p>
+                                    <cite>{{$rebate_pre_fee}}</cite></p>
                             </a>
                         </li>
                         <li class="layui-col-md3 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>今日提现数量</h3>
                                 <p>
-                                    <cite>9147</cite></p>
+                                    <cite>{{$receiveCount}}</cite></p>
                             </a>
                         </li>
                     </ul>

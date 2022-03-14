@@ -16,7 +16,6 @@ class Users extends Model
      * 获取所有用户
      * @return \Illuminate\Support\Collection 返回用户对象
      */
-
     public function getAll(){
         return DB::table($this->table)->get();
     }
@@ -87,5 +86,41 @@ class Users extends Model
             return 0;
         }
 
+    }
+
+    /**
+     * 更新未结算金额
+     * @param $openid
+     * @param $unsettled_balance
+     * @return int
+     */
+    public function updateUnsettled_balance($openid,$unsettled_balance){
+        return DB::table($this->table)
+            ->where('id', $openid)
+            ->update([
+                'unsettled_balance' => $unsettled_balance
+            ]);
+
+    }
+
+    public function getAllByPaginate($openid=null){
+        if($openid==null){
+            return DB::table('users')->paginate(5);
+        }else{
+            return DB::table('users')
+                ->where('id',$openid)
+                ->orWhere('nickname','like',"%".$openid."%")
+                ->paginate(5);
+        }
+
+    }
+
+    public function modifyUserById($id,$rebate_ratio,$special_id){
+        return DB::table($this->table)
+            ->where('id', $id)
+            ->update([
+                'rebate_ratio' => $rebate_ratio,
+                'special_id' => $special_id,
+            ]);
     }
 }
