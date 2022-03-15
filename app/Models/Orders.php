@@ -32,34 +32,37 @@ class Orders extends Model
      * @param $pay_price 付款金额
      * @param $pub_share_pre_fee 付款预估收入
      * @param $tk_commission_pre_fee_for_media_platform 预估内容专项服务费
-     * @param $share_pre_fee 预估专项服务费
      * @param $rebate_pre_fee 预估返利金额
      * @param $special_id 会员运营id
      * @return bool 如执行成功返回1
      */
-    public function saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $share_pre_fee, $rebate_pre_fee, $special_id)
+    public function saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $rebate_pre_fee, $special_id)
     {
-        $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first();
-        if ($order != null) {
+        try {
+            $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first();
+            if ($order != null) {
+                return false;
+            }
+            $flag = DB::table($this->table)->insert([
+                'trade_parent_id' => $trade_parent_id,
+                'item_title' => $item_title,
+                'tk_paid_time' => $tk_paid_time,
+                'tk_status' => $tk_status,
+                'pay_price' => $pay_price,
+                'pub_share_pre_fee' => $pub_share_pre_fee,
+                'tk_commission_pre_fee_for_media_platform' => $tk_commission_pre_fee_for_media_platform,
+                'rebate_pre_fee' => $rebate_pre_fee
+            ]);
+            if ($flag) {
+                if ($special_id != -1 && $tk_status!=13) {
+                    $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $rebate_pre_fee);
+                }
+            }
+            return $flag;
+        } catch (\Exception $e) {
             return false;
         }
-        $flag = DB::table($this->table)->insert([
-            'trade_parent_id' => $trade_parent_id,
-            'item_title' => $item_title,
-            'tk_create_time' => $tk_paid_time,
-            'tk_status' => $tk_status,
-            'pay_price' => $pay_price,
-            'pub_share_pre_fee' => $pub_share_pre_fee,
-            'tk_commission_pre_fee_for_media_platform' => $tk_commission_pre_fee_for_media_platform,
-            'share_pre_fee' => $share_pre_fee,
-            'rebate_pre_fee' => $rebate_pre_fee
-        ]);
-        if ($flag) {
-            if ($special_id != -1) {
-                $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $rebate_pre_fee);
-            }
-        }
-        return $flag;
+
     }
 
 
@@ -89,7 +92,7 @@ class Orders extends Model
                 app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $rebate_pre_fee . "元", ($user->rebate_ratio) * 0.01 * $rebate_pre_fee);
                 DB::commit();
                 return 1;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 DB::rollBack();
             }
         }
@@ -107,7 +110,9 @@ class Orders extends Model
         $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first(); //查询订单信息
         if ($order == null) {
             return "无法查询到订单信息，您可以5分钟后再尝试，如仍无法绑定可能是未通过链接下单，您可以退款后重新下单。\n注意：如使用了大促活动红包可能导致无法返利";
-        } else if ($order->openid != null && trim($order->openid) != "") {
+        }else if($order->tk_status == 13){
+            return "您的订单已退款，无法绑定";
+        }else if ($order->openid != null && trim($order->openid) != "") {
             if ($order->special_id != null && trim($order->special_id) != "") {
                 return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为" . $order->pay_price . "，返利金额为" . $order->rebate_pre_fee;
             } else {
@@ -127,7 +132,7 @@ class Orders extends Model
                 app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee));
                 DB::commit();
                 return "订单绑定成功，您的付款金额为" . $order->pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 DB::rollBack();
                 return "系统错误，绑定失败，请稍后再试或联系客服";
             }
@@ -141,7 +146,8 @@ class Orders extends Model
     /**
      * 获取当天的订单数量及返利金额等
      */
-    public function getOrderCountAndFee(){
+    public function getOrderCountAndFee()
+    {
         $sql = "SELECT count(*) AS count, SUM(pub_share_pre_fee) AS pub_share_pre_fee, SUM(rebate_pre_fee) AS rebate_pre_fee FROM `orders` WHERE to_days(`tk_paid_time`) = to_days(now())";
         return DB::select($sql);
     }
@@ -154,22 +160,23 @@ class Orders extends Model
      * @param null $tk_status 订单状态
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
      */
-    public function getAllByPaginate($trade_parent_id=null,$start=null,$end=null,$tk_status=null){
-        if($trade_parent_id==null && $start==null && $end==null &&$tk_status==null){
+    public function getAllByPaginate($trade_parent_id = null, $start = null, $end = null, $tk_status = null)
+    {
+        if ($trade_parent_id == null && $start == null && $end == null && $tk_status == null) {
             //判断是否有筛选条件，如所有筛选条件均为null，则直接查询所有
             return DB::table($this->table)->orderBy('id', 'desc')->paginate(10);
-        }else{
+        } else {
             $orders = DB::table($this->table)
-                ->where('trade_parent_id','like',trim($trade_parent_id)==""?"%":$trade_parent_id)
-                ->where('tk_status','like',trim($tk_status)==""||$tk_status<=0?"%":$tk_status);
+                ->where('trade_parent_id', 'like', trim($trade_parent_id) == "" ? "%" : $trade_parent_id)
+                ->where('tk_status', 'like', trim($tk_status) == "" || $tk_status <= 0 ? "%" : $tk_status);
             //二次判断筛选内容是否为空字符串，如为空则直接%模糊查询
-            if(trim($start)!="" && trim($end)!=""){
+            if (trim($start) != "" && trim($end) != "") {
                 //判断起始日期和终止日期是否都不为空
                 return $orders
-                    ->whereBetween('tk_paid_time', [$start,$end])
+                    ->whereBetween('tk_paid_time', [$start, $end])
                     ->orderBy('id', 'desc')
                     ->paginate(10);
-            }else{
+            } else {
                 return $orders
                     ->orderBy('id', 'desc')
                     ->paginate(10);

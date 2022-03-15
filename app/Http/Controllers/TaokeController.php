@@ -2,6 +2,7 @@
 
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\WeChatController;
 use Log;
 use App\Models\Users;
@@ -22,7 +23,8 @@ class TaokeController extends Controller
      * @param int $post_data
      * @return bool|string
      */
-    public function curlGet($url,$method,$post_data = 0){
+    public function curlGet($url, $method, $post_data = 0)
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -32,7 +34,7 @@ class TaokeController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        }elseif($method == 'get'){
+        } elseif ($method == 'get') {
             curl_setopt($ch, CURLOPT_HEADER, 0);
         }
         $output = curl_exec($ch);
@@ -47,7 +49,7 @@ class TaokeController extends Controller
      */
     function makeSign($data)
     {
-        $appSecret=config('config.dtkAppSecret');
+        $appSecret = config('config.dtkAppSecret');
         ksort($data);
         $str = '';
         foreach ($data as $k => $v) {
@@ -65,22 +67,22 @@ class TaokeController extends Controller
      * @param $content 传入用户的完整消息
      * @return 返回转链后的文本信息
      */
-    public function parse($user,$content)
+    public function parse($user, $content)
     {
 
         //$user = app(UserController::class) -> getUser($openid);
-        $rate = 0.8; //后期数据从$user用户对象中获取
+        //$rate = 0.8; //后期数据从$user用户对象中获取
         $host = "https://openapi.dataoke.com/api/tb-service/parse-taokouling";
         $data = [
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.0.0',
-            'content'=>$content
+            'content' => $content
         ];
         $data['sign'] = $this->makeSign($data);
-        $url = $host .'?'. http_build_query($data);
+        $url = $host . '?' . http_build_query($data);
         //var_dump($url);
         //处理大淘客解析请求url
-        $output = $this->curlGet($url,'get');
+        $output = $this->curlGet($url, 'get');
         //调用统一请求函数
 
         $dataArr = json_decode($output, true);//将返回数据转为数组
@@ -88,15 +90,15 @@ class TaokeController extends Controller
         $status = $dataArr['code'];
         Log::info($dataArr);
         Log::info($status);
-        switch ($status){
+        switch ($status) {
             case "0":
                 $goodsid = $dataArr['data']['goodsId'];
                 $dataArr = null;
-                if($user->special_id !=null && $user->special_id !=""){
+                if ($user->special_id != null && $user->special_id != "") {
                     Log::info("进入带有会员id的转换");
                     Log::info($user->special_id);
-                    $dataArr = $this->privilegeLinkBySpecialId($goodsid,$user->special_id);
-                }else{
+                    $dataArr = $this->privilegeLinkBySpecialId($goodsid, $user->special_id);
+                } else {
                     Log::info("进入不带会员id的转换");
                     $dataArr = $this->privilegeLink($goodsid);
                 }
@@ -108,13 +110,13 @@ class TaokeController extends Controller
                     $price = $tbArr['results']['n_tbk_item'][0]['zk_final_price']; //商品价格
                     $couponInfo = "商品无优惠券";
                     $amount = "0";
-                    if($dataArr['data']['couponInfo'] != null){
+                    if ($dataArr['data']['couponInfo'] != null) {
                         $couponInfo = $dataArr['data']['couponInfo']; //优惠券信息
-                        $start= (strpos($couponInfo,"元"));
-                        $ci= mb_substr($couponInfo,$start);
+                        $start = (strpos($couponInfo, "元"));
+                        $ci = mb_substr($couponInfo, $start);
                         //return $ci;
-                        $end= (strpos($ci,"元"));
-                        $amount= mb_substr($ci,0,$end);
+                        $end = (strpos($ci, "元"));
+                        $amount = mb_substr($ci, 0, $end);
                     }
                     $tpwd = $dataArr['data']['tpwd']; //淘口令
                     $estimate = $price - $amount; //预估付款金额
@@ -122,33 +124,33 @@ class TaokeController extends Controller
                     //$start= (strpos($longTpwd,"【"));
                     //$end= (strpos($longTpwd,"】"));
                     //$title= substr($longTpwd,$start+1,$end-$start-1);
-                    $maxCommissionRate = $dataArr['data']['maxCommissionRate']==""||null?$dataArr['data']['minCommissionRate']:$dataArr['data']['maxCommissionRate']; //佣金比例
-                    if($user->special_id !=null && $user->special_id !=""){
+                    $maxCommissionRate = $dataArr['data']['maxCommissionRate'] == "" || null ? $dataArr['data']['minCommissionRate'] : $dataArr['data']['maxCommissionRate']; //佣金比例
+                    if ($user->special_id != null && $user->special_id != "") {
                         return
-                            "1".$title . "\n".
-                            "售价：" . $price . "元\n".
-                            "优惠券：" . $couponInfo . "\n".
-                            "预计付款金额：" . $estimate . "元\n".
-                            "商品返现比例：" . $maxCommissionRate*0.8 . "%\n". //用户返现比例为0.8 后续将从用户表中获取
-                            "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n".
-                            "返现计算：实付款 * " . $maxCommissionRate*0.8 . "%\n\n".
-                            "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n".
+                            "1" . $title . "\n" .
+                            "售价：" . $price . "元\n" .
+                            "优惠券：" . $couponInfo . "\n" .
+                            "预计付款金额：" . $estimate . "元\n" .
+                            "商品返现比例：" . $maxCommissionRate * 0.8 . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
+                            "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n" .
+                            "返现计算：实付款 * " . $maxCommissionRate * 0.8 . "%\n\n" .
+                            "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
                             "您已绑定过淘宝账号，下单后系统将尝试自动跟单，请下单后5分钟左右进行查询，如无法查询到您的订单，您可以手动发送订单号绑定订单。";
-                    }else{
+                    } else {
                         return
-                            "1".$title . "\n".
-                            "售价：" . $price . "元\n".
-                            "优惠券：" . $couponInfo . "\n".
-                            "预计付款金额：" . $estimate . "元\n".
-                            "商品返现比例：" . $maxCommissionRate*0.8 . "%\n". //用户返现比例为0.8 后续将从用户表中获取
-                            "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n".
-                            "返现计算：实付款 * " . $maxCommissionRate*0.8 . "%\n\n".
-                            "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n".
+                            "1" . $title . "\n" .
+                            "售价：" . $price . "元\n" .
+                            "优惠券：" . $couponInfo . "\n" .
+                            "预计付款金额：" . $estimate . "元\n" .
+                            "商品返现比例：" . $maxCommissionRate * 0.8 . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
+                            "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n" .
+                            "返现计算：实付款 * " . $maxCommissionRate * 0.8 . "%\n\n" .
+                            "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
                             "点击下方账号管理，绑定淘宝账号，下单后系统将支持自动同步，无需回传订单号（个别情况自动同步未成功可提交订单号手动绑定）";
                     }
 
 
-                }else {
+                } else {
                     return "出现未知异常，请稍后再试或联系客服000";
                 }
             case "-1":
@@ -174,19 +176,20 @@ class TaokeController extends Controller
      * 未绑定会员id的用户通过商品id获取链接信息
      * @param $goodsid 传入预转链的商品id
      */
-    public function privilegeLink($goodsid){
+    public function privilegeLink($goodsid)
+    {
         $host = "https://openapi.dataoke.com/api/tb-service/get-privilege-link";
         $data = [
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.3.1',
-            'goodsId'=>$goodsid,
-            'pid'=>config('config.pubpid')
+            'goodsId' => $goodsid,
+            'pid' => config('config.pubpid')
         ];
         $data['sign'] = $this->makeSign($data);
-        $url = $host .'?'. http_build_query($data);
+        $url = $host . '?' . http_build_query($data);
         var_dump($url);
         //处理大淘客解析请求url
-        $output = $this->curlGet($url,'get');
+        $output = $this->curlGet($url, 'get');
         $data = json_decode($output, true);//将返回数据转为数组
         return $data;
     }
@@ -195,20 +198,21 @@ class TaokeController extends Controller
      * 未绑定会员id的用户通过商品id和会员id获取链接信息
      * @param $goodsid 传入预转链的商品id
      */
-    public function privilegeLinkBySpecialId($goodsid,$specialId){
+    public function privilegeLinkBySpecialId($goodsid, $specialId)
+    {
         $host = "https://openapi.dataoke.com/api/tb-service/get-privilege-link";
         $data = [
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.3.1',
-            'goodsId'=>$goodsid,
-            'pid'=>config('config.pubpid'),
-            'specialId'=>$specialId
+            'goodsId' => $goodsid,
+            'pid' => config('config.specialpid'),
+            'specialId' => $specialId
         ];
         $data['sign'] = $this->makeSign($data);
-        $url = $host .'?'. http_build_query($data);
+        $url = $host . '?' . http_build_query($data);
         var_dump($url);
         //处理大淘客解析请求url
-        $output = $this->curlGet($url,'get');
+        $output = $this->curlGet($url, 'get');
         $data = json_decode($output, true);//将返回数据转为数组
         return $data;
     }
@@ -218,7 +222,8 @@ class TaokeController extends Controller
      * @param $goodsid
      * @return 调用淘宝联盟官方接口获取商品信息后返回
      */
-    public function aliParse($goodsid){
+    public function aliParse($goodsid)
+    {
         $c = new TopClient;
         $c->appkey = config('config.aliAppKey');
         $c->secretKey = config('config.aliAppSecret');
@@ -227,8 +232,8 @@ class TaokeController extends Controller
         $req->setNumIids($goodsid);
         $req->setPlatform("2");
         $resp = $c->execute($req);
-        $Jsondata= json_encode($resp, true);
-        $data  = json_decode($Jsondata, true);
+        $Jsondata = json_encode($resp, true);
+        $data = json_decode($Jsondata, true);
         return $data;
     }
 
@@ -237,20 +242,21 @@ class TaokeController extends Controller
      * @param $code
      * @return mixed 返回处理结果
      */
-    public function getUserSessionId($code){
-        try{
-        $c = new TopClient;
-        $c->appkey = config('config.aliAppKey');
-        $c->secretKey = config('config.aliAppSecret');
-        $c->format = "json";
-        $req = new TopAuthTokenCreateRequest;
-        $req->setCode($code);
-        $resp = $c->execute($req);
-        $Jsondata= json_encode($resp, true);
-        $data  = json_decode($Jsondata, true);
-        $data = json_decode($data['token_result'],true);
-        return $data['access_token'];
-        }catch (\Exception $e){
+    public function getUserSessionId($code)
+    {
+        try {
+            $c = new TopClient;
+            $c->appkey = config('config.aliAppKey');
+            $c->secretKey = config('config.aliAppSecret');
+            $c->format = "json";
+            $req = new TopAuthTokenCreateRequest;
+            $req->setCode($code);
+            $resp = $c->execute($req);
+            $Jsondata = json_encode($resp, true);
+            $data = json_decode($Jsondata, true);
+            $data = json_decode($data['token_result'], true);
+            return $data['access_token'];
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -260,9 +266,10 @@ class TaokeController extends Controller
      * @param $openid
      * @param $code
      */
-    public function regMember($openid,$code){
-        $sessionKey=$this->getUserSessionId($code);
-        if($sessionKey == false){
+    public function regMember($openid, $code)
+    {
+        $sessionKey = $this->getUserSessionId($code);
+        if ($sessionKey == false) {
             return "<script >alert('绑定出错，请联系客服处理！')</script><h1>绑定出错，请联系客服处理！</h1>";
         }
         try {
@@ -275,22 +282,22 @@ class TaokeController extends Controller
             $req->setInfoType("1");
             $req->setNote($openid);
             $resp = $c->execute($req, $sessionKey);
-            $Jsondata= json_encode($resp, true);
-            $data  = json_decode($Jsondata, true);
+            $Jsondata = json_encode($resp, true);
+            $data = json_decode($Jsondata, true);
             Log::info($data);
-            if($data['data']['special_id']!=null){
+            if ($data['data']['special_id'] != null) {
                 $special_id = $data['data']['special_id'];
-                $flag = app(Users::class)->updateSpecial_id($openid,$special_id);
-                if($flag==1){
-                    return "<script >alert('绑定成功，您的会员ID为".$special_id."')</script><h1>绑定成功，您的会员ID为".$special_id."</h1>";
-                }else{
-                    return "<script >alert('绑定成功但保存失败，您的会员ID为".$special_id."。您可以联系重试或联系客服提供该ID进行处理')</script><h1>绑定成功但保存失败，您的会员ID为".$special_id."。您可以联系重试或联系客服提供该ID进行处理</h1>";
+                $flag = app(Users::class)->updateSpecial_id($openid, $special_id);
+                if ($flag == 1) {
+                    return "<script >alert('绑定成功，您的会员ID为" . $special_id . "')</script><h1>绑定成功，您的会员ID为" . $special_id . "</h1>";
+                } else {
+                    return "<script >alert('绑定成功但保存失败，您的会员ID为" . $special_id . "。您可以联系重试或联系客服提供该ID进行处理')</script><h1>绑定成功但保存失败，您的会员ID为" . $special_id . "。您可以联系重试或联系客服提供该ID进行处理</h1>";
                 }
 
-            }else{
+            } else {
                 return "<script >alert('绑定出错，请联系客服处理！')</script><h1>绑定出错，请联系客服处理！</h1>";
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return "<script >alert('绑定出错，请联系客服处理！')</script><h1>绑定出错，请联系客服处理！</h1>";
         }
 
@@ -300,93 +307,138 @@ class TaokeController extends Controller
     /**
      * 获取订单信息-联盟接口
      */
-    public function getOrderList(){
+    public function getOrderList()
+    {
         $count = 0;
         $timeQuantum = 90;  //默认1分30秒用于冗余以免漏单
         /**
-        用于区分大促和非大促的代码，已废弃
-        $promotion = Request::post("promotion");//通过Request获取url中的promotion参数
-        if($promotion == null){ //为防止报类型错误先判断是否为null
-        }else if($promotion == 1 || $promotion =="1"){
-            $timeQuantum = 60*15; //如果当前状态为大促期间 间隔时间缩短为15分钟
-        }**/
+         * 用于区分大促和非大促的代码，已废弃
+         * $promotion = Request::post("promotion");//通过Request获取url中的promotion参数
+         * if($promotion == null){ //为防止报类型错误先判断是否为null
+         * }else if($promotion == 1 || $promotion =="1"){
+         * $timeQuantum = 60*15; //如果当前状态为大促期间 间隔时间缩短为15分钟
+         * }**/
         date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
         $c = new TopClient;
         $c->appkey = config('config.aliAppKey');
         $c->secretKey = config('config.aliAppSecret');
         $flag = true;
         //开始处理未包含会员运营ID的普通订单
-        $pageNo=1;
-        while ($flag){
+        $pageNo = 1;
+        while ($flag) {
             $req = new TbkOrderDetailsGetRequest;
             $req->setQueryType("1");
             $req->setPageSize("100");
             //$req->setTkStatus("12"); 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
-            $req->setEndTime(date("Y-m-d H:i:s",time()));
-            $req->setStartTime(date("Y-m-d H:i:s",time()-$timeQuantum));
+            $req->setEndTime(date("Y-m-d H:i:s", time()));
+            $req->setStartTime(date("Y-m-d H:i:s", time() - $timeQuantum));
+            //$req->setStartTime("2022-03-15 11:00:00");
+            //$req->setEndTime("2022-03-15 12:00:00");
+
             //开始为（当前时间-时间间隔），结束为当前时间
             $req->setPageNo($pageNo);
             $req->setOrderScene("1");
             $resp = $c->execute($req);
-            $Jsondata= json_encode($resp, true);
-            $data  = json_decode($Jsondata, true);
-            if($data['data']['has_next']=='false'){$flag=false;}else{$pageNo++;} //如不包含下一页，则本次执行结束后终止循环
-            $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
-            for($i=0;$i<sizeof($publisher_order_dto);$i++){
-                $count++;
-                //$testStr=$testStr."检测到第".($i+1)."个订单\n";
-                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id']; //订单号
-                $item_title=$publisher_order_dto[i]['item_title'];//商品名称
-                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];//付款时间
-                $tk_status = $publisher_order_dto[i]['tk_status'];//订单状态
-                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];//付款金额
-                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];//付款预估收入
-                $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
-                $share_pre_fee = $publisher_order_dto[i]['share_pre_fee'];//预估专项服务费
-                $rebate_pre_fee = $publisher_order_dto[i]['pub_share_pre_fee']; //预估返利金额
-                app(Orders::class)->saveOrder($trade_parent_id,$item_title,$tk_paid_time,$tk_status,$alipay_total_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,-1);
+            $Jsondata = json_encode($resp, true);
+            $data = json_decode($Jsondata, true);
+            if ($data['data']['has_next'] == 'false') {
+                $flag = false;
+            } else {
+                $pageNo++;
+            } //如不包含下一页，则本次执行结束后终止循环
+            if (isset($data['data']['results'])) {
+                $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
+                if (isset($publisher_order_dto[0])) {
+                    for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
+                        $count++;
+                        //$testStr=$testStr."检测到第".($i+1)."个订单\n";
+                        $trade_parent_id = $publisher_order_dto[$i]['trade_parent_id']; //订单号
+                        $item_title = $publisher_order_dto[$i]['item_title'];//商品名称
+                        $tk_paid_time = $publisher_order_dto[$i]['tk_paid_time'];//付款时间
+                        $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
+                        $alipay_total_price = $publisher_order_dto[$i]['alipay_total_price'];//付款金额
+                        $pub_share_pre_fee = $publisher_order_dto[$i]['pub_share_pre_fee'];//付款预估收入
+                        $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[$i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
+                        $rebate_pre_fee = 0; //预估返利金额
+                        app(Orders::class)->saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $alipay_total_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $rebate_pre_fee, -1);
 
-                //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\预估佣金".$pub_share_pre_fee."\n\n";*/
+                        //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\预估佣金".$pub_share_pre_fee."\n\n";*/
+                    }
+                    //return $testStr;
+                }else{
+                    $count++;
+                    //$testStr=$testStr."检测到第".($i+1)."个订单\n";
+                    $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
+                    $item_title = $publisher_order_dto['item_title'];//商品名称
+                    $tk_paid_time = $publisher_order_dto['tk_paid_time'];//付款时间
+                    $tk_status = $publisher_order_dto['tk_status'];//订单状态
+                    $alipay_total_price = $publisher_order_dto['alipay_total_price'];//付款金额
+                    $pub_share_pre_fee = $publisher_order_dto['pub_share_pre_fee'];//付款预估收入
+                    $tk_commission_pre_fee_for_media_platform = $publisher_order_dto['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
+                    $rebate_pre_fee = 0; //预估返利金额
+                    app(Orders::class)->saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $alipay_total_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $rebate_pre_fee, -1);
+                }
             }
-            //return $testStr;
+
 
         }
         //开始处理包含会员运营ID的订单
         $flag = true;
-        $pageNo=1;
-        while ($flag){
+        $pageNo = 1;
+        while ($flag) {
             $req = new TbkOrderDetailsGetRequest;
             $req->setQueryType("1");
             $req->setPageSize("100");
             //$req->setTkStatus("12"); 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
-            $req->setEndTime(date("Y-m-d H:i:s",time()));
-            $req->setStartTime(date("Y-m-d H:i:s",time()-$timeQuantum));
+            $req->setEndTime(date("Y-m-d H:i:s", time()));
+            $req->setStartTime(date("Y-m-d H:i:s", time() - $timeQuantum));
             $req->setPageNo("1");
             $req->setOrderScene("3");
             $resp = $c->execute($req);
-            $Jsondata= json_encode($resp, true);
-            $data  = json_decode($Jsondata, true);
-            if($data['data']['has_next']=='false'){$flag=false;}else{$pageNo++;} //如不包含下一页，则本次执行结束后终止循环
-            $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
-            for($i=0;$i<sizeof($publisher_order_dto);$i++){
-                $count++;
-                //$testStr=$testStr."检测到第".($i+1)."个订单\n";
-                $trade_parent_id=$publisher_order_dto[i]['trade_parent_id']; //订单号
-                $item_title=$publisher_order_dto[i]['item_title'];//商品名称
-                $tk_paid_time=$publisher_order_dto[i]['tk_paid_time'];//付款时间
-                $tk_status = $publisher_order_dto[i]['tk_status'];//订单状态
-                $alipay_total_price=$publisher_order_dto[i]['alipay_total_price'];//付款金额
-                $pub_share_pre_fee=$publisher_order_dto[i]['pub_share_pre_fee'];//付款预估收入
-                $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
-                $share_pre_fee = $publisher_order_dto[i]['share_pre_fee'];//预估专项服务费
-                $rebate_pre_fee = $publisher_order_dto[i]['pub_share_pre_fee']; //预估返利金额
-                app(Orders::class)->saveOrder($trade_parent_id,$item_title,$tk_paid_time,$tk_status,$alipay_total_price,$pub_share_pre_fee,$tk_commission_pre_fee_for_media_platform,$share_pre_fee,$rebate_pre_fee,-1);
+            $Jsondata = json_encode($resp, true);
+            $data = json_decode($Jsondata, true);
+            if ($data['data']['has_next'] == 'false') {
+                $flag = false;
+            } else {
+                $pageNo++;
+            } //如不包含下一页，则本次执行结束后终止循环
+            if (isset($data['data']['results'])) {
+                $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
+                if (isset($publisher_order_dto[0])) {
+                    for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
+                        $count++;
+                        //$testStr=$testStr."检测到第".($i+1)."个订单\n";
+                        $trade_parent_id = $publisher_order_dto[$i]['trade_parent_id']; //订单号
+                        $item_title = $publisher_order_dto[$i]['item_title'];//商品名称
+                        $tk_paid_time = $publisher_order_dto[$i]['tk_paid_time'];//付款时间
+                        $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
+                        $alipay_total_price = $publisher_order_dto[$i]['alipay_total_price'];//付款金额
+                        $pub_share_pre_fee = $publisher_order_dto[$i]['pub_share_pre_fee'];//付款预估收入
+                        $tk_commission_pre_fee_for_media_platform = $publisher_order_dto[$i]['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
+                        $rebate_pre_fee = 0; //预估返利金额
+                        $special_id = $publisher_order_dto[$i]['special_id'];
+                        app(Orders::class)->saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $alipay_total_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $rebate_pre_fee, $special_id);
 
-                //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
+                        //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
+                    }
+                }else{
+                    $count++;
+                    //$testStr=$testStr."检测到第".($i+1)."个订单\n";
+                    $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
+                    $item_title = $publisher_order_dto['item_title'];//商品名称
+                    $tk_paid_time = $publisher_order_dto['tk_paid_time'];//付款时间
+                    $tk_status = $publisher_order_dto['tk_status'];//订单状态
+                    $alipay_total_price = $publisher_order_dto['alipay_total_price'];//付款金额
+                    $pub_share_pre_fee = $publisher_order_dto['pub_share_pre_fee'];//付款预估收入
+                    $tk_commission_pre_fee_for_media_platform = $publisher_order_dto['tk_commission_pre_fee_for_media_platform'];//预估内容专项服务费
+                    $rebate_pre_fee = 0; //预估返利金额
+                    $special_id = $publisher_order_dto['special_id'];
+                    app(Orders::class)->saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $alipay_total_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $rebate_pre_fee, $special_id);
+                }
             }
 
         }
-        return $count;
+        return "成功处理订单数量：" . $count;
 
     }
 

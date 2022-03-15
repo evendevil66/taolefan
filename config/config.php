@@ -10,6 +10,7 @@ return [
     'aliAppKey' => "******", //淘宝联盟AppKey
     'aliAppSecret' => "******", //淘宝联盟AppSecret
     'pubpid' => '******', //公用PID
+    'specialpid' => ' ******',//会员运营专用ID
     'relationId'=>'******', //渠道ID
     'inviter_code'=>'******' //会员管理邀请码
 ];
