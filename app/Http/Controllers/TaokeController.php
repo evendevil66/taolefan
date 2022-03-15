@@ -4,6 +4,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\WeChatController;
+use App\Models\BalanceRecord;
+use Illuminate\Support\Facades\DB;
 use Log;
 use App\Models\Users;
 use App\Models\Orders;
@@ -71,7 +73,7 @@ class TaokeController extends Controller
     {
 
         //$user = app(UserController::class) -> getUser($openid);
-        $rate = $user->rebate_ratio*0.01; //返现比例
+        $rate = $user->rebate_ratio * 0.01; //返现比例
         $host = "https://openapi.dataoke.com/api/tb-service/parse-taokouling";
         $data = [
             'appKey' => config('config.dtkAppKey'),
@@ -366,7 +368,7 @@ class TaokeController extends Controller
                         //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\预估佣金".$pub_share_pre_fee."\n\n";*/
                     }
                     //return $testStr;
-                }else{
+                } else {
                     $count++;
                     //$testStr=$testStr."检测到第".($i+1)."个订单\n";
                     $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
@@ -422,7 +424,7 @@ class TaokeController extends Controller
 
                         //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
                     }
-                }else{
+                } else {
                     $count++;
                     //$testStr=$testStr."检测到第".($i+1)."个订单\n";
                     $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
@@ -441,6 +443,265 @@ class TaokeController extends Controller
         }
         return "成功处理订单数量：" . $count;
 
+    }
+
+    /**
+     * 查询用户1个月内订单并重新获取状态
+     * @param $openid
+     * @return int
+     */
+    public function updateOrder($openid)
+    {
+        $orders = app(Orders::class)->getAllWithinOneMonthByOpenid($openid);
+        if ($orders == null) {
+            return 0;
+        }
+        date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
+        $c = new TopClient;
+        $c->appkey = config('config.aliAppKey');
+        $c->secretKey = config('config.aliAppSecret');
+        foreach ($orders as $order) {
+            if ($order->tk_status == 13 || $order->tlf_status == 2 || $order->tlf_status == -1) {
+                continue;
+            }
+            $flag = true;
+            $pageNo = 1;
+            while ($flag) {
+                $req = new TbkOrderDetailsGetRequest;
+                $req->setQueryType("1");
+                $req->setPageSize("10");
+                //$req->setTkStatus("12"); 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
+                $req->setEndTime(date("Y-m-d H:i:s", strtotime($order->tk_paid_time) + 60));
+                $req->setStartTime(date("Y-m-d H:i:s", strtotime($order->tk_paid_time) - 60));
+                $req->setPageNo($pageNo);
+                if ($order->special_id == null || trim($order->special_id) == "") {
+                    $req->setOrderScene("1");
+                } else {
+                    $req->setOrderScene("3");
+                }
+                $resp = $c->execute($req);
+                $Jsondata = json_encode($resp, true);
+                $data = json_decode($Jsondata, true);
+                if ($data['data']['has_next'] == 'false') {
+                    $flag = false;
+                } else {
+                    $pageNo++;
+                } //如不包含下一页，则本次执行结束后终止循环
+                if (isset($data['data']['results'])) {
+                    $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
+                    if (isset($publisher_order_dto[0])) {
+                        for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
+                            $trade_parent_id = $publisher_order_dto[$i]['trade_parent_id']; //订单号
+                            if ($trade_parent_id != $order->trade_parent_id) {
+                                continue;
+                            }
+                            $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
+                            $tk_earning_time = null;
+                            if ($tk_status == 13) {
+                                //已退款，处理扣除金额
+                                try {
+                                    $user = app(Users::class)->getUserById($order->openid);
+                                    DB::beginTransaction();
+                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                    app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
+                                    app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                    DB::commit();
+                                } catch (\Exception $e) {
+                                    DB::rollBack();
+                                }
+                            } else if ($tk_status != $order->tk_status) {
+                                if ($tk_status == 3) {
+                                    $tk_earning_time = $publisher_order_dto[$i]['tk_earning_time'];
+                                }
+                                //处理变更状态
+                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                            }
+                            $flag = false;
+                            break;
+                        }
+                    } else {
+                        $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
+                        if ($trade_parent_id != $order->trade_parent_id) {
+                            continue;
+                        }
+                        $tk_status = $publisher_order_dto['tk_status'];//订单状态
+                        $tk_earning_time = null;
+                        if ($tk_status == 13) {
+                            //已退款，处理扣除金额
+                            try {
+                                $user = app(Users::class)->getUserById($order->openid);
+                                DB::beginTransaction();
+                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
+                                app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                DB::commit();
+                            } catch (\Exception $e) {
+                                DB::rollBack();
+                            }
+                        } else if ($tk_status != $order->tk_status) {
+                            if ($tk_status == 3) {
+                                $tk_earning_time = $publisher_order_dto['tk_earning_time'];
+                            }
+                            //处理变更状态
+                            app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                        }
+                        $flag = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    /**
+     * 获取上个月全部订单并更新结算状态（建议每月执行多次）
+     * @return int
+     */
+    public function updateOrderAll()
+    {
+        $count = 0;
+        $orders = app(Orders::class)->getAllWithinLastMonth();
+        if ($orders == null) {
+            return "上月无订单";
+        }
+        date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
+        $c = new TopClient;
+        $c->appkey = config('config.aliAppKey');
+        $c->secretKey = config('config.aliAppSecret');
+        foreach ($orders as $order) {
+            if ($order->tk_status == 13 || $order->tlf_status == 2 || $order->tlf_status == -1) {
+                continue;
+            }
+            $flag = true;
+            $pageNo = 1;
+            while ($flag) {
+                $req = new TbkOrderDetailsGetRequest;
+                $req->setQueryType("1");
+                $req->setPageSize("10");
+                //$req->setTkStatus("12"); 淘客订单状态，11-拍下未付款，12-付款，13-关闭，14-确认收货，3-结算成功;不传，表示所有状态
+                $req->setEndTime(date("Y-m-d H:i:s", strtotime($order->tk_paid_time) + 60));
+                $req->setStartTime(date("Y-m-d H:i:s", strtotime($order->tk_paid_time) - 60));
+                $req->setPageNo($pageNo);
+                if ($order->special_id == null || trim($order->special_id) == "") {
+                    $req->setOrderScene("1");
+                } else {
+                    $req->setOrderScene("3");
+                }
+                $resp = $c->execute($req);
+                $Jsondata = json_encode($resp, true);
+                $data = json_decode($Jsondata, true);
+                if ($data['data']['has_next'] == 'false') {
+                    $flag = false;
+                } else {
+                    $pageNo++;
+                } //如不包含下一页，则本次执行结束后终止循环
+                if (isset($data['data']['results'])) {
+                    $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
+                    if (isset($publisher_order_dto[0])) {
+                        for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
+                            $trade_parent_id = $publisher_order_dto[$i]['trade_parent_id']; //订单号
+                            if ($trade_parent_id != $order->trade_parent_id) {
+                                continue;
+                            }
+                            $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
+                            $tk_earning_time = null;
+                            $user = app(Users::class)->getUserById($order->openid);
+                            if ($tk_status == 13) {
+                                //已退款，处理扣除金额
+                                try {
+                                    DB::beginTransaction();
+                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                    app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
+                                    app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                    DB::commit();
+                                    $count++;
+                                } catch (\Exception $e) {
+                                    DB::rollBack();
+                                }
+                            } else if ($tk_status != $order->tk_status) {
+                                try {
+                                    DB::beginTransaction();
+                                    if ($tk_status == 3) {
+                                        $tk_earning_time = $publisher_order_dto['tk_earning_time'];
+                                        $month = date("m", time());
+                                        if ($month == 1) {
+                                            $month == 12;
+                                        } else {
+                                            $month == (int)$month - 1;
+                                        }
+                                        $lastMonth = $month == 1 ? 12 : $month;
+                                        if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
+                                            app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                            app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);
+                                            app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
+                                        }
+                                    }
+                                    //处理变更状态
+                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                    DB::commit();
+                                    $count++;
+                                } catch (\Exception $e) {
+                                    DB::rollBack();
+                                }
+                            }
+                            $flag = false;
+                            break;
+                        }
+                    } else {
+                        $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
+                        if ($trade_parent_id != $order->trade_parent_id) {
+                            continue;
+                        }
+                        $tk_status = $publisher_order_dto['tk_status'];//订单状态
+                        $tk_earning_time = null;
+                        $user = app(Users::class)->getUserById($order->openid);
+                        if ($tk_status == 13) {
+                            //已退款，处理扣除金额
+                            try {
+                                DB::beginTransaction();
+                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
+                                app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                DB::commit();
+                                $count++;
+                            } catch (\Exception $e) {
+                                DB::rollBack();
+                            }
+                        } else if ($tk_status != $order->tk_status) {
+                            try {
+                                DB::beginTransaction();
+                                if ($tk_status == 3) {
+                                    $tk_earning_time = $publisher_order_dto['tk_earning_time'];
+                                    $month = date("m", time());
+                                    if ($month == 1) {
+                                        $month == 12;
+                                    } else {
+                                        $month == (int)$month - 1;
+                                    }
+                                    if ($month == date('m', strtotime($tk_earning_time))) {
+                                        app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                        app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);
+                                        app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
+                                    }
+                                }
+                                //处理变更状态
+                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                DB::commit();
+                                $count++;
+                            } catch (\Exception $e) {
+                                DB::rollBack();
+                            }
+
+                        }
+                        $flag = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return "处理成功" . $count . "条订单";
     }
 
 

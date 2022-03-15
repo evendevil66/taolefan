@@ -100,9 +100,14 @@ if (stristr($content, '提现'){
 具体处理代码可以在WechatController.php找到 switch ($message['EventKey'])  自行复制  
 
 设置定时器crontab用于查询并存储订单
+````shell script
+crontab -e
+````
 ````PHP
 * * * * * curl 你的域名/wechat/getOrderList
 #每分钟查询一次订单信息并存入数据库
+10 1 1,10,19,28 * * curl 你的域名/wechat/updateOrderAll
+#每个月1、10、19、28日1点10分执行对上月及上上月订单的信息修改及结算等（仅联盟结算日期为上月的才会被结算）
 ````
 
 至此，淘乐饭项目已经部署完成，可以正常使用了。如果在部署项目前已经关注过公众号，取关再次关注即可自动注册账号到数据库。

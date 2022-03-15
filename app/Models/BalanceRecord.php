@@ -36,4 +36,17 @@ class BalanceRecord extends Model
                 'change' => $change
             ]);
     }
+
+    /**
+     * 根据openid分页查询变动记录
+     * @param $openid
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
+     */
+    public function getRecordByOpenid($openid)
+    {
+        return DB::table($this->table)
+            ->where('openid', $openid)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+    }
 }

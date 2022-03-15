@@ -129,7 +129,7 @@ class WeChatController extends Controller
                                 return "提现请求发起成功，提现成功0元，将在24小时发送到您的支付宝账号：" . $user->alipay_id;
                             }
                         case 'Order':
-                            $url = config('config.apiUrl') . "/order/" . $openid;
+                            $url = config('config.apiUrl') . "/loading?openid=" . $openid;
                             return "<a href=\"" . $url . "\">点击此处快速查询订单</a>";
                         case 'Price':
                             return "您当前可提现余额0元，待结算金额0元，待结算金额将在您的订单确认收货第10天进行结算。";

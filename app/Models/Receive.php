@@ -22,6 +22,12 @@ class Receive extends Model
         return DB::select($sql);
     }
 
+    /**
+     * 分页查询提现记录
+     * @param null $openid 筛选条件openid
+     * @param null $status 筛选条件提现状态
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getAllByPaginate($openid = null, $status = null)
     {
         if ($openid == null && $status == null) {
@@ -37,6 +43,11 @@ class Receive extends Model
 
     }
 
+    /**
+     * 根据提现id通过提现申请
+     * @param $id
+     * @return int
+     */
     public function receivePass($id)
     {
         try {
@@ -55,6 +66,12 @@ class Receive extends Model
         }
     }
 
+    /**
+     * 根据提现id拒绝提现申请
+     * @param $id
+     * @param $reason 拒绝原因
+     * @return int
+     */
     public function receiveRefuse($id,$reason)
     {
         $receive = DB::table($this->table)->where('id', $id)->first();
@@ -78,5 +95,19 @@ class Receive extends Model
             DB::rollBack();
             return 0;
         }
+    }
+
+    /**
+     * 获取最近一次提现记录
+     * @param $openid
+     * @return int
+     */
+    public function getReceiveStatus($openid)
+    {
+        return DB::table($this->table)
+            ->where("openid",$openid)
+            ->orderBy('id', 'desc')
+            ->first();
+
     }
 }

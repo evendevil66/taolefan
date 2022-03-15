@@ -126,7 +126,8 @@ class Orders extends Model
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee)
+                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee),
+                        'tlf_status' => 1
                     ]);
                 app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
                 app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
@@ -186,5 +187,105 @@ class Orders extends Model
 
     }
 
+    /**
+     * 根据openid分页查询订单信息
+     * @param $openid
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
+     */
+    public function getAllByPaginateInOpenid($openid)
+    {
+        return DB::table($this->table)
+                ->where('openid', $openid)
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+    }
+
+    /**
+     * 根据openid获得最近一个月的订单信息
+     * @param $openid
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllWithinOneMonthByOpenid($openid)
+    {
+        date_default_timezone_set("Asia/Shanghai");
+        $today = date("Y-m-d H:i:s", time());
+        $queryday=date("Y-m-d H:i:s", strtotime("-1 month"));
+        return DB::table($this->table)
+            ->where('openid', $openid)
+            ->whereBetween('tk_paid_time', [$queryday, $today])
+            ->get();
+    }
+
+    /**
+     * 获取上个月的订单信息
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllWithinLastMonth()
+    {
+        date_default_timezone_set("Asia/Shanghai");
+        $year = date("Y", time());
+        $month=date("m", time());
+        $day=0;
+        if($month==1){
+            $month=11;
+            $year = ((int)$year)-1;
+        }else if($month==2){
+            $month=12;
+            $year = ((int)$year)-1;
+        }
+        $toYear = $month==12?((int)$year)+1:$year;
+        $toMonth = $month==12?1:($month+1);
+        switch ($toMonth){
+            case 1:case 3:case 5:case 7:case 8:case 10:case 12:
+                $day=31;
+                break;
+            case 2:
+                if(((int)$year%4==0&&(int)$year%100!=0)||(int)$year%400==0){
+                    $day=29;
+                }else{
+                    $day=28;
+                }
+                break;
+            default:
+                $day=30;
+                break;
+        }
+
+        return DB::table($this->table)
+            ->whereBetween('tk_paid_time', [$year."-".$month."-1 00:00:00", $toYear."-".$toMonth."-".$day." 23:59:59"])
+            ->get();
+    }
+
+    /**
+     * 修改订单状态和结算时间
+     * @param $trade_parent_id
+     * @param $tk_status
+     * @param $tk_earning_time
+     * @return int
+     */
+    public function changeStatusAndEarningTimeById($trade_parent_id,$tk_status,$tk_earning_time){
+        if($tk_earning_time == null){
+            return DB::table($this->table)
+                ->where('trade_parent_id', $trade_parent_id)
+                ->update([
+                    'tk_status' => $tk_status
+                ]);
+        }else{
+            return DB::table($this->table)
+                ->where('trade_parent_id', $trade_parent_id)
+                ->update([
+                    'tk_status' => $tk_status,
+                    'tk_earning_time' => $tk_earning_time
+                ]);
+        }
+    }
+
+    public function changeTlfStatus($trade_parent_id,$tlf_status){
+        DB::table($this->table)
+            ->where('trade_parent_id', $trade_parent_id)
+            ->update([
+                'tlf_status' => $tlf_status
+            ]);
+    }
 }
 

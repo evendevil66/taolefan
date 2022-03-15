@@ -58,6 +58,27 @@ Route::get('/bind/{openid}', function ($openid) {
 
 Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class, 'regMember']);
 Route::get('/getOrderList', [Controllers\TaokeController::class, 'getOrderList']);
+Route::get('/updateOrderAll', [Controllers\TaokeController::class, 'updateOrderAll']);
+
+
+Route::get('/loading', function () {
+    Cookie::queue('openid', Request::get("openid"), 60);
+    return view('loading');
+});
+
+Route::get('/loadOrder', function () {
+    app(\App\Http\Controllers\TaokeController::class)->updateOrder(Cookie::get('openid'));
+    return redirect()->route('order');
+});
+
+Route::get('/order', function () {
+    $openid=Cookie::get('openid');
+    $orders = app(\App\Models\Orders::class)->getAllByPaginateInOpenid($openid);
+    return view('/order',[
+        'orders' => $orders,
+        'openid' => $openid
+    ]);
+})->name('order');;
 
 Route::get('/admin/login', function () {
     return view('admin/login');
