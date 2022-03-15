@@ -23,18 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/reg.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/balanceRecord.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/BalanceRecord.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/BalanceRecord.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Receive.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Receive.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/order.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/order.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reg.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reg.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taolefan.sql" beforeDir="false" afterPath="$PROJECT_DIR$/taolefan.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +274,7 @@
       <workItem from="1647105047176" duration="834000" />
       <workItem from="1647151809794" duration="23907000" />
       <workItem from="1647228503527" duration="29926000" />
-      <workItem from="1647321727924" duration="32015000" />
+      <workItem from="1647321727924" duration="32450000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -544,7 +535,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647355913166</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="update">
+      <created>1647363481241</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1647363481241</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,18 +592,19 @@
       <screen x="0" y="25" width="2560" height="969" />
     </state>
     <state x="1821" y="480" key="NewPhpFileDialog/0.25.2560.969@0.25.2560.969" timestamp="1647346886483" />
-    <state x="962" y="185" key="SettingsEditor" timestamp="1647014257352">
-      <screen x="0" y="25" width="2560" height="970" />
+    <state x="962" y="185" key="SettingsEditor" timestamp="1647363552639">
+      <screen x="0" y="25" width="2560" height="969" />
     </state>
+    <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
     <state width="550" height="445" key="SwitcherDM" timestamp="1638878983916">
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647355906014">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647363559903">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647355906014" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647363559903" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />
