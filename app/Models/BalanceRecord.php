@@ -17,8 +17,10 @@ class BalanceRecord extends Model
      * @return object|null 返回用户对象或NULL
      */
     public function getRecord($openid){
-        return DB::table($this->table)->where([
-            'openid'=> $openid,]);
+        return DB::table($this->table)
+            ->orderBy('id', 'desc')
+            ->where(['openid'=> $openid,])
+            ->paginate(10);
     }
 
     /**
@@ -29,11 +31,13 @@ class BalanceRecord extends Model
      * @return bool 增加成功返回1否则0
      */
     public function setRecord($openid,$event,$change){
+        date_default_timezone_set("Asia/Shanghai");
         return DB::table($this->table)
             ->insert([
                 'openid' => $openid,
                 'event' => $event,
-                'change' => $change
+                'change' => $change,
+                'createtime' => date("Y-m-d H:i:s", time())
             ]);
     }
 

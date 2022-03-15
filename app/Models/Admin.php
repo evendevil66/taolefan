@@ -86,6 +86,27 @@ class Admin extends Model
             ]);
     }
 
+    public function setAdmin($username,$password){
+        $admin = DB::table($this->table)->where([
+            'id'=> 1,
+        ])->first();
+        if($admin==null){
+            return DB::table($this->table)
+                ->insert([
+                    'username' => $username,
+                    'password' => md5($password)
+                ]);
+        }else{
+            return DB::table($this->table)
+                ->where(['id'=> 1,])
+                ->update([
+                    'username' => $username,
+                    'password' => md5($password)
+                ]);
+        }
+
+    }
+
     /**
      * 获取所有管理信息
      * @return \Illuminate\Support\Collection 返回管理对象

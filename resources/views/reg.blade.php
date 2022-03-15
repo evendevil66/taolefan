@@ -74,7 +74,7 @@
                 openid: $("#openid").val(),
                 username: $("#username").val(),
                 nickname: $("#nickname").val(),
-                alipay_id: $("#alipay_id").val(),
+                alipay_id: $("#alipay").val(),
                 _token : $("[name=_token]").val()
             },
             dataType: "text",

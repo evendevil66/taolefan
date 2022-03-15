@@ -57,7 +57,7 @@ class Receive extends Model
                 ->where('id', $id)
                 ->update([
                     'status' => 1,
-                    'process_time' => date('Y-m-d h:i:s', time())
+                    'process_time' => date('Y-m-d H:i:s', time())
                 ]);
             DB::commit();
             return 1;
@@ -108,6 +108,15 @@ class Receive extends Model
             ->where("openid",$openid)
             ->orderBy('id', 'desc')
             ->first();
+    }
 
+    public function applyReceive($openid,$amount,$nickname){
+        DB::table($this->table)
+            ->insert([
+                'openid' => $openid,
+                'amount' => $amount,
+                'nickname' => $nickname,
+                'receive_date' => date('Y-m-d h:i:s', time())
+            ]);
     }
 }

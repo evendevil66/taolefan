@@ -19,7 +19,7 @@
 @foreach($orders as $order)
     <div class="row">
         <div class="col-4" style="text-align: center;word-wrap:break-word">{{$order->trade_parent_id}}</div>
-        <div class="col-4" style="text-align: center;">{{substr($order->item_title, 0, 35)}}<br/>{{$order->pay_price}}元
+        <div class="col-4" style="text-align: center;">{{mb_substr($order->item_title, 0, 10)}}<br/>{{$order->pay_price}}元
         </div>
         <div class="col-4" style="text-align: center;">{{$order->rebate_pre_fee}}元<br/>
             @switch($order->tk_status)
@@ -49,14 +49,14 @@
 <br/>
 <div class="row" style="text-align: center;">
     @if(!$orders->onFirstPage())
-    <div class="col" style="text-align: center;"><a href="{{$orders->previousPageUrl()}}"><<</a></div>
+    <div class="col" style="text-align: center;"><a href="{{$orders->previousPageUrl()}}&openid={{$openid}}"><<</a></div>
     @else
         <div class="col" style="text-align: center;"><a disabled="true"><<</a></div>
     @endif
     <div class="col" style="text-align: center;"><span>{{$orders->currentPage()}}</span></div>
         @if($orders->currentPage()!=$orders->lastPage())
-    <div class="col" style="text-align: center;"><a href="{{$orders->nextPageUrl()}}">{{$orders->currentPage()+1}}</a></div>
-    <div class="col" style="text-align: center;"><a href="{{$orders->nextPageUrl()}}">>></a></div>
+    <div class="col" style="text-align: center;"><a href="{{$orders->nextPageUrl()}}&openid={{$openid}}">{{$orders->currentPage()+1}}</a></div>
+    <div class="col" style="text-align: center;"><a href="{{$orders->nextPageUrl()}}&openid={{$openid}}">>></a></div>
         @else
             <div class="col" style="text-align: center;"><a disabled="true">>></a></div>
         @endif

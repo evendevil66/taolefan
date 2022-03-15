@@ -60,6 +60,24 @@ Route::get('/bind/{openid}/{code}', [Controllers\TaokeController::class, 'regMem
 Route::get('/getOrderList', [Controllers\TaokeController::class, 'getOrderList']);
 Route::get('/updateOrderAll', [Controllers\TaokeController::class, 'updateOrderAll']);
 
+Route::get('/adminReg', function () {
+    if(Storage::exists("admin.lock")){
+        return "已创建过超级管理员，如忘记密码，请删除站点目录下/storage/app/admin.lock文件后，重新访问本页修改账号密码";
+    }
+    return view('/admin/reg');
+});
+
+//提交新增管理员post请求（初次）
+Route::post('/admin/setAdmin', function () {
+    $result = app(\App\Models\Admin::class)->setAdmin(Request::post("username"),Request::post("password"));
+    if ($result>0) {
+        Storage::disk('local')->put('admin.lock', "taolefan");
+        return 1;
+    } else {
+        return 0;
+    }
+});
+
 
 Route::get('/loading', function () {
     Cookie::queue('openid', Request::get("openid"), 60);
@@ -78,7 +96,16 @@ Route::get('/order', function () {
         'orders' => $orders,
         'openid' => $openid
     ]);
-})->name('order');;
+})->name('order');
+
+Route::get('/balanceRecord', function () {
+    $openid=Request::get('openid');
+    $balanceRecord = app(\App\Models\BalanceRecord::class)->getRecord($openid);
+    return view('/balanceRecord',[
+        'balanceRecord' => $balanceRecord,
+        'openid' => $openid
+    ]);
+});
 
 Route::get('/admin/login', function () {
     return view('admin/login');
