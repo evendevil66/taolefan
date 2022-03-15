@@ -55,7 +55,7 @@ class Orders extends Model
             ]);
             if ($flag) {
                 if ($special_id != -1 && $tk_status!=13) {
-                    $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $rebate_pre_fee);
+                    $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $pub_share_pre_fee);
                 }
             }
             return $flag;
@@ -73,7 +73,7 @@ class Orders extends Model
      * @param $rebate_pre_fee 联盟返利金额
      * @return int 检索成功并绑定返回1，否则为0
      */
-    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $rebate_pre_fee)
+    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $pub_share_pre_fee)
     {
         $user = app(Users::class)->getUserBySpecialId($special_id);
         //DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
@@ -84,12 +84,12 @@ class Orders extends Model
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * $rebate_pre_fee,
+                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,
                         'special_id' => $special_id,
                         'tlf_status' => 1
                     ]);
-                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + (($user->rebate_ratio) * 0.01 * $rebate_pre_fee));
-                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $rebate_pre_fee . "元", ($user->rebate_ratio) * 0.01 * $rebate_pre_fee);
+                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + (($user->rebate_ratio) * 0.01 * $pub_share_pre_fee));
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee . "元", ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee);
                 DB::commit();
                 return 1;
             } catch (\Exception $e) {
@@ -126,12 +126,12 @@ class Orders extends Model
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee)
+                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee)
                     ]);
-                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee));
-                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee));
+                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
                 DB::commit();
-                return "订单绑定成功，您的付款金额为" . $order->pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($order->rebate_pre_fee);
+                return "订单绑定成功，您的付款金额为" . $order->pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee);
             } catch (\Exception $e) {
                 DB::rollBack();
                 return "系统错误，绑定失败，请稍后再试或联系客服";

@@ -26,8 +26,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reg.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reg.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +271,7 @@
       <workItem from="1647105047176" duration="834000" />
       <workItem from="1647151809794" duration="23907000" />
       <workItem from="1647228503527" duration="29926000" />
-      <workItem from="1647321727924" duration="5493000" />
+      <workItem from="1647321727924" duration="8657000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -506,7 +504,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647265245801</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="update">
+      <created>1647327887799</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1647327887799</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,10 +563,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647265262185">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647327942115">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647265262185" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647327942115" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647239428728">
       <screen x="0" y="25" width="2560" height="970" />

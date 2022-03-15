@@ -71,7 +71,7 @@ class TaokeController extends Controller
     {
 
         //$user = app(UserController::class) -> getUser($openid);
-        //$rate = 0.8; //后期数据从$user用户对象中获取
+        $rate = $user->rebate_ratio*0.01; //返现比例
         $host = "https://openapi.dataoke.com/api/tb-service/parse-taokouling";
         $data = [
             'appKey' => config('config.dtkAppKey'),
@@ -119,6 +119,7 @@ class TaokeController extends Controller
                         $amount = mb_substr($ci, 0, $end);
                     }
                     $tpwd = $dataArr['data']['tpwd']; //淘口令
+                    $kuaiZhanUrl = $dataArr['data']['kuaiZhanUrl']; //淘口令
                     $estimate = $price - $amount; //预估付款金额
                     //$longTpwd = $dataArr['data']['longTpwd']; //长淘口令
                     //$start= (strpos($longTpwd,"【"));
@@ -205,8 +206,8 @@ class TaokeController extends Controller
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.3.1',
             'goodsId' => $goodsid,
-            'pid' => config('config.specialpid'),
-            'specialId' => $specialId
+            'specialId' => $specialId,
+            'pid' => config('config.specialpid')
         ];
         $data['sign'] = $this->makeSign($data);
         $url = $host . '?' . http_build_query($data);
