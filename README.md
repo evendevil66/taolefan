@@ -88,7 +88,7 @@ DB_PASSWORD=  #数据库密码
 'specialpid' => ' ******',//会员运营ID
 'relationId'=>'****', //渠道ID 代理商使用 暂未开发
 'inviter_code'=>'******' //会员私域邀请码
-''
+'default_rebate_ratio' => 65 //默认返利比例%
 ````
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：

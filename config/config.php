@@ -12,6 +12,7 @@ return [
     'pubpid' => '******', //公用PID
     'specialpid' => ' ******',//会员运营专用ID
     'relationId'=>'******', //渠道ID
-    'inviter_code'=>'******' //会员管理邀请码
+    'inviter_code'=>'******', //会员管理邀请码
+    'default_rebate_ratio' => 65 //默认返利比例%
 ];
 

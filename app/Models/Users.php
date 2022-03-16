@@ -44,7 +44,11 @@ class Users extends Model
      * @return int 如执行成功返回1
      */
     public function userRegistration($openid){
-        return DB::table($this->table)->insert(['id' => $openid]);
+        return DB::table($this->table)
+            ->insert([
+                'id' => $openid,
+                'rebate_ratio' => config('config.default_rebate_ratio')
+            ]);
     }
 
     /**
