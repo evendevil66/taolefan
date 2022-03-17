@@ -186,9 +186,6 @@ class WeChatController extends Controller
 
                 case 'text':
                     $content = $message['Content'];
-
-                    //通过用户对象检测空信息，如有信息为空，则依次使用$content填充
-                    //if()
                     if (stristr($content, '关键词') != false || stristr($content, '帮助') != false) {
                         return
                             "1、发送包含【淘口令】的内容，系统将自动转链为返利链接回复\n" .
@@ -265,7 +262,11 @@ class WeChatController extends Controller
                     } else if (stristr($content, '创建菜单') != false) {
                         $this->setButton();
                         return "设置菜单";
-                    } else {
+                    } /**else if (stristr($content, '酷友报道') != false) {
+                        $result = app(Users::class)->modifyRebateRatioById($user->id, 80);
+                        return $result==1?"欢迎酷友，您的返利比例已调整为80%":"欢迎酷友，您的返利比例调整失败，请确认您是否已经调整过返利比例或联系客服处理哦～";
+                    }**/
+                    else {
                         //调用大淘客接口对所收到的信息进行解析转链，并将优惠券、返利信息返回
                         return app(TaokeController::class)->parse($user, $content);
                     }

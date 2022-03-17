@@ -156,4 +156,18 @@ class Users extends Model
                 'special_id' => $special_id,
             ]);
     }
+
+    /**
+     * 根据openid修改返利比例
+     * @param $id openid
+     * @param $rebate_ratio 返利比例
+     * @return int 修改成功返回1否则0
+     */
+    public function modifyRebateRatioById($id,$rebate_ratio){
+        return DB::table($this->table)
+            ->where('id', $id)
+            ->update([
+                'rebate_ratio' => $rebate_ratio
+            ]);
+    }
 }
