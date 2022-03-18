@@ -39,23 +39,45 @@ class Orders extends Model
     public function saveOrder($trade_parent_id, $item_title, $tk_paid_time, $tk_status, $pay_price, $pub_share_pre_fee, $tk_commission_pre_fee_for_media_platform, $rebate_pre_fee, $special_id)
     {
         try {
-            $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first();
-            if ($order != null) {
-                return false;
+            $orders = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->get();
+            $flag = true;
+            if(isset($orders->trade_parent_id)){
+                if ($orders->trade_parent_id == $trade_parent_id && $orders->item_title == $item_title && $orders->pay_price == $pay_price) {
+                    $flag = false;
+                }
+            }else{
+                foreach ($orders as $order) {
+                    if ($order->trade_parent_id == $trade_parent_id && $order->item_title == $item_title && $order->pay_price == $pay_price) {
+                        $flag = false;
+                        break;
+                    }
+                }
             }
-            $flag = DB::table($this->table)->insert([
-                'trade_parent_id' => $trade_parent_id,
-                'item_title' => $item_title,
-                'tk_paid_time' => $tk_paid_time,
-                'tk_status' => $tk_status,
-                'pay_price' => $pay_price,
-                'pub_share_pre_fee' => $pub_share_pre_fee,
-                'tk_commission_pre_fee_for_media_platform' => $tk_commission_pre_fee_for_media_platform,
-                'rebate_pre_fee' => $rebate_pre_fee
-            ]);
+
+            //if ($order != null) {
+            //    return false;
+            //}
+
             if ($flag) {
-                if ($special_id != -1 && $tk_status!=13) {
-                    $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $pub_share_pre_fee);
+                $flag = DB::table($this->table)->insert([
+                    'trade_parent_id' => $trade_parent_id,
+                    'item_title' => $item_title,
+                    'tk_paid_time' => $tk_paid_time,
+                    'tk_status' => $tk_status,
+                    'pay_price' => $pay_price,
+                    'pub_share_pre_fee' => $pub_share_pre_fee,
+                    'tk_commission_pre_fee_for_media_platform' => $tk_commission_pre_fee_for_media_platform,
+                    'rebate_pre_fee' => $rebate_pre_fee
+                ]);
+            }
+            if ($flag) {
+                $order = DB::table($this->table)->where([
+                    'trade_parent_id' => $trade_parent_id,
+                    'item_title' => $item_title,
+                    'pay_price' => $pay_price
+                ])->orderBy('id', 'desc')->first();
+                if ($special_id != -1 && $tk_status != 13) {
+                    $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($order->id, $trade_parent_id, $special_id, $pub_share_pre_fee);
                 }
             }
             return $flag;
@@ -70,10 +92,10 @@ class Orders extends Model
      * 根据订单内会员运营id，检索openid并绑定，并根据用户返利比例修改返利金额
      * @param $trade_parent_id 订单号
      * @param $special_id 会员运营id
-     * @param $rebate_pre_fee 联盟返利金额
+     * @param $pub_share_pre_fee 联盟返利金额
      * @return int 检索成功并绑定返回1，否则为0
      */
-    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $special_id, $pub_share_pre_fee)
+    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($id, $trade_parent_id, $special_id, $pub_share_pre_fee)
     {
         $user = app(Users::class)->getUserBySpecialId($special_id);
         //DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
@@ -81,7 +103,7 @@ class Orders extends Model
             try {
                 DB::beginTransaction();
                 DB::table($this->table)
-                    ->where('trade_parent_id', $trade_parent_id)
+                    ->where('trade_parent_id', $trade_parent_id)->where('id', $id)
                     ->update([
                         'openid' => $user->id,
                         'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,
@@ -107,32 +129,41 @@ class Orders extends Model
      */
     public function ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $user)
     {
-        $order = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->first(); //查询订单信息
-        if ($order == null) {
+        $orderFlag = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->orderBy('id', 'desc')->first(); //查询订单信息
+        $pay_price = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->sum("pay_price");
+        $pub_share_pre_fee = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->sum("pub_share_pre_fee");
+        if ($orderFlag == null) {
             return "无法查询到订单信息，您可以5分钟后再尝试，如仍无法绑定可能是未通过链接下单，您可以退款后重新下单。\n注意：如使用了大促活动红包可能导致无法返利";
-        }else if($order->tk_status == 13){
+        }
+
+        if ($orderFlag->tk_status == 13) {
             return "您的订单已退款，无法绑定";
-        }else if ($order->openid != null && trim($order->openid) != "") {
-            if ($order->special_id != null && trim($order->special_id) != "") {
-                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为" . $order->pay_price . "，返利金额为" . $order->rebate_pre_fee;
+        } else if ($orderFlag->openid != null && trim($orderFlag->openid) != "") {
+            if ($orderFlag->special_id != null && trim($orderFlag->special_id) != "") {
+                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为" . $pay_price . "，返利金额为" . $orderFlag->rebate_pre_fee;
             } else {
                 return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
             }
         }
+
         if ($user != null) {//判断是否成功获取到会员信息
             try {
                 DB::beginTransaction();
                 DB::table($this->table)
+                    ->where('trade_parent_id', $trade_parent_id)->where('id', "<>", $orderFlag->id)
+                    ->delete();
+                DB::table($this->table)
                     ->where('trade_parent_id', $trade_parent_id)
                     ->update([
                         'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee),
+                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee),
+                        'pay_price' =>$pay_price,
                         'tlf_status' => 1
                     ]);
-                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
-                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee));
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee));
                 DB::commit();
-                return "订单绑定成功，您的付款金额为" . $order->pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee);
+                return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee);
             } catch (\Exception $e) {
                 DB::rollBack();
                 return "系统错误，绑定失败，请稍后再试或联系客服";
@@ -195,9 +226,9 @@ class Orders extends Model
     public function getAllByPaginateInOpenid($openid)
     {
         return DB::table($this->table)
-                ->where('openid', $openid)
-                ->orderBy('id', 'desc')
-                ->paginate(10);
+            ->where('openid', $openid)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
     }
 
     /**
@@ -209,7 +240,7 @@ class Orders extends Model
     {
         date_default_timezone_set("Asia/Shanghai");
         $today = date("Y-m-d H:i:s", time());
-        $queryday=date("Y-m-d H:i:s", strtotime("-1 month"));
+        $queryday = date("Y-m-d H:i:s", strtotime("-1 month"));
         return DB::table($this->table)
             ->where('openid', $openid)
             ->whereBetween('tk_paid_time', [$queryday, $today])
@@ -224,35 +255,41 @@ class Orders extends Model
     {
         date_default_timezone_set("Asia/Shanghai");
         $year = date("Y", time());
-        $month=date("m", time());
-        $day=0;
-        if($month==1){
-            $month=11;
-            $year = ((int)$year)-1;
-        }else if($month==2){
-            $month=12;
-            $year = ((int)$year)-1;
+        $month = date("m", time());
+        $day = 0;
+        if ($month == 1) {
+            $month = 11;
+            $year = ((int)$year) - 1;
+        } else if ($month == 2) {
+            $month = 12;
+            $year = ((int)$year) - 1;
         }
-        $toYear = $month==12?((int)$year)+1:$year;
-        $toMonth = $month==12?1:($month+1);
-        switch ($toMonth){
-            case 1:case 3:case 5:case 7:case 8:case 10:case 12:
-                $day=31;
+        $toYear = $month == 12 ? ((int)$year) + 1 : $year;
+        $toMonth = $month == 12 ? 1 : ($month + 1);
+        switch ($toMonth) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                $day = 31;
                 break;
             case 2:
-                if(((int)$year%4==0&&(int)$year%100!=0)||(int)$year%400==0){
-                    $day=29;
-                }else{
-                    $day=28;
+                if (((int)$year % 4 == 0 && (int)$year % 100 != 0) || (int)$year % 400 == 0) {
+                    $day = 29;
+                } else {
+                    $day = 28;
                 }
                 break;
             default:
-                $day=30;
+                $day = 30;
                 break;
         }
 
         return DB::table($this->table)
-            ->whereBetween('tk_paid_time', [$year."-".$month."-1 00:00:00", $toYear."-".$toMonth."-".$day." 23:59:59"])
+            ->whereBetween('tk_paid_time', [$year . "-" . $month . "-1 00:00:00", $toYear . "-" . $toMonth . "-" . $day . " 23:59:59"])
             ->get();
     }
 
@@ -263,14 +300,15 @@ class Orders extends Model
      * @param $tk_earning_time
      * @return int
      */
-    public function changeStatusAndEarningTimeById($trade_parent_id,$tk_status,$tk_earning_time){
-        if($tk_earning_time == null){
+    public function changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time)
+    {
+        if ($tk_earning_time == null) {
             return DB::table($this->table)
                 ->where('trade_parent_id', $trade_parent_id)
                 ->update([
                     'tk_status' => $tk_status
                 ]);
-        }else{
+        } else {
             return DB::table($this->table)
                 ->where('trade_parent_id', $trade_parent_id)
                 ->update([
@@ -280,7 +318,8 @@ class Orders extends Model
         }
     }
 
-    public function changeTlfStatus($trade_parent_id,$tlf_status){
+    public function changeTlfStatus($trade_parent_id, $tlf_status)
+    {
         DB::table($this->table)
             ->where('trade_parent_id', $trade_parent_id)
             ->update([
