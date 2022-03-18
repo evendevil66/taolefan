@@ -22,9 +22,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="修复商品未参与推广时的文案回复错误问题">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,16 +201,16 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/resources/views/admin" />
       <recent name="$PROJECT_DIR$/resources/views" />
       <recent name="$PROJECT_DIR$/public/css" />
       <recent name="$PROJECT_DIR$/public/js" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/public" />
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.order-view.html">
@@ -278,7 +277,7 @@
       <workItem from="1647437315735" duration="1892000" />
       <workItem from="1647511258724" duration="1606000" />
       <workItem from="1647514124015" duration="3236000" />
-      <workItem from="1647593970392" duration="2954000" />
+      <workItem from="1647593970392" duration="3297000" />
     </task>
     <task id="LOCAL-00001" summary="修复了一些bug">
       <created>1605190784351</created>
@@ -595,7 +594,28 @@
       <option name="project" value="LOCAL" />
       <updated>1647517038800</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="修复同一订单包含多个商品时无法正常计算返利的问题">
+      <created>1647597064583</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1647597064583</updated>
+    </task>
+    <task id="LOCAL-00047" summary="修复商品名称过长时订单无法保存的问题">
+      <created>1647597092775</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1647597092775</updated>
+    </task>
+    <task id="LOCAL-00048" summary="update">
+      <created>1647597099290</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1647597099290</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,9 +635,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修复了一些bug" />
-    <MESSAGE value="update" />
     <MESSAGE value="修复商品未参与推广时的文案回复错误问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复商品未参与推广时的文案回复错误问题" />
+    <MESSAGE value="修复同一订单包含多个商品时无法正常计算返利的问题" />
+    <MESSAGE value="修复商品名称过长时订单无法保存的问题" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1038" y="351" key="#Composer" timestamp="1647365462855">
@@ -652,14 +674,10 @@
     </state>
     <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
-    <state width="550" height="445" key="SwitcherDM" timestamp="1638878983916">
-      <screen x="0" y="25" width="2560" height="970" />
-    </state>
-    <state width="550" height="445" key="SwitcherDM/0.25.2560.970@0.25.2560.970" timestamp="1638878983916" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647517090292">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647597115976">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647517090292" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647597115976" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />
