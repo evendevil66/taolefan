@@ -4,13 +4,14 @@
  Source Server         : taolefan
  Source Server Type    : MySQL
  Source Server Version : 80025
+ Source Host           : rm-2zeez207xz02337q8oo.mysql.rds.aliyuncs.com:3306
  Source Schema         : taolefan
 
  Target Server Type    : MySQL
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 16/03/2022 21:42:10
+ Date: 18/03/2022 17:50:02
 */
 
 SET NAMES utf8mb4;
@@ -39,7 +40,7 @@ CREATE TABLE `balance_record` (
   `change` decimal(10,2) NOT NULL COMMENT '变动',
   `createtime` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Table structure for orders
@@ -49,7 +50,7 @@ CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '自增id 自增主键',
   `openid` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '微信openid',
   `trade_parent_id` varchar(32) NOT NULL COMMENT '订单号',
-  `item_title` varchar(32) NOT NULL COMMENT '商品名称',
+  `item_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名称',
   `tk_paid_time` datetime DEFAULT NULL COMMENT '付款时间',
   `tk_earning_time` datetime DEFAULT NULL COMMENT '结算时间',
   `tk_status` int NOT NULL COMMENT '订单状态 3：订单结算，12：订单付款， 13：订单失效，14：订单成功',
@@ -65,9 +66,8 @@ CREATE TABLE `orders` (
   `receive_status` tinyint(1) DEFAULT NULL,
   `special_id` varchar(32) DEFAULT NULL,
   `tlf_status` int NOT NULL DEFAULT '0' COMMENT '订单状态标示，0仅录入订单，1计入未结算，2计入已结算，-1退款扣除',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `trade_parent_id` (`trade_parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8mb3 COMMENT='订单表 ';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=utf8mb3 COMMENT='订单表 ';
 
 -- ----------------------------
 -- Table structure for percentage
@@ -108,7 +108,7 @@ CREATE TABLE `users` (
   `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '姓名 首次提现绑定',
   `alipay_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '支付宝账号 首次提现绑定',
   `invite_id` varchar(32) NOT NULL DEFAULT '0' COMMENT '上级邀请人openid 无邀请人默认0',
-  `rebate_ratio` decimal(10,0) NOT NULL DEFAULT '55' COMMENT '返现比例',
+  `rebate_ratio` decimal(10,2) NOT NULL DEFAULT '55.00' COMMENT '返现比例',
   `special_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '粉丝运营ID',
   `user_pid` varchar(32) DEFAULT NULL COMMENT '用户pid 暂时不使用',
   `unsettled_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '未结算余额',
