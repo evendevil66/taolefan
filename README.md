@@ -33,6 +33,11 @@
 ## Update
 注意：小版本更新可能涉及数据库轻微变动，建议更新前备份数据并使用最新sql文件重新构建结构，再导入数据使用。  
   
+2022.3.19 v1.0.3  
+新增饿了么返利功能  
+如需开启微信饿了么返利功能需在config中配置返利图片（默认为您的域名下/eleme.jpeg，可自行修改），自行在微信公众号发布一篇带有使用方法和返利小程序的链接（可在淘宝联盟APP获取）  
+淘宝饿了么返利无需其他操作 如不需要小程序返利请自行删除相关前端代码  
+  
 2022.3.18 v1.0.2  
 修复商品标题过长无法保存订单的问题  
 修复同一订单包含多个商品时无法计算返利的问题
@@ -91,8 +96,8 @@ DB_PASSWORD=  #数据库密码
 修改/config/config.php配置
 ````php
 'name' => "淘乐饭", //产品名称 会反应在用户交互等场景
-'url' => "https://fanli.mttgo.com", //站点url 如有饭粒网等网站可添加
-'apiUrl' => "https://wechat.mttgo.com", //APIurl 调用本程序使用的url
+'url' => "https://*.*.*", //站点url 如有饭粒网等网站可添加
+'apiUrl' => "https://*.*.*", //APIurl 调用本程序使用的url
 'dtkAppKey' => "****", //大淘客appKey 
 'dtkAppSecret' => "****", //大淘客AppSecret
 'aliAppKey' => "****", //淘宝联盟AppKey
@@ -101,7 +106,10 @@ DB_PASSWORD=  #数据库密码
 'specialpid' => ' ******',//会员运营ID
 'relationId'=>'****', //渠道ID 代理商使用 暂未开发
 'inviter_code'=>'******' //会员私域邀请码
-'default_rebate_ratio' => 65 //默认返利比例%
+'default_rebate_ratio' => 65, //默认返利比例%,
+'eleme_imgUrl' => "https://*.*.*/eleme.jpeg", //饿了么小程序码图片url
+'eleme_newsUrl' => "https://xxx.xxx.xxx",
+    //微信公众号文章URl
 ````
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：
