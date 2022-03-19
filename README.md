@@ -33,6 +33,9 @@
 ## Update
 注意：小版本更新可能涉及数据库轻微变动，建议更新前备份数据并使用最新sql文件重新构建结构，再导入数据使用。  
   
+2022.3.19 v1.1.0  
+新增京东返利功能，请注册京东联盟，授权至大淘客账号并在config中进行相关配置  
+  
 2022.3.19 v1.0.3  
 新增饿了么返利功能  
 如需开启微信饿了么返利功能需在config中配置返利图片（默认为您的域名下/eleme.jpeg，可自行修改），自行在微信公众号发布一篇带有使用方法和返利小程序的链接（可在淘宝联盟APP获取）  
@@ -92,6 +95,7 @@ DB_PASSWORD=  #数据库密码
 2、注册大淘客开放平台并授权淘宝联盟 获取Appkey  [官网](https://www.dataoke.com/kfpt/openapi.html)
 3、如需淘宝私域管理功能（自动跟单），请在淘宝联盟申请好私域权限，申请邀请码。邀请码可通过调试 [官方接口](https://open.taobao.com/doc.htm?spm=a219a.15212433.0.0.4398669aXaoE2Y&docId=1&docType=15&apiName=taobao.tbk.sc.invitecode.get)
 进行快速申请，调用接口请确保relation_app参数为common，code_type参数为3  
+4、注册京东联盟并申请APIKey，授权绑定到大淘客  
 
 修改/config/config.php配置
 ````php
@@ -108,8 +112,10 @@ DB_PASSWORD=  #数据库密码
 'inviter_code'=>'******' //会员私域邀请码
 'default_rebate_ratio' => 65, //默认返利比例%,
 'eleme_imgUrl' => "https://*.*.*/eleme.jpeg", //饿了么小程序码图片url
-'eleme_newsUrl' => "https://xxx.xxx.xxx",
-    //微信公众号文章URl
+'eleme_newsUrl' => "https://xxx.xxx.xxx", //微信公众号文章URl
+'unionId' => "******", //京东联盟ID
+'jdApiKey' => "******" //京东联盟APIKey
+
 ````
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：
