@@ -703,4 +703,23 @@ class TaokeController extends Controller
         }
         return "处理成功" . $count . "条订单";
     }
+
+    public function getElmTkl()
+    {
+        $host = "https://openapi.dataoke.com/api/tb-service/activity-link";
+        $data = [
+            'appKey' => config('config.dtkAppKey'),
+            'version' => '1.0.0',
+            'promotionSceneId' => "20150318020002597", //饿了么会场固定编号
+            'pid' => config('config.pubpid')
+        ];
+        $data['sign'] = $this->makeSign($data);
+        $url = $host . '?' . http_build_query($data);
+        var_dump($url);
+        //处理大淘客解析请求url
+        $output = $this->curlGet($url, 'get');
+        $data = json_decode($output, true);//将返回数据转为数组
+        $str = $data['data']['tpwd']."\n\n复制该信息到淘宝领取饿了么红包"."，之后通过淘宝或相同账号的饿了么APP下单，下单2分钟后将订单号回传，即可获得返利，具体返利金额以系统最终结果为准。\n\n注意：只要通过该口令进入饿了么会场，无论是否使用红包，无论使用任何类型的红包，均可获得返利";
+        return $str;
+    }
 }

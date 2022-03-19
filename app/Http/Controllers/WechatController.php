@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\TaokeController;
 use App\Models\BalanceRecord;
 use App\Models\Receive;
 use EasyWeChat\OfficialAccount\Application;
 use Illuminate\Support\Facades\DB;
-use Log;
-use App\Http\Controllers\TaokeController;
+use Illuminate\Support\Facades\Log;
 use App\Models\Users;
 use App\Models\Orders;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\NewsItem;
 
 class WeChatController extends Controller
 {
     protected $buttons = [
         [
-            "name" => "使用教程",
+            "name" => "外卖饭粒",
             "sub_button" => [
                 [
                     "type" => "click",
-                    "name" => "使用教程",
-                    "key" => "Course"
+                    "name" => "饿了么（淘宝）",
+                    "key" => "ElmTb"
                 ],
                 [
                     "type" => "click",
-                    "name" => "联系客服",
-                    "key" => "Contact"
+                    "name" => "饿了么（微信）",
+                    "key" => "ElmWx"
                 ],
             ],
         ],
@@ -76,6 +78,16 @@ class WeChatController extends Controller
                     "type" => "click",
                     "name" => "绑定淘宝",
                     "key" => "Bind"
+                ],
+                [
+                    "type" => "click",
+                    "name" => "使用教程",
+                    "key" => "Course"
+                ],
+                [
+                    "type" => "click",
+                    "name" => "联系客服",
+                    "key" => "Contact"
                 ],
             ],
         ],
@@ -180,6 +192,20 @@ class WeChatController extends Controller
                         case 'BalanceRecord':
                             $url = config('config.apiUrl') . "/balanceRecord?openid=" . $openid;
                             return "<a href=\"" . $url . "\">点击此处查询余额变动</a>";
+                        case 'ElmTb':
+                            return app(TaokeController::class)->getElmTkl();
+                        case 'ElmWx':
+                            $items = [
+                                new NewsItem([
+                                    'title'       => "饿了么饭粒微信小贴士",
+                                    'description' => '点击进入页面查询',
+                                    'url'         => config('config.eleme_newsUrl'),
+                                    'image'       => config('config.eleme_imgUrl'),
+                                    // ...
+                                ]),
+                            ];
+                            $news = new News($items);
+                            return $news;
                         default:
                             return "您的请求暂时无法处理，如有疑问请联系客服";
                     }
@@ -196,7 +222,8 @@ class WeChatController extends Controller
                             "6、发送【余额查询】，可查询待结算和可结算的返利金额\n" .
                             "7、发送【余额变动】，可查询余额变动记录\n" .
                             "8、发送【提现】，可将可结算金额提现至支付宝\n".
-                            "8、发送【提现状态】，可查询您最近一次提现的处理情况";
+                            "8、发送【饿了么】，可获得饿了么返利红包\n".
+                            "10、发送【提现状态】，可查询您最近一次提现的处理情况";
                     } else if (stristr($content, '补全信息') != false) {
                         $url = config('config.apiUrl') . "/reg/" . $openid . "?username=" . $user->username . "&nickname=" . $user->nickname . "&alipay=" . $user->alipay_id;
                         if ($user->username != null && $user->username != "") {
@@ -262,6 +289,21 @@ class WeChatController extends Controller
                     } else if (stristr($content, '创建菜单') != false) {
                         $this->setButton();
                         return "设置菜单";
+                    }else if (stristr($content, '饿了么') != false) {
+                        return app(TaokeController::class)->getElmTkl();
+                        //如需使用文章方式返回，请自行解除下方注释并注释上一条内容
+                        /*$items = [
+                            new NewsItem([
+                                'title'       => "饿了么饭粒微信小贴士",
+                                'description' => '点击进入页面查询',
+                                'url'         => config('config.eleme_newsUrl'),
+                                'image'       => config('config.eleme_imgUrl'),
+                                // ...
+                            ]),
+                        ];
+                        $news = new News($items);
+                        return $news;*/
+
                     } /**else if (stristr($content, '酷友报道') != false) {
                         $result = app(Users::class)->modifyRebateRatioById($user->id, 80);
                         return $result==1?"欢迎酷友，您的返利比例已调整为80%":"欢迎酷友，您的返利比例调整失败，请确认您是否已经调整过返利比例或联系客服处理哦～";
