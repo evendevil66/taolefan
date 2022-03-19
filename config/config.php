@@ -15,7 +15,9 @@ return [
     'inviter_code'=>'******', //会员管理邀请码
     'default_rebate_ratio' => 65,//默认返利比例%,
     'eleme_imgUrl' => "https://xxx.xxx.xxx/xxx.jpeg",//饿了么小程序码图片url
-    'eleme_newsUrl' => "https://xxx.xxx.xxx",
-    //微信公众号文章URl
+    'eleme_newsUrl' => "https://xxx.xxx.xxx",//微信公众号文章URl
+    'unionId' => "******", //京东联盟ID
+    'jdApiKey' => "******" //京东联盟APIKey
+
 ];
 

@@ -283,7 +283,7 @@ class WeChatController extends Controller
                         } else {
                             return "您还没有提现过哦～";
                         }
-                    }else if (preg_match("/^\d{17,20}$/", $content)) {
+                    }else if (preg_match("/^\d{10,20}$/", $content)) {
                         //根据数据库存储订单信息匹配订单并操作数据绑定
                         return app(Orders::class)->ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio(trim($content), $user);
                     } else if (stristr($content, '创建菜单') != false) {
