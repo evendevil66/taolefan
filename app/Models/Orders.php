@@ -130,8 +130,9 @@ class Orders extends Model
     public function ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id, $user)
     {
         $orderFlag = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->orderBy('id', 'desc')->first(); //查询订单信息
-        $pay_price = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->sum("pay_price");
-        $pub_share_pre_fee = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->sum("pub_share_pre_fee");
+        //$pay_price = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->sum("pay_price");
+        //$pub_share_pre_fee = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->sum("pub_share_pre_fee");
+        $orders = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->get();
         if ($orderFlag == null) {
             return "无法查询到订单信息，您可以5分钟后再尝试，如仍无法绑定可能是未通过链接下单，您可以退款后重新下单。\n注意：如使用了大促活动红包可能导致无法返利";
         }
@@ -140,29 +141,33 @@ class Orders extends Model
             return "您的订单已退款，无法绑定";
         } else if ($orderFlag->openid != null && trim($orderFlag->openid) != "") {
             if ($orderFlag->special_id != null && trim($orderFlag->special_id) != "") {
-                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您的付款金额为" . $pay_price . "，返利金额为" . $orderFlag->rebate_pre_fee;
+                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您可在订单查询中自行查询";
             } else {
                 return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
             }
         }
 
         if ($user != null) {//判断是否成功获取到会员信息
+            $pay_price=0;
+            $pub_share_pre_fee=0;
             try {
                 DB::beginTransaction();
-                DB::table($this->table)
-                    ->where('trade_parent_id', $trade_parent_id)->where('id', "<>", $orderFlag->id)
-                    ->delete();
-                DB::table($this->table)
-                    ->where('trade_parent_id', $trade_parent_id)
-                    ->update([
-                        'openid' => $user->id,
-                        'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee),
-                        'pay_price' =>$pay_price,
-                        'tlf_status' => 1
-                    ]);
-                app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee));
-                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee));
-                DB::commit();
+                foreach ($orders as $order){
+                    //DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->where('id', "<>", $orderFlag->id)->delete();
+                    DB::table($this->table)
+                        ->where('trade_parent_id', $trade_parent_id)->where('id',$order->id)
+                        ->update([
+                            'openid' => $user->id,
+                            'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee),
+                            'pay_price' =>$order->pay_price,
+                            'tlf_status' => 1
+                        ]);
+                    app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                    app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                    $pay_price+=$order->pay_price;
+                    $pub_share_pre_fee+=$order->pub_share_pre_fee;
+                }
+               DB::commit();
                 return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee);
             } catch (\Exception $e) {
                 DB::rollBack();
@@ -300,20 +305,22 @@ class Orders extends Model
      * @param $tk_earning_time
      * @return int
      */
-    public function changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time)
+    public function changeStatusAndEarningTimeById($id, $tk_status, $tk_earning_time,$refund_tag=0)
     {
         if ($tk_earning_time == null) {
             return DB::table($this->table)
-                ->where('trade_parent_id', $trade_parent_id)
+                ->where('id', $id)
                 ->update([
-                    'tk_status' => $tk_status
+                    'tk_status' => $tk_status,
+                    'refund_tag' => $refund_tag
                 ]);
         } else {
             return DB::table($this->table)
-                ->where('trade_parent_id', $trade_parent_id)
+                ->where('id', $id)
                 ->update([
                     'tk_status' => $tk_status,
-                    'tk_earning_time' => $tk_earning_time
+                    'tk_earning_time' => $tk_earning_time,
+                    'refund_tag' => $refund_tag
                 ]);
         }
     }

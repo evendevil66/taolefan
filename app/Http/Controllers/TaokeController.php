@@ -701,18 +701,20 @@ class TaokeController extends Controller
                     if (isset($publisher_order_dto[0])) {
                         for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
                             $trade_parent_id = $publisher_order_dto[$i]['trade_parent_id']; //订单号
-                            if ($trade_parent_id != $order->trade_parent_id) {
+                            $item_title = $publisher_order_dto[$i]['item_title']; //商品名称
+                            if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                                 continue;
                             }
                             $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
                             $refund_tag = $publisher_order_dto[$i]['refund_tag'];
                             $tk_earning_time = null;
+                            Log::info($order->trade_parent_id."--".$order->item_title."--".$tk_status."--".$order->tk_status);
                             if ($tk_status == 13 || $refund_tag==1)  {
                                 //已退款，处理扣除金额
                                 try {
                                     $user = app(Users::class)->getUserById($order->openid);
                                     DB::beginTransaction();
-                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, 13, $tk_earning_time);
+                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $tk_earning_time,$refund_tag);
                                     app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                     app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                     DB::commit();
@@ -724,14 +726,15 @@ class TaokeController extends Controller
                                     $tk_earning_time = $publisher_order_dto[$i]['tk_earning_time'];
                                 }
                                 //处理变更状态
-                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $tk_earning_time);
                             }
                             $flag = false;
                             break;
                         }
                     } else {
                         $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
-                        if ($trade_parent_id != $order->trade_parent_id) {
+                        $item_title = $publisher_order_dto['item_title']; //商品名称
+                        if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                             continue;
                         }
                         $tk_status = $publisher_order_dto['tk_status'];//订单状态
@@ -742,7 +745,7 @@ class TaokeController extends Controller
                             try {
                                 $user = app(Users::class)->getUserById($order->openid);
                                 DB::beginTransaction();
-                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, 13, $tk_earning_time);
+                                app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $tk_earning_time);
                                 app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                 app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                 DB::commit();
@@ -754,7 +757,7 @@ class TaokeController extends Controller
                                 $tk_earning_time = $publisher_order_dto['tk_earning_time'];
                             }
                             //处理变更状态
-                            app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                            app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $tk_earning_time);
                         }
                         $flag = false;
                         break;
@@ -781,11 +784,10 @@ class TaokeController extends Controller
                 if($dataArr["data"]!=null){
                     foreach ($dataArr["data"] as $data){
                         $trade_parent_id = $data["orderId"];
-                        if ($trade_parent_id != $order->trade_parent_id) {
+                        $item_title = $data['skuName']; //商品名称
+                        if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                             continue;
                         }
-                        $item_title=$data["skuName"];
-                        $tk_paid_time = $data["orderTime"];
                         $tk_status =$data["validCode"];
                         $finishTime = null;
 
@@ -802,7 +804,7 @@ class TaokeController extends Controller
                                 try {
                                     $user = app(Users::class)->getUserById($order->openid);
                                     DB::beginTransaction();
-                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, 13, $finishTime);
+                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $finishTime);
                                     app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                     app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                     DB::commit();
@@ -816,7 +818,7 @@ class TaokeController extends Controller
                             if($tk_status == 3){
                                 $finishTime = $data["finishTime"];
                             }
-                            app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $finishTime);
+                            app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $finishTime);
                         }
                     }
                     $pageNo++;
@@ -826,10 +828,12 @@ class TaokeController extends Controller
             }
         }
     }
-
-
+    /**
+     * 获取上个月全部订单（建议每月执行多次）
+     */
     public function updateOrderAll(){
         $this->updateOrderTb();
+        $this->updateOrderJd();
     }
 
     /**
@@ -879,6 +883,10 @@ class TaokeController extends Controller
                     if (isset($publisher_order_dto[0])) {
                         for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
                             $trade_parent_id = $publisher_order_dto[$i]['trade_parent_id']; //订单号
+                            $item_title = $publisher_order_dto[$i]['item_title']; //商品名称
+                            if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
+                                continue;
+                            }
                             if ($trade_parent_id != $order->trade_parent_id) {
                                 continue;
                             }
@@ -890,7 +898,7 @@ class TaokeController extends Controller
                                 //已退款，处理扣除金额
                                 try {
                                     DB::beginTransaction();
-                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, 13, $tk_earning_time);
+                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $tk_earning_time);
                                     app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                     app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                     DB::commit();
@@ -917,7 +925,7 @@ class TaokeController extends Controller
                                         }
                                     }
                                     //处理变更状态
-                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $tk_earning_time);
                                     DB::commit();
                                     $count++;
                                 } catch (\Exception $e) {
@@ -929,7 +937,8 @@ class TaokeController extends Controller
                         }
                     } else {
                         $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
-                        if ($trade_parent_id != $order->trade_parent_id) {
+                        $item_title = $publisher_order_dto['item_title']; //商品名称
+                        if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                             continue;
                         }
                         $tk_status = $publisher_order_dto['tk_status'];//订单状态
@@ -941,7 +950,7 @@ class TaokeController extends Controller
                             //已退款，处理扣除金额
                             try {
                                 DB::beginTransaction();
-                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, 13, $tk_earning_time);
+                                app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $tk_earning_time);
                                 app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                 app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                 DB::commit();
@@ -967,7 +976,7 @@ class TaokeController extends Controller
                                     }
                                 }
                                 //处理变更状态
-                                app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $tk_earning_time);
+                                app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $tk_earning_time);
                                 DB::commit();
                                 $count++;
                             } catch (\Exception $e) {
@@ -1023,11 +1032,10 @@ class TaokeController extends Controller
                 if($dataArr["data"]!=null){
                     foreach ($dataArr["data"] as $data){
                         $trade_parent_id = $data["orderId"];
-                        if ($trade_parent_id != $order->trade_parent_id) {
+                        $item_title = $data['skuName']; //商品名称
+                        if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                             continue;
                         }
-                        $item_title=$data["skuName"];
-                        $tk_paid_time = $data["orderTime"];
                         $tk_status =$data["validCode"];
                         $finishTime = null;
 
@@ -1044,7 +1052,7 @@ class TaokeController extends Controller
                                 try {
                                     $user = app(Users::class)->getUserById($order->openid);
                                     DB::beginTransaction();
-                                    app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, 13, $finishTime);
+                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $finishTime);
                                     app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                     app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                     DB::commit();
@@ -1058,7 +1066,7 @@ class TaokeController extends Controller
                             if($tk_status == 3){
                                 $finishTime = $data["finishTime"];
                             }
-                            app(Orders::class)->changeStatusAndEarningTimeById($trade_parent_id, $tk_status, $finishTime);
+                            app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $finishTime);
                         }
                     }
                     $pageNo++;
