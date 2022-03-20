@@ -22,8 +22,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="更新京东返利功能">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,14 +282,8 @@
       <workItem from="1647511258724" duration="1606000" />
       <workItem from="1647514124015" duration="3236000" />
       <workItem from="1647593970392" duration="3922000" />
-      <workItem from="1647677604166" duration="19603000" />
-    </task>
-    <task id="LOCAL-00005" summary="update">
-      <created>1638900610586</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1638900610586</updated>
+      <workItem from="1647677604166" duration="22349000" />
+      <workItem from="1647755481289" duration="2553000" />
     </task>
     <task id="LOCAL-00006" summary="update">
       <created>1638901403417</created>
@@ -623,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647703774351</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="update">
+      <created>1647704147978</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1647704147978</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -646,9 +651,9 @@
     <MESSAGE value="修复商品未参与推广时的文案回复错误问题" />
     <MESSAGE value="修复同一订单包含多个商品时无法正常计算返利的问题" />
     <MESSAGE value="修复商品名称过长时订单无法保存的问题" />
-    <MESSAGE value="update" />
     <MESSAGE value="更新京东返利功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新京东返利功能" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1038" y="351" key="#Composer" timestamp="1647365462855">
@@ -660,10 +665,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state x="1376" y="370" key="#com.intellij.fileTypes.FileTypeChooser/0.25.2560.970@0.25.2560.970" timestamp="1647013064935" />
-    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1647684553438">
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1647755856294">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.969@0.25.2560.969" timestamp="1647684553438" />
+    <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.969@0.25.2560.969" timestamp="1647755856294" />
     <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.970@0.25.2560.970" timestamp="1647261537432" />
     <state x="895" y="404" key="DiffContextDialog" timestamp="1647334570478">
       <screen x="0" y="25" width="2560" height="969" />
@@ -687,10 +692,10 @@
     </state>
     <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647703787042">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647704158800">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647703787042" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647704158800" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />
