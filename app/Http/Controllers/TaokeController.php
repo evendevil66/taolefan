@@ -849,8 +849,9 @@ class TaokeController extends Controller
      */
     public function updateOrderAll()
     {
-        $this->updateOrderTb();
-        $this->updateOrderJd();
+        $tb = $this->updateOrderTb();
+        $jd = $this->updateOrderJd();
+        return "淘宝".$tb."----京东".$jd;
     }
 
     /**
@@ -861,7 +862,7 @@ class TaokeController extends Controller
     {
         $count = 0;
         $orders = app(Orders::class)->getAllWithinLastMonth();
-        if ($orders == null) {
+        if ($orders == null || sizeof($orders)==0) {
             return "上月无订单";
         }
         date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
@@ -870,6 +871,9 @@ class TaokeController extends Controller
         $c->secretKey = config('config.aliAppSecret');
         foreach ($orders as $order) {
             if ($order->tk_status == 13 || $order->tlf_status == 2 || $order->tlf_status == -1) {
+                continue;
+            }
+            if(strlen($order->trade_parent_id)<17){
                 continue;
             }
             $flag = true;
@@ -890,12 +894,12 @@ class TaokeController extends Controller
                 $resp = $c->execute($req);
                 $Jsondata = json_encode($resp, true);
                 $data = json_decode($Jsondata, true);
-                if ($data['data']['has_next'] == 'false') {
-                    $flag = false;
-                } else {
-                    $pageNo++;
-                } //如不包含下一页，则本次执行结束后终止循环
                 if (isset($data['data']['results'])) {
+                    if ($data['data']['has_next'] == 'false') {
+                        $flag = false;
+                    } else {
+                        $pageNo++;
+                    } //如不包含下一页，则本次执行结束后终止循环
                     $publisher_order_dto = $data['data']['results']['publisher_order_dto'];
                     if (isset($publisher_order_dto[0])) {
                         for ($i = 0; $i < sizeof($publisher_order_dto); $i++) {
@@ -911,6 +915,7 @@ class TaokeController extends Controller
                             $refund_tag = $publisher_order_dto[$i]['refund_tag'];
                             $tk_earning_time = null;
                             $user = app(Users::class)->getUserById($order->openid);
+
                             if ($tk_status == 13 || $refund_tag == 1) {
                                 //已退款，处理扣除金额
                                 try {
@@ -1005,6 +1010,7 @@ class TaokeController extends Controller
                         break;
                     }
                 }
+                $flag=false;
             }
         }
         return "处理成功" . $count . "条订单";
@@ -1019,7 +1025,7 @@ class TaokeController extends Controller
         $count = 0;
         $orders = app(Orders::class)->getAllWithinLastMonth();
         $host = "https://openapi.dataoke.com/api/dels/jd/order/get-official-order-list";
-        if ($orders == null) {
+        if ($orders == null || sizeof($orders)==0) {
             return "上月无订单";
         }
         date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
@@ -1028,6 +1034,9 @@ class TaokeController extends Controller
         $c->secretKey = config('config.aliAppSecret');
         foreach ($orders as $order) {
             if ($order->tk_status == 13 || $order->tlf_status == 2 || $order->tlf_status == -1) {
+                continue;
+            }
+            if(strlen($order->trade_parent_id)>13){
                 continue;
             }
             $flag = true;

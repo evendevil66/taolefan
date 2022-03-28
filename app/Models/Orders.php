@@ -278,6 +278,8 @@ class Orders extends Model
         } else if ($month == 2) {
             $month = 12;
             $year = ((int)$year) - 1;
+        }else{
+            $month-=2;
         }
         $toYear = $month == 12 ? ((int)$year) + 1 : $year;
         $toMonth = $month == 12 ? 1 : ($month + 1);
