@@ -33,6 +33,11 @@
 ## Update
 注意：小版本更新可能涉及数据库轻微变动，建议更新前备份数据并使用最新sql文件重新构建结构，再导入数据使用。  
   
+2022.3.28 v1.1.2  
+<font color="#ee4444">注意：更新本版本请务必安装Redis并为PHP安装Redis扩展，默认自动匹配本地无密码默认端口（6379）Redis，可在/config/database.php中自行修改</font>  
+优化自动跟单体验 使用Redis存储信息 支持京东自动跟单  
+解决了淘宝联盟会员跟单可能失败的问题  
+  
 2022.3.20 v1.1.1  
 优化单订单多商品处理机制  
 优化淘宝订单维权机制（后台显示已维权，默认取消返利）  
@@ -83,6 +88,25 @@ DB_PORT=3306  #数据库连接端口
 DB_DATABASE=taolefan #数据库名
 DB_USERNAME=root  #数据库用户名
 DB_PASSWORD=  #数据库密码
+````
+如修改了Redis端口、密码等配置，请额外在config/database.php中修改Redis相关配置  
+请将default和cache指向同一Redis服务器的不同database
+````php
+'default' => [
+'url' => env('REDIS_URL'),
+'host' => env('REDIS_HOST', '127.0.0.1'),
+'password' => env('REDIS_PASSWORD', null),
+'port' => env('REDIS_PORT', '6379'),
+'database' => env('REDIS_DB', '1'),
+],
+
+'cache' => [
+'url' => env('REDIS_URL'),
+'host' => env('REDIS_HOST', '127.0.0.1'),
+'password' => env('REDIS_PASSWORD', null),
+'port' => env('REDIS_PORT', '6379'),
+'database' => env('REDIS_CACHE_DB', '2'),
+]
 ````
 
 修改/config/wechat.php配置 根据微信公众平台内容修改

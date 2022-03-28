@@ -22,12 +22,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="优化单订单多商品处理机制">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,28 +285,9 @@
       <workItem from="1647514124015" duration="3236000" />
       <workItem from="1647593970392" duration="3922000" />
       <workItem from="1647677604166" duration="22349000" />
-      <workItem from="1647755481289" duration="2553000" />
-    </task>
-    <task id="LOCAL-00006" summary="update">
-      <created>1638901403417</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1638901403417</updated>
-    </task>
-    <task id="LOCAL-00007" summary="update">
-      <created>1638901710510</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1638901710510</updated>
-    </task>
-    <task id="LOCAL-00008" summary="update">
-      <created>1638901849237</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1638901849237</updated>
+      <workItem from="1647755481289" duration="2852000" />
+      <workItem from="1647761635288" duration="517000" />
+      <workItem from="1648469421595" duration="8776000" />
     </task>
     <task id="LOCAL-00009" summary="update">
       <created>1638902199442</created>
@@ -628,7 +611,28 @@
       <option name="project" value="LOCAL" />
       <updated>1647704147978</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="update">
+      <created>1647759075378</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1647759075379</updated>
+    </task>
+    <task id="LOCAL-00056" summary="update">
+      <created>1647759085557</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1647759085557</updated>
+    </task>
+    <task id="LOCAL-00057" summary="优化单订单多商品处理机制">
+      <created>1647759107104</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1647759107104</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,7 +657,8 @@
     <MESSAGE value="修复商品名称过长时订单无法保存的问题" />
     <MESSAGE value="更新京东返利功能" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="优化单订单多商品处理机制" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化单订单多商品处理机制" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1038" y="351" key="#Composer" timestamp="1647365462855">
@@ -670,6 +675,10 @@
     </state>
     <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.969@0.25.2560.969" timestamp="1647755856294" />
     <state x="1018" y="269" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.25.2560.970@0.25.2560.970" timestamp="1647261537432" />
+    <state x="1241" y="426" width="484" height="299" key="ComposerInitDialogKey" timestamp="1648471204725">
+      <screen x="0" y="25" width="2560" height="969" />
+    </state>
+    <state x="1241" y="426" width="484" height="299" key="ComposerInitDialogKey/0.25.2560.969@0.25.2560.969" timestamp="1648471204725" />
     <state x="895" y="404" key="DiffContextDialog" timestamp="1647334570478">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
@@ -692,10 +701,10 @@
     </state>
     <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1647704158800">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648472565575">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1647704158800" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648472565575" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />
@@ -706,10 +715,10 @@
       <screen x="0" y="25" width="2560" height="970" />
     </state>
     <state x="1082" y="403" key="git4idea.remote.GitConfigureRemotesDialog/0.25.2560.970@0.25.2560.970" timestamp="1647013284994" />
-    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1647695438120">
+    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup" timestamp="1648478403723">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.969@0.25.2560.969" timestamp="1647695438120" />
+    <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.969@0.25.2560.969" timestamp="1648478403723" />
     <state x="945" y="238" width="670" height="676" key="search.everywhere.popup/0.25.2560.970@0.25.2560.970" timestamp="1647153789561" />
   </component>
 </project>
