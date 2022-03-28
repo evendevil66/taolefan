@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use Illuminate\Support\Facades\Request;
 use App\Models\Users;
+use Illuminate\Support\Facades\Redis;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,11 @@ use App\Models\Users;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/testRed',function (){
+    $title=Request::get('title');
+    return Redis::get($title);
+});
 
 Route::get('/', function () {
     return view('welcome');

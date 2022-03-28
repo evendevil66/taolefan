@@ -3,18 +3,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Users;
+use App\Models\Orders;
 use App\Http\Controllers\WeChatController;
 use App\Models\BalanceRecord;
 use Illuminate\Support\Facades\DB;
 use Log;
-use App\Models\Users;
-use App\Models\Orders;
 use Illuminate\Support\Facades\Request;
 use TopClient;
 use TbkItemInfoGetRequest;
 use TopAuthTokenCreateRequest;
 use TbkScPublisherInfoSaveRequest;
 use TbkOrderDetailsGetRequest;
+use Illuminate\Support\Facades\Redis;
+
 
 class TaokeController extends Controller
 {
@@ -91,7 +93,7 @@ class TaokeController extends Controller
             case "200001":
             case "20001":
             case "200003":
-                return $this->jdParse($content, $rate);
+                return $this->jdParse($content, $rate, $user);
             case "25003":
                 return "券信息解析失败，请确保您发送的链接为商品链接，如链接中包含优惠券（如导购群链接等）请先进入商品再分享链接到公众号转链（注意：不要领取第三方淘礼金否则无法返利）";
             default:
@@ -106,24 +108,24 @@ class TaokeController extends Controller
      * @param $rate
      * @return string
      */
-    public function jdParse($url, $rate)
+    public function jdParse($url, $rate, $user)
     {
         $skuId = $this->getJdSku($url);
         if (!$skuId) {
             return "您发送的商品无饭粒活动，或链接不支持，目前支持淘宝商品分享，京东链接分享，京东商品全名方式搜索返利";
         }
-        $str = $this->getJdDetails($skuId, $rate);
+        $str = $this->getJdDetails($skuId, $rate, $user);
         if (!$str) {
             return "您发送的京东商品无饭粒活动哦";
         }
         $url = $this->getJdUrl($url);
-        if(!$url){
+        if (!$url) {
             $url = $this->getJdUrl($skuId);
         }
-        if(!$url){
+        if (!$url) {
             return "获取京东链接失败，请稍后重试或尝试其他商品，如仍无法正常转链可联系客服";
         }
-        return $str."点击下方链接下单2分钟后返回填写订单号即可跟单\n".$url;
+        return $str . "点击下方链接下单2分钟后返回填写订单号即可跟单\n" . $url;
 
 
     }
@@ -159,7 +161,7 @@ class TaokeController extends Controller
      * @param $rate
      * @return false|string
      */
-    public function getJdDetails($skuId, $rate)
+    public function getJdDetails($skuId, $rate, $user)
     {
         $host = "https://openapi.dataoke.com/api/dels/jd/goods/get-details";
         $data = [
@@ -180,22 +182,28 @@ class TaokeController extends Controller
             $couponInfo1 = $dataArr["data"][0]["couponAmount"];
             $couponInfo2 = $dataArr["data"][0]["couponConditions"];
             $commissionShare = $dataArr["data"][0]["commissionShare"];
+            $openid = Redis::get($title);
+            if($openid!=null && $openid!="" && $openid!=$user->id){
+                Redis::setex($title,1800, "repeat");
+            }else{
+                Redis::setex($title,600, $user->id);
+            }
             if ($couponInfo1 == (-1)) {
                 return $title . "\n" .
-                "售价：" . $price . "元\n" .
-                "商品暂无无优惠券\n" .
-                "预计付款金额：" . $price . "元\n" .
-                "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                "预计返现金额：" . ($price * $rate * ($commissionShare / 100)) . "元\n" .
-                "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
+                    "售价：" . $price . "元\n" .
+                    "商品暂无无优惠券\n" .
+                    "预计付款金额：" . $price . "元\n" .
+                    "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
+                    "预计返现金额：" . ($price * $rate * ($commissionShare / 100)) . "元\n" .
+                    "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
             } else {
                 return $title . "\n" .
-                "售价：" . $price . "元\n" .
-                "优惠券：" . "满" . $couponInfo2 . "-" . $couponInfo1 . "元" . "\n" .
-                "预计付款金额：" . $actualPrice . "元\n" .
-                "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                "预计返现金额：" . ($actualPrice * $rate * ($commissionShare / 100)) . "元\n" .
-                "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
+                    "售价：" . $price . "元\n" .
+                    "优惠券：" . "满" . $couponInfo2 . "-" . $couponInfo1 . "元" . "\n" .
+                    "预计付款金额：" . $actualPrice . "元\n" .
+                    "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
+                    "预计返现金额：" . ($actualPrice * $rate * ($commissionShare / 100)) . "元\n" .
+                    "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
             }
         } else {
             return false;
@@ -207,7 +215,8 @@ class TaokeController extends Controller
      * @param $url
      * @return false|mixed
      */
-    public function getJdUrl($url){
+    public function getJdUrl($url)
+    {
         $host = "https://openapi.dataoke.com/api/dels/jd/kit/promotion-union-convert";
         $data = [
             'appKey' => config('config.dtkAppKey'),
@@ -219,7 +228,7 @@ class TaokeController extends Controller
         $url = $host . '?' . http_build_query($data);
         $output = $this->curlGet($url, 'get');
         $dataArr = json_decode($output, true);//将返回数据转为数组
-        if (($dataArr["code"])==0) {
+        if (($dataArr["code"]) == 0) {
             return $dataArr["data"]["shortUrl"];
         } else {
             return false;
@@ -282,6 +291,12 @@ class TaokeController extends Controller
             //$end= (strpos($longTpwd,"】"));
             //$title= substr($longTpwd,$start+1,$end-$start-1);
             $maxCommissionRate = $dataArr['data']['maxCommissionRate'] == "" || null ? $dataArr['data']['minCommissionRate'] : $dataArr['data']['maxCommissionRate']; //佣金比例
+            $openid = Redis::get($title);
+            if($openid!=null && $openid!="" && $openid!=$user->id){
+                Redis::setex($title,1800, "repeat");
+            }else{
+                Redis::setex($title,600, $user->id);
+            }
             if ($user->special_id != null && $user->special_id != "") {
                 return
                     "1" . $title . "\n" .
@@ -605,37 +620,37 @@ class TaokeController extends Controller
         $flag = true;
         $pageNo = 1;
         $host = "https://openapi.dataoke.com/api/dels/jd/order/get-official-order-list";
-        while (true){
+        while (true) {
             $data = [
                 'appKey' => config('config.dtkAppKey'),
                 'version' => '1.0.0',
                 'key' => config('config.jdApiKey'),
                 'startTime' => date("Y-m-d H:i:s", time() - $timeQuantum),
                 'endTime' => (date("Y-m-d H:i:s", time())),
-                'type'=> 3,
-                'pageNo'=>$pageNo,
+                'type' => 3,
+                'pageNo' => $pageNo,
             ];
             $data['sign'] = $this->makeSign($data);
             $url = $host . '?' . http_build_query($data);
             $output = $this->curlGet($url, 'get');
             $dataArr = json_decode($output, true);//将返回数据转为数组
-            if($dataArr["data"]!=null){
-                foreach ($dataArr["data"] as $data){
+            if ($dataArr["data"] != null) {
+                foreach ($dataArr["data"] as $data) {
                     $trade_parent_id = $data["orderId"];
-                    $item_title=$data["skuName"];
+                    $item_title = $data["skuName"];
                     $tk_paid_time = $data["orderTime"];
-                    $tk_status =$data["validCode"];
-                    switch ($tk_status){
+                    $tk_status = $data["validCode"];
+                    switch ($tk_status) {
                         case 15:
                             break;
                         case 16:
-                            $tk_status=12;
+                            $tk_status = 12;
                             break;
                         case 17:
-                            $tk_status=3;
+                            $tk_status = 3;
                             break;
                         default:
-                            $tk_status=13;
+                            $tk_status = 13;
                     }
                     $alipay_total_price = $data["estimateCosPrice"];
                     $pub_share_pre_fee = $data["estimateFee"];
@@ -645,8 +660,8 @@ class TaokeController extends Controller
                     $count++;
                 }
                 $pageNo++;
-            }else{
-                $flag=false;
+            } else {
+                $flag = false;
             }
             return "成功处理订单数量：" . $count;
         }
@@ -708,13 +723,13 @@ class TaokeController extends Controller
                             $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
                             $refund_tag = $publisher_order_dto[$i]['refund_tag'];
                             $tk_earning_time = null;
-                            Log::info($order->trade_parent_id."--".$order->item_title."--".$tk_status."--".$order->tk_status);
-                            if ($tk_status == 13 || $refund_tag==1)  {
+                            Log::info($order->trade_parent_id . "--" . $order->item_title . "--" . $tk_status . "--" . $order->tk_status);
+                            if ($tk_status == 13 || $refund_tag == 1) {
                                 //已退款，处理扣除金额
                                 try {
                                     $user = app(Users::class)->getUserById($order->openid);
                                     DB::beginTransaction();
-                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $tk_earning_time,$refund_tag);
+                                    app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $tk_earning_time, $refund_tag);
                                     app(BalanceRecord::class)->setRecord($order->openid, "订单" . $trade_parent_id . "退款扣除返利" . $order->rebate_pre_fee, ($order->rebate_pre_fee) * (-1));
                                     app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                     DB::commit();
@@ -740,7 +755,7 @@ class TaokeController extends Controller
                         $tk_status = $publisher_order_dto['tk_status'];//订单状态
                         $refund_tag = $publisher_order_dto['refund_tag'];
                         $tk_earning_time = null;
-                        if ($tk_status == 13 || $refund_tag==1) {
+                        if ($tk_status == 13 || $refund_tag == 1) {
                             //已退款，处理扣除金额
                             try {
                                 $user = app(Users::class)->getUserById($order->openid);
@@ -774,31 +789,31 @@ class TaokeController extends Controller
                     'key' => config('config.jdApiKey'),
                     'startTime' => date("Y-m-d H:i:s", strtotime($order->tk_paid_time) - 60),
                     'endTime' => date("Y-m-d H:i:s", strtotime($order->tk_paid_time) + 60),
-                    'type'=> 1,
-                    'pageNo'=>$pageNo,
+                    'type' => 1,
+                    'pageNo' => $pageNo,
                 ];
                 $data['sign'] = $this->makeSign($data);
                 $url = $host . '?' . http_build_query($data);
                 $output = $this->curlGet($url, 'get');
                 $dataArr = json_decode($output, true);//将返回数据转为数组
-                if($dataArr["data"]!=null){
-                    foreach ($dataArr["data"] as $data){
+                if ($dataArr["data"] != null) {
+                    foreach ($dataArr["data"] as $data) {
                         $trade_parent_id = $data["orderId"];
                         $item_title = $data['skuName']; //商品名称
                         if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                             continue;
                         }
-                        $tk_status =$data["validCode"];
+                        $tk_status = $data["validCode"];
                         $finishTime = null;
 
-                        switch ($tk_status){
+                        switch ($tk_status) {
                             case 15:
                                 break;
                             case 16:
-                                $tk_status=12;
+                                $tk_status = 12;
                                 break;
                             case 17:
-                                $tk_status=3;
+                                $tk_status = 3;
                                 break;
                             default:
                                 try {
@@ -811,27 +826,29 @@ class TaokeController extends Controller
                                 } catch (\Exception $e) {
                                     DB::rollBack();
                                 }
-                                $tk_status=13;
+                                $tk_status = 13;
                                 break;
                         }
-                        if($tk_status!=13 && $tk_status != $order->tk_status){
-                            if($tk_status == 3){
+                        if ($tk_status != 13 && $tk_status != $order->tk_status) {
+                            if ($tk_status == 3) {
                                 $finishTime = $data["finishTime"];
                             }
                             app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $finishTime);
                         }
                     }
                     $pageNo++;
-                }else{
-                    $flag=false;
+                } else {
+                    $flag = false;
                 }
             }
         }
     }
+
     /**
      * 获取上个月全部订单（建议每月执行多次）
      */
-    public function updateOrderAll(){
+    public function updateOrderAll()
+    {
         $this->updateOrderTb();
         $this->updateOrderJd();
     }
@@ -894,7 +911,7 @@ class TaokeController extends Controller
                             $refund_tag = $publisher_order_dto[$i]['refund_tag'];
                             $tk_earning_time = null;
                             $user = app(Users::class)->getUserById($order->openid);
-                            if ($tk_status == 13 || $refund_tag==1) {
+                            if ($tk_status == 13 || $refund_tag == 1) {
                                 //已退款，处理扣除金额
                                 try {
                                     DB::beginTransaction();
@@ -946,7 +963,7 @@ class TaokeController extends Controller
                         $refund_tag = $publisher_order_dto['refund_tag'];
                         $user = app(Users::class)->getUserById($order->openid);
 
-                        if ($tk_status == 13 || $refund_tag==1) {
+                        if ($tk_status == 13 || $refund_tag == 1) {
                             //已退款，处理扣除金额
                             try {
                                 DB::beginTransaction();
@@ -1022,31 +1039,31 @@ class TaokeController extends Controller
                     'key' => config('config.jdApiKey'),
                     'startTime' => date("Y-m-d H:i:s", strtotime($order->tk_paid_time) - 60),
                     'endTime' => date("Y-m-d H:i:s", strtotime($order->tk_paid_time) + 60),
-                    'type'=> 1,
-                    'pageNo'=>$pageNo,
+                    'type' => 1,
+                    'pageNo' => $pageNo,
                 ];
                 $data['sign'] = $this->makeSign($data);
                 $url = $host . '?' . http_build_query($data);
                 $output = $this->curlGet($url, 'get');
                 $dataArr = json_decode($output, true);//将返回数据转为数组
-                if($dataArr["data"]!=null){
-                    foreach ($dataArr["data"] as $data){
+                if ($dataArr["data"] != null) {
+                    foreach ($dataArr["data"] as $data) {
                         $trade_parent_id = $data["orderId"];
                         $item_title = $data['skuName']; //商品名称
                         if ($trade_parent_id != $order->trade_parent_id || $item_title != $order->item_title) {
                             continue;
                         }
-                        $tk_status =$data["validCode"];
+                        $tk_status = $data["validCode"];
                         $finishTime = null;
 
-                        switch ($tk_status){
+                        switch ($tk_status) {
                             case 15:
                                 break;
                             case 16:
-                                $tk_status=12;
+                                $tk_status = 12;
                                 break;
                             case 17:
-                                $tk_status=3;
+                                $tk_status = 3;
                                 break;
                             default:
                                 try {
@@ -1059,19 +1076,19 @@ class TaokeController extends Controller
                                 } catch (\Exception $e) {
                                     DB::rollBack();
                                 }
-                                $tk_status=13;
+                                $tk_status = 13;
                                 break;
                         }
-                        if($tk_status!=13 && $tk_status != $order->tk_status){
-                            if($tk_status == 3){
+                        if ($tk_status != 13 && $tk_status != $order->tk_status) {
+                            if ($tk_status == 3) {
                                 $finishTime = $data["finishTime"];
                             }
                             app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $finishTime);
                         }
                     }
                     $pageNo++;
-                }else{
-                    $flag=false;
+                } else {
+                    $flag = false;
                 }
             }
         }

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 use mysql_xdevapi\Exception;
+use Illuminate\Support\Facades\Redis;
+
 
 class Orders extends Model
 {
@@ -69,16 +71,24 @@ class Orders extends Model
                     'tk_commission_pre_fee_for_media_platform' => $tk_commission_pre_fee_for_media_platform,
                     'rebate_pre_fee' => $rebate_pre_fee
                 ]);
+
             }
             if ($flag) {
-                $order = DB::table($this->table)->where([
-                    'trade_parent_id' => $trade_parent_id,
-                    'item_title' => $item_title,
-                    'pay_price' => $pay_price
-                ])->orderBy('id', 'desc')->first();
-                if ($special_id != -1 && $tk_status != 13) {
-                    $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($order->id, $trade_parent_id, $special_id, $pub_share_pre_fee);
+                $openid = Redis::get($item_title);
+                if($openid!=null && $openid!="" && $openid !="repeat"){
+                    $user = app(\App\Models\Users::class)->getUserById($openid);
+                    $this->ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id,$user);
+                }else{
+                    $order = DB::table($this->table)->where([
+                        'trade_parent_id' => $trade_parent_id,
+                        'item_title' => $item_title,
+                        'pay_price' => $pay_price
+                    ])->orderBy('id', 'desc')->first();
+                    if ($special_id != -1 && $tk_status != 13) {
+                        $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($order->id, $trade_parent_id, $special_id, $pub_share_pre_fee);
+                    }
                 }
+
             }
             return $flag;
         } catch (\Exception $e) {
@@ -140,7 +150,7 @@ class Orders extends Model
         if ($orderFlag->tk_status == 13) {
             return "您的订单已退款，无法绑定";
         } else if ($orderFlag->openid != null && trim($orderFlag->openid) != "") {
-            if ($orderFlag->special_id != null && trim($orderFlag->special_id) != "") {
+            if ($orderFlag->openid == $user->id) {
                 return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您可在订单查询中自行查询";
             } else {
                 return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
@@ -190,6 +200,19 @@ class Orders extends Model
     }
 
     /**
+     * 根据openid分页查询订单信息
+     * @param $openid
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
+     */
+    public function getAllByPaginateInOpenid($openid)
+    {
+        return DB::table($this->table)
+            ->where('openid', $openid)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+    }
+
+    /**
      * 分页查询订单信息
      * @param null $trade_parent_id 订单号
      * @param null $start 起始日期
@@ -221,19 +244,6 @@ class Orders extends Model
 
         }
 
-    }
-
-    /**
-     * 根据openid分页查询订单信息
-     * @param $openid
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 分页查询对象
-     */
-    public function getAllByPaginateInOpenid($openid)
-    {
-        return DB::table($this->table)
-            ->where('openid', $openid)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
     }
 
     /**
