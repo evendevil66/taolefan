@@ -25,8 +25,6 @@
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,21 +282,7 @@
       <workItem from="1647677604166" duration="22349000" />
       <workItem from="1647755481289" duration="2852000" />
       <workItem from="1647761635288" duration="517000" />
-      <workItem from="1648469421595" duration="11547000" />
-    </task>
-    <task id="LOCAL-00014" summary="update">
-      <created>1645370394801</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1645370394801</updated>
-    </task>
-    <task id="LOCAL-00015" summary="update">
-      <created>1647013135024</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1647013135024</updated>
+      <workItem from="1648469421595" duration="12229000" />
     </task>
     <task id="LOCAL-00016" summary="update">
       <created>1647082656834</created>
@@ -629,7 +613,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648479270518</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="修复了结算更新上上月订单处理逻辑的Bug">
+      <created>1648481391250</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1648481391250</updated>
+    </task>
+    <task id="LOCAL-00064" summary="update">
+      <created>1648481407065</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1648481407065</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -655,6 +653,7 @@
     <MESSAGE value="更新京东返利功能" />
     <MESSAGE value="优化单订单多商品处理机制" />
     <MESSAGE value="优化了自动跟单的体验" />
+    <MESSAGE value="修复了结算更新上上月订单处理逻辑的Bug" />
     <MESSAGE value="update" />
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
@@ -699,10 +698,10 @@
     </state>
     <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648479284114">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648481420036">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648479284114" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648481420036" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />
