@@ -93,9 +93,11 @@ class TaokeController extends Controller
             case "200001":
             case "20001":
             case "200003":
-                return $this->jdParse($content, $rate, $user);
+                if(strlen($content)>10){
+                    return $this->jdParse($content, $rate, $user);
+                }
             case "25003":
-                return "券信息解析失败，请确保您发送的链接为商品链接，如链接中包含优惠券（如导购群链接等）请先进入商品再分享链接到公众号转链（注意：不要领取第三方淘礼金否则无法返利）";
+                return "信息解析失败，请确保您发送的链接为淘口令或商品链接";
             default:
                 return "出现未知异常，请稍后再试或联系客服";
         }
@@ -125,7 +127,7 @@ class TaokeController extends Controller
         if (!$url) {
             return "获取京东链接失败，请稍后重试或尝试其他商品，如仍无法正常转链可联系客服";
         }
-        return $str . "点击下方链接下单2分钟后返回填写订单号即可跟单\n" . $url;
+        return $str . "您可以点击下方链接下单，或点击下方链接加入购物车后再回到京东APP下单即可获得返利。\n" . $url."\n\n自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。";
 
 
     }
@@ -291,6 +293,7 @@ class TaokeController extends Controller
             //$end= (strpos($longTpwd,"】"));
             //$title= substr($longTpwd,$start+1,$end-$start-1);
             $maxCommissionRate = $dataArr['data']['maxCommissionRate'] == "" || null ? $dataArr['data']['minCommissionRate'] : $dataArr['data']['maxCommissionRate']; //佣金比例
+
             $openid = Redis::get($title);
             if($openid!=null && $openid!="" && $openid!=$user->id){
                 Redis::setex($title,1800, "repeat");
@@ -307,7 +310,7 @@ class TaokeController extends Controller
                     "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n" .
                     "返现计算：实付款 * " . $maxCommissionRate * $rate . "%\n\n" .
                     "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
-                    "您已绑定过淘宝账号，下单后系统将尝试自动跟单，请下单后5分钟左右进行查询，如无法查询到您的订单，您可以手动发送订单号绑定订单。";
+                    "增强自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。";
             } else {
                 return
                     "1" . $title . "\n" .
@@ -318,7 +321,8 @@ class TaokeController extends Controller
                     "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n" .
                     "返现计算：实付款 * " . $maxCommissionRate * $rate . "%\n\n" .
                     "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
-                    "点击下方账号管理，绑定淘宝账号，下单后系统将支持自动同步，无需回传订单号（个别情况自动同步未成功可提交订单号手动绑定）";
+                    "自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。\n".
+                    "您也可以点击右下角或发送'绑定淘宝'，绑定淘宝账号开启增强版自动跟单哦";
             }
 
 
