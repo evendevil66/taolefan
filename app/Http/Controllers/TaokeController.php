@@ -694,7 +694,7 @@ class TaokeController extends Controller
             }
             $flag = true;
             $pageNo = 1;
-            while ($flag) {
+            while ($flag && strlen($order->trade_parent_id)>13) {
                 $req = new TbkOrderDetailsGetRequest;
                 $req->setQueryType("1");
                 $req->setPageSize("10");
@@ -786,7 +786,7 @@ class TaokeController extends Controller
 
             $flag = true;
             $pageNo = 1;
-            while ($flag) {
+            while ($flag && strlen($order->trade_parent_id)<17) {
                 $data = [
                     'appKey' => config('config.dtkAppKey'),
                     'version' => '1.0.0',
