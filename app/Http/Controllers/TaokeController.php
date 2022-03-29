@@ -727,7 +727,6 @@ class TaokeController extends Controller
                             $tk_status = $publisher_order_dto[$i]['tk_status'];//订单状态
                             $refund_tag = $publisher_order_dto[$i]['refund_tag'];
                             $tk_earning_time = null;
-                            Log::info($order->trade_parent_id . "--" . $order->item_title . "--" . $tk_status . "--" . $order->tk_status);
                             if ($tk_status == 13 || $refund_tag == 1) {
                                 //已退款，处理扣除金额
                                 try {
