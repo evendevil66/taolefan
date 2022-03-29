@@ -23,8 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/public/images/wechat.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -284,14 +282,7 @@
       <workItem from="1647755481289" duration="2852000" />
       <workItem from="1647761635288" duration="517000" />
       <workItem from="1648469421595" duration="12263000" />
-      <workItem from="1648529964668" duration="2207000" />
-    </task>
-    <task id="LOCAL-00021" summary="update">
-      <created>1647105694841</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1647105694841</updated>
+      <workItem from="1648529964668" duration="2302000" />
     </task>
     <task id="LOCAL-00022" summary="update">
       <created>1647105962405</created>
@@ -629,7 +620,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648531352929</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="update">
+      <created>1648532301492</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1648532301492</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -702,10 +700,10 @@
     </state>
     <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648531364996">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648532304186">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648531364996" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648532304186" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />
