@@ -37,7 +37,12 @@
 
 ## Update
 注意：*表更新表示数据库有轻微变动，更新前请备份数据并使用最新sql文件重新构建结构，再导入数据使用。  
-  
+    
+2022.3.30 v1.1.6  
+更新快捷自定义联系客服功能  
+此版本config/config.php新增项目，请注意更新  
+[点击跳转到mediaId获取方法](#mediaId)
+
 2022.3.30 v1.1.5  
 淘宝转链取消淘宝联盟接口查询 提高转链效率  
 注释var_dump，避免因该函数输出内容导致错误  
@@ -147,9 +152,17 @@ REDIS_PORT=6379 #Redis端口
 'eleme_imgUrl' => "https://*.*.*/eleme.jpeg", //饿了么小程序码图片url
 'eleme_newsUrl' => "https://xxx.xxx.xxx", //微信公众号文章URl
 'unionId' => "******", //京东联盟ID
-'jdApiKey' => "******" //京东联盟APIKey
-
+'jdApiKey' => "******", //京东联盟APIKey
+'contactType' => 1, //联系客服类型，为0返回微信号，为1返回二维码图片
+'contactId' => "", //客服微信号
+'contactMediaId' => "" //客服微信二维码图片MediaID（获取方式见Readme文档介绍）
 ````
+<span id="mediaId">--mediaId获取方法</span>  
+使用[微信公众平台接口调试工具](https://mp.weixin.qq.com/debug)  
+首先调用获取access_token接口  
+然后使用取得的token调用多媒体文件上传接口  
+将获得的MediaId填写到config文件即可
+
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：
 ````text
