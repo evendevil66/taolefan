@@ -79,10 +79,10 @@ class TaokeController extends Controller
         //Log::info($dataArr);
         //return json_encode($dataArr['data']['originInfo']['title']);
         //return json_encode($dataArr);
-        $title = $dataArr['data']['originInfo']['title'];
-        $price = $dataArr['data']['originInfo']['price'];
         switch ($status) {
             case "0":
+                $title = $dataArr['data']['originInfo']['title'];
+                $price = $dataArr['data']['originInfo']['price'];
                 $goodsid = $dataArr['data']['goodsId'];
                 $dataArr = null;
                 if ($user->special_id != null && $user->special_id != "") {
@@ -94,6 +94,7 @@ class TaokeController extends Controller
             case "-1":
                 return "哎呀，服务器出错了，请您再发送尝试一次或稍后再试";
             case "20002":
+            case "200002":
             case "200001":
             case "20001":
             case "200003":
