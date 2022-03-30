@@ -17,7 +17,10 @@ return [
     'eleme_imgUrl' => "https://xxx.xxx.xxx/xxx.jpeg",//饿了么小程序码图片url
     'eleme_newsUrl' => "https://xxx.xxx.xxx",//微信公众号文章URl
     'unionId' => "******", //京东联盟ID
-    'jdApiKey' => "******" //京东联盟APIKey
+    'jdApiKey' => "******", //京东联盟APIKey
+    'contactType' => 1, //联系客服类型，为0返回微信号，为1返回二维码图片
+    'contactId' => "", //客服微信号
+    'contactMediaId' => "" //客服微信二维码图片MediaID（获取方式见Readme文档介绍）
 
 ];
 

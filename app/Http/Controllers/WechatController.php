@@ -12,6 +12,7 @@ use App\Models\Users;
 use App\Models\Orders;
 use EasyWeChat\Kernel\Messages\News;
 use EasyWeChat\Kernel\Messages\NewsItem;
+use EasyWeChat\Kernel\Messages\Image;
 
 class WeChatController extends Controller
 {
@@ -127,7 +128,10 @@ class WeChatController extends Controller
                                 "首次提现前，请先在个人中心-补全资料处，补齐提现资料，即可进行提现\n\n" .
                                 "另外您点击个人中心-绑定淘宝，绑定常购物的淘宝账号，即可自动跟踪订单，无需返回公众号填写订单号哦（测试中，可能暂时无法正常自动跟单）";
                         case 'Contact':
-                            return "wxid_ts6hzzyc160x22\n" . "您可以复制上方微信号，添加客服微信咨询";
+                            if(config('config.contactType') == 1){
+                                return new Image(config('config.contactMediaId'));
+                            }
+                            return config('config.contactId')."\n" . "您可以复制上方微信号，添加客服微信咨询";
                         case 'Supplement':
                             $url = config('config.apiUrl') . "/reg/" . $openid . "?username=" . $user->username . "&nickname=" . $user->nickname . "&alipay=" . $user->alipay_id;
                             if ($user->username != null && $user->username != "") {
