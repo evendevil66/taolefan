@@ -78,6 +78,7 @@ class TaokeController extends Controller
         $status = $dataArr['code']; //获取转链接口status
         //Log::info($dataArr);
         //return json_encode($dataArr['data']['originInfo']['title']);
+        //return json_encode($dataArr);
         $title = $dataArr['data']['originInfo']['title'];
         $price = $dataArr['data']['originInfo']['price'];
         switch ($status) {
@@ -247,7 +248,7 @@ class TaokeController extends Controller
      */
     public function dtkParse($content)
     {
-        $host = "https://openapi.dataoke.com/api/tb-service/parse-taokouling";
+        $host = "https://openapi.dataoke.com/api/tb-service/parse-content";
         $data = [
             'appKey' => config('config.dtkAppKey'),
             'version' => '1.0.0',
