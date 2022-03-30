@@ -22,11 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="更新支持解析淘宝长链接">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="更新快捷自定义联系客服功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,21 +287,7 @@
       <workItem from="1648537792281" duration="2651000" />
       <workItem from="1648551736618" duration="701000" />
       <workItem from="1648606215839" duration="4402000" />
-      <workItem from="1648611004635" duration="2895000" />
-    </task>
-    <task id="LOCAL-00033" summary="update">
-      <created>1647265245801</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1647265245801</updated>
-    </task>
-    <task id="LOCAL-00034" summary="update">
-      <created>1647327887799</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1647327887799</updated>
+      <workItem from="1648611004635" duration="3058000" />
     </task>
     <task id="LOCAL-00035" summary="update">
       <created>1647331707559</created>
@@ -634,7 +618,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648611480525</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="update">
+      <created>1648614739988</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1648614739988</updated>
+    </task>
+    <task id="LOCAL-00083" summary="更新快捷自定义联系客服功能">
+      <created>1648614750947</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1648614750947</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,9 +663,10 @@
     <MESSAGE value="删除composer.lock&#10;避免首次执行composer install报错的问题" />
     <MESSAGE value="优化订单更新处理速度 避免不必要的循环" />
     <MESSAGE value="淘宝转链取消淘宝联盟接口查询 提高转链效率&#10;注释var_dump，避免因该函数输出内容导致错误" />
-    <MESSAGE value="update" />
     <MESSAGE value="更新支持解析淘宝长链接" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新支持解析淘宝长链接" />
+    <MESSAGE value="update" />
+    <MESSAGE value="更新快捷自定义联系客服功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新快捷自定义联系客服功能" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1038" y="351" key="#Composer" timestamp="1647365462855">
@@ -710,10 +709,10 @@
     </state>
     <state x="962" y="185" key="SettingsEditor/0.25.2560.969@0.25.2560.969" timestamp="1647363552639" />
     <state x="962" y="185" key="SettingsEditor/0.25.2560.970@0.25.2560.970" timestamp="1647014257352" />
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648611496019">
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2" timestamp="1648614753640">
       <screen x="0" y="25" width="2560" height="969" />
     </state>
-    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648611496019" />
+    <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.969@0.25.2560.969" timestamp="1648614753640" />
     <state x="1052" y="286" key="Vcs.Push.Dialog.v2/0.25.2560.970@0.25.2560.970" timestamp="1647251829965" />
     <state x="811" y="124" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1647345855004">
       <screen x="0" y="25" width="2560" height="969" />

@@ -157,11 +157,14 @@ REDIS_PORT=6379 #Redis端口
 'contactId' => "", //客服微信号
 'contactMediaId' => "" //客服微信二维码图片MediaID（获取方式见Readme文档介绍）
 ````
-<span id="mediaId">--mediaId获取方法</span>  
+<span id="mediaId"></span>  
+--mediaId获取方法  
 使用[微信公众平台接口调试工具](https://mp.weixin.qq.com/debug)  
+````text
 首先调用获取access_token接口  
 然后使用取得的token调用多媒体文件上传接口  
 将获得的MediaId填写到config文件即可
+````
 
 设置好域名与SSL证书后，公众平台网址填写 你的域名/wechat  
 例如：
