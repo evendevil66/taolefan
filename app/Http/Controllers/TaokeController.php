@@ -75,8 +75,11 @@ class TaokeController extends Controller
     {
         $rate = $user->rebate_ratio * 0.01; //返现比例
         $dataArr = $this->dtkParse($content);//调用大淘客淘宝转链接口
-        $status = $dataArr['code'];//获取转链接口status
+        $status = $dataArr['code']; //获取转链接口status
         //Log::info($dataArr);
+        //return json_encode($dataArr['data']['originInfo']['title']);
+        $title = $dataArr['data']['originInfo']['title'];
+        $price = $dataArr['data']['originInfo']['price'];
         switch ($status) {
             case "0":
                 $goodsid = $dataArr['data']['goodsId'];
@@ -86,7 +89,7 @@ class TaokeController extends Controller
                 } else {
                     $dataArr = $this->privilegeLink($goodsid);
                 }
-                return $this->formatDataByTb($user, $goodsid, $rate, $dataArr);
+                return $this->formatDataByTb($user, $rate, $dataArr,$title,$price);
             case "-1":
                 return "哎呀，服务器出错了，请您再发送尝试一次或稍后再试";
             case "20002":
@@ -256,9 +259,8 @@ class TaokeController extends Controller
         //处理大淘客解析请求url
         $output = $this->curlGet($url, 'get');
         //调用统一请求函数
-
-        $dataArr = json_decode($output, true);//将返回数据转为数组
-        return $dataArr;
+        $data = json_decode($output, true);
+        return $data;
     }
 
     /**
@@ -269,12 +271,12 @@ class TaokeController extends Controller
      * @param $dataArr
      * @return string
      */
-    public function formatDataByTb($user, $goodsid, $rate, $dataArr)
+    public function formatDataByTb($user, $rate, $dataArr,$title,$price)
     {
         if ($dataArr['code'] == '0') {
-            $tbArr = $this->aliParse($goodsid);
-            $title = $tbArr['results']['n_tbk_item'][0]['title']; //商品标题
-            $price = $tbArr['results']['n_tbk_item'][0]['zk_final_price']; //商品价格
+            //$tbArr = $this->aliParse($goodsid);
+            //$title = $tbArr['results']['n_tbk_item'][0]['title']; //商品标题
+            //$price = $tbArr['results']['n_tbk_item'][0]['zk_final_price']; //商品价格
             $couponInfo = "商品无优惠券";
             $amount = "0";
             if ($dataArr['data']['couponInfo'] != null) {
@@ -293,7 +295,6 @@ class TaokeController extends Controller
             //$end= (strpos($longTpwd,"】"));
             //$title= substr($longTpwd,$start+1,$end-$start-1);
             $maxCommissionRate = $dataArr['data']['maxCommissionRate'] == "" || null ? $dataArr['data']['minCommissionRate'] : $dataArr['data']['maxCommissionRate']; //佣金比例
-
             $openid = Redis::get($title);
             if($openid!=null && $openid!="" && $openid!=$user->id){
                 Redis::setex($title,1800, "repeat");
@@ -346,7 +347,7 @@ class TaokeController extends Controller
         ];
         $data['sign'] = $this->makeSign($data);
         $url = $host . '?' . http_build_query($data);
-        var_dump($url);
+        //var_dump($url);
         //处理大淘客解析请求url
         $output = $this->curlGet($url, 'get');
         $data = json_decode($output, true);//将返回数据转为数组
@@ -369,7 +370,7 @@ class TaokeController extends Controller
         ];
         $data['sign'] = $this->makeSign($data);
         $url = $host . '?' . http_build_query($data);
-        var_dump($url);
+        //var_dump($url);
         //处理大淘客解析请求url
         $output = $this->curlGet($url, 'get');
         $data = json_decode($output, true);//将返回数据转为数组
@@ -1123,7 +1124,7 @@ class TaokeController extends Controller
         ];
         $data['sign'] = $this->makeSign($data);
         $url = $host . '?' . http_build_query($data);
-        var_dump($url);
+        //var_dump($url);
         //处理大淘客解析请求url
         $output = $this->curlGet($url, 'get');
         $data = json_decode($output, true);//将返回数据转为数组
