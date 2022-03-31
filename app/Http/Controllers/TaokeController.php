@@ -98,6 +98,7 @@ class TaokeController extends Controller
             case "200001":
             case "20001":
             case "200003":
+            case "200004":
                 if(strlen($content)>10){
                     return $this->jdParse($content, $rate, $user);
                 }
