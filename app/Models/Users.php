@@ -170,4 +170,18 @@ class Users extends Model
                 'rebate_ratio' => $rebate_ratio
             ]);
     }
+
+
+    public function getAlipayTraversalInReceive($receives){
+        $alipays = array();
+        foreach ($receives as $receive){
+            $openid=$receive->openid;
+            $user = $this->getUserById($openid);
+            $alipay = array();
+            $alipay["username"] = $user->username;
+            $alipay["alipay_id"] = $user->alipay_id;
+            array_push($alipays,$alipay);
+        }
+        return $alipays;
+    }
 }

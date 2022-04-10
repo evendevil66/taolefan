@@ -22,13 +22,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="更新快捷自定义联系客服功能">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/taolefan.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/taolefan.iml" afterDir="false" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/receive.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/receive.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +61,9 @@
     </favorite-branches>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -201,10 +203,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -294,20 +299,7 @@
       <workItem from="1648551736618" duration="701000" />
       <workItem from="1648606215839" duration="4402000" />
       <workItem from="1648611004635" duration="3058000" />
-    </task>
-    <task id="LOCAL-00035" summary="update">
-      <created>1647331707559</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1647331707559</updated>
-    </task>
-    <task id="LOCAL-00036" summary="update">
-      <created>1647334483636</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1647334483636</updated>
+      <workItem from="1649593915954" duration="2456000" />
     </task>
     <task id="LOCAL-00037" summary="update">
       <created>1647355913166</created>
@@ -638,7 +630,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648614750947</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="修复结算上月/上上月订单中的一系列bug  &#10;减少一些不必要的判断提高运行效率  &#10;修改自动绑定订单返回的文案">
+      <created>1649559566613</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1649559566614</updated>
+    </task>
+    <task id="LOCAL-00085" summary="update">
+      <created>1649559578559</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1649559578559</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,8 +675,9 @@
     <MESSAGE value="优化订单更新处理速度 避免不必要的循环" />
     <MESSAGE value="淘宝转链取消淘宝联盟接口查询 提高转链效率&#10;注释var_dump，避免因该函数输出内容导致错误" />
     <MESSAGE value="更新支持解析淘宝长链接" />
-    <MESSAGE value="update" />
     <MESSAGE value="更新快捷自定义联系客服功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新快捷自定义联系客服功能" />
+    <MESSAGE value="修复结算上月/上上月订单中的一系列bug  &#10;减少一些不必要的判断提高运行效率  &#10;修改自动绑定订单返回的文案" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>

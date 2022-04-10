@@ -238,10 +238,12 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
         $openid=Request::get("openid");
         $status=Request::get("status");
         $receives = app(\App\Models\Receive::class)->getAllByPaginate($openid,$status);
+        $alipays = app(\App\Models\Users::class)->getAlipayTraversalInReceive($receives);
         return view('admin/receive',[
             'receives' => $receives,
             'openid' => $openid,
-            'status' => $status
+            'status' => $status,
+            'alipays' => $alipays
         ]);
     });
     Route::get('/admin/receivePass', function () {

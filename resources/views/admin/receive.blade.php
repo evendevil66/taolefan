@@ -51,6 +51,8 @@
                             <th>ID</th>
                             <th>openid</th>
                             <th>昵称</th>
+                            <th>姓名</th>
+                            <th>支付宝</th>
                             <th>提现金额</th>
                             <th>提现时间</th>
                             <th>处理状态</th>
@@ -59,32 +61,34 @@
                             <th>操作</th>
                         </thead>
                         <tbody>
-                        @foreach ($receives as $receive)
+                        @for($i=0;$i<sizeof($receives);$i++)
                             <tr>
-                                <td>{{$receive->id}}</td>
-                                <td>{{$receive->openid}}</td>
-                                <td>{{$receive->nickname}}</td>
-                                <td>{{$receive->amount}}</td>
-                                <td>{{$receive->receive_date}}</td>
+                                <td>{{$receives[$i]->id}}</td>
+                                <td>{{$receives[$i]->openid}}</td>
+                                <td>{{$receives[$i]->nickname}}</td>
+                                <td>{{$alipays[$i]["username"]}}</td>
+                                <td>{{$alipays[$i]["alipay_id"]}}</td>
+                                <td>{{$receives[$i]->amount}}</td>
+                                <td>{{$receives[$i]->receive_date}}</td>
                                 <td>
-                                    @if($receive->status == 0)
+                                    @if($receives[$i]->status == 0)
                                         未处理
-                                    @elseif($receive->status == 1)
+                                    @elseif($receives[$i]->status == 1)
                                         已处理
-                                    @elseif($receive->status == -1)
+                                    @elseif($receives[$i]->status == -1)
                                         已拒绝
                                     @else
                                         状态未知
                                     @endif
                                 </td>
-                                <td>{{$receive->process_time}}</td>
-                                <td>{{$receive->reason}}</td>
+                                <td>{{$receives[$i]->process_time}}</td>
+                                <td>{{$receives[$i]->reason}}</td>
                                 <td>
-                                    @if($receive->status == 0)
-                                        <a title="pass" onclick="pass(this,{{$receive->id}})" href="javascript:;">
+                                    @if($receives[$i]->status == 0)
+                                        <a title="pass" onclick="pass(this,{{$receives[$i]->id}})" href="javascript:;">
                                             <i class="layui-icon">&#x2714;</i>
                                         </a>
-                                        <a title="拒绝" onclick="refuse(this,{{$receive->id}})" href="javascript:;">
+                                        <a title="拒绝" onclick="refuse(this,{{$receives[$i]->id}})" href="javascript:;">
                                             <i class="layui-icon">&#x2718;</i>
                                         </a>
                                     @else
@@ -92,7 +96,7 @@
                                     @endif
                                 </td>
                             </tr>
-                        @endforeach
+                        @endfor
                         </tbody>
                     </table>
                 </div>
