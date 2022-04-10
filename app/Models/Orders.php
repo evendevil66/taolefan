@@ -151,7 +151,7 @@ class Orders extends Model
             return "您的订单已退款，无法绑定";
         } else if ($orderFlag->openid != null && trim($orderFlag->openid) != "") {
             if ($orderFlag->openid == $user->id) {
-                return "您的下单淘宝账号已绑定过公众号，本次已成功自动跟单，您可在订单查询中自行查询";
+                return "您的订单本次已成功自动跟单，您可在订单查询中自行查询";
             } else {
                 return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
             }
@@ -169,15 +169,14 @@ class Orders extends Model
                         ->update([
                             'openid' => $user->id,
                             'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee),
-                            'pay_price' =>$order->pay_price,
                             'tlf_status' => 1
                         ]);
                     app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
                     app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                    DB::commit();
                     $pay_price+=$order->pay_price;
                     $pub_share_pre_fee+=$order->pub_share_pre_fee;
                 }
-               DB::commit();
                 return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee);
             } catch (\Exception $e) {
                 DB::rollBack();
