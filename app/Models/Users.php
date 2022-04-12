@@ -171,7 +171,6 @@ class Users extends Model
             ]);
     }
 
-
     public function getAlipayTraversalInReceive($receives){
         $alipays = array();
         foreach ($receives as $receive){
