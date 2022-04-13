@@ -22,11 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="upd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,21 +302,7 @@
       <workItem from="1649603478054" duration="1356000" />
       <workItem from="1649605348368" duration="172000" />
       <workItem from="1649775413339" duration="149000" />
-      <workItem from="1649852543828" duration="8546000" />
-    </task>
-    <task id="LOCAL-00039" summary="update">
-      <created>1647363917748</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1647363917748</updated>
-    </task>
-    <task id="LOCAL-00040" summary="update">
-      <created>1647364757574</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1647364757574</updated>
+      <workItem from="1649852543828" duration="9371000" />
     </task>
     <task id="LOCAL-00041" summary="update">
       <created>1647437358757</created>
@@ -649,7 +633,21 @@
       <option name="project" value="LOCAL" />
       <updated>1649775540600</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="update">
+      <created>1649863556651</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1649863556651</updated>
+    </task>
+    <task id="LOCAL-00089" summary="淘宝订单相关接口全部更换为大淘客接口">
+      <created>1649863576029</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1649863576030</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -683,6 +681,7 @@
     <MESSAGE value="更新快捷自定义联系客服功能" />
     <MESSAGE value="修复结算上月/上上月订单中的一系列bug  &#10;减少一些不必要的判断提高运行效率  &#10;修改自动绑定订单返回的文案" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="淘宝订单相关接口全部更换为大淘客接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="淘宝订单相关接口全部更换为大淘客接口" />
   </component>
 </project>

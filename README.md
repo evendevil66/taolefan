@@ -3,7 +3,7 @@
 ## 关于项目
 淘乐饭是一款基于PHP的微信公众号返利项目，支持认证或未认证的订阅号及服务号使用。  
 
-本项目使用 [Laravel](https://laravel.com/) 作为主架构进行开发，公众号交互使用 [EasyWechat](https://www.easywechat.com) 实现，后端基于 [X-admin](http://x.xuebingsi.com)二次开发。
+本项目使用 [Laravel](https://laravel.com/) 作为主架构进行开发，公众号交互使用 [EasyWechat](https://www.easywechat.com) 实现，管理后台基于 [X-admin](http://x.xuebingsi.com)二次开发。
 本项目使用GPLv3协议，允许复制、传播、修改及商业使用，禁止将修改后和衍生的代码做为闭源的商业软件发布和销售。
 
 ## 对接API
@@ -31,7 +31,7 @@
 
 ## TODO
 2.0版本开发中，2.0将针对认证服务号重点开发，后续1.x和2.x版本将并行开发  
-更多功能仍在逐渐开发中，也可以自动去开发相关功能，大家的Star是我持续开发的动力
+更多功能仍在逐渐开发中，也可以自行去开发相关功能，大家的Star是我持续开发的动力
 
 ## Update
 注意：*表更新表示数据库有轻微变动，更新前请备份数据并使用最新sql文件重新构建结构，再导入数据使用。  
