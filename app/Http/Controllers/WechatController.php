@@ -72,8 +72,8 @@ class WeChatController extends Controller
                 ],
                 [
                     "type" => "click",
-                    "name" => "手动注册",
-                    "key" => "Manual"
+                    "name" => "邀请好友",
+                    "key" => "Invite"
                 ],
                 [
                     "type" => "click",
@@ -103,7 +103,7 @@ class WeChatController extends Controller
     {
         Log::info('request arrived.'); # 日志组建调用自Laravel，非EasyWechat
         $app = app('wechat.official_account');
-        $app->server->push(function ($message) {
+        $app->server->push(function ($message) use ($app){
             $openid = $message['FromUserName'];
             //访问数据库获取openid对应用户信息并返回用户对象
             $user = app(Users::class)->getUserById($openid);
@@ -139,8 +139,6 @@ class WeChatController extends Controller
                             } else {
                                 return "<a href=\"" . $url . "\">请点此进行资料补全</a>";
                             }
-
-
                         case 'Manual':
                             return "注册请求已提交，请等待人工为您处理。";
                         case 'Bind':
@@ -150,7 +148,6 @@ class WeChatController extends Controller
                             } else {
                                 return "您已经绑定过淘宝账号了，<a href=\"" . $url . "\">点此进行更换或重新绑定</a>，如提示复制到浏览器打开，可在浏览器继续完成绑定";
                             }
-
                         case 'Receive':
                             if ($user->alipay_id == null || $user->alipay_id == "") {
                                 return "您还没有绑定提现账号，请在资料补全功能下填写";
@@ -210,6 +207,12 @@ class WeChatController extends Controller
                             ];
                             $news = new News($items);
                             return $news;
+                        case 'Invite':
+                            return "邀请功能即将上线，请耐心等待哦~";
+                            $result = $app->qrcode->temporary($openid, 7 * 24 * 3600);
+                            $ticket = $result->ticket;
+                            $url = $app->qrcode->url($ticket);
+                            return "<a href=\"" . $url . "\">点击此处获取你的邀请二维码</a>";
                         default:
                             return "您的请求暂时无法处理，如有疑问请联系客服";
                     }
@@ -255,8 +258,8 @@ class WeChatController extends Controller
                             return "您还没有绑定提现账号，请在资料补全功能下填写";
                         } else {
                             $day = date("d", time());
-                            if ($day >= 20 && $day <= 31) {
-                                if ($user->available_balance > 1) {
+                            if ($day >= 5 && $day <= 31) {
+                                if ($user->available_balance > 0.1) {
                                     try {
                                         DB::beginTransaction();
                                         app(Users::class)->updateAvailable_balance($user->id, 0);
@@ -269,10 +272,10 @@ class WeChatController extends Controller
                                         return "提现请求出错，请重试或联系客服";
                                     }
                                 } else {
-                                    return "可用余额大于1元才可以提现哦，您当前可提现余额" . $user->available_balance . "元，待结算金额" . $user->unsettled_balance . "元";
+                                    return "可用余额大于0.1元才可以提现哦，您当前可提现余额" . $user->available_balance . "元，待结算金额" . $user->unsettled_balance . "元";
                                 }
                             }
-                            return "平台提现开放时间为每月20日到月底哦，请在提现时间进行提现";
+                            return "平台每月5日前为对账期，暂时关闭提现，请在本月5日后进行提现";
                         }
                     }else if (stristr($content, '提现状态') != false){
                         $receive = app(Receive::class)->getReceiveStatus($user->id);
