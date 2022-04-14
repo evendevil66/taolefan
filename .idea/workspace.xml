@@ -25,6 +25,7 @@
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taolefan.sql" beforeDir="false" afterPath="$PROJECT_DIR$/taolefan.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +221,7 @@
       <recent name="$PROJECT_DIR$/public/css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\z7647\PhpstormProjects\taolefan2.x" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/public" />
     </key>
@@ -305,14 +307,7 @@
       <workItem from="1649775413339" duration="149000" />
       <workItem from="1649852543828" duration="10477000" />
       <workItem from="1649905384334" duration="36875000" />
-      <workItem from="1649950607601" duration="65000" />
-    </task>
-    <task id="LOCAL-00045" summary="修复商品未参与推广时的文案回复错误问题">
-      <created>1647517038800</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1647517038800</updated>
+      <workItem from="1649950607601" duration="460000" />
     </task>
     <task id="LOCAL-00046" summary="修复同一订单包含多个商品时无法正常计算返利的问题">
       <created>1647597064583</created>
@@ -650,7 +645,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649950134913</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="update 2.x">
+      <created>1649950683560</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1649950683561</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
