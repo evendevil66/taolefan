@@ -122,6 +122,7 @@ class Receive extends Model
      * @return void
      */
     public function applyReceive($openid,$amount,$nickname){
+        date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
         DB::table($this->table)
             ->insert([
                 'openid' => $openid,
