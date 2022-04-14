@@ -40,7 +40,7 @@ class WeChatController extends Controller
                             if ($user == null) {
                                 $reg = app(Users::class)->userRegistration($openid, null);
                                 if ($reg == 1) {
-                                    return "欢迎关注" . config('config.name') . "，已为您自动注册成功。" . "\n建议您点击下方个人中心-资料补全，更新资料后开始省钱之旅";
+                                    return "欢迎关注" . config('config.name') . "，已为您自动注册成功。" . "\n建议您<a href='".config('config.apiUrl') . "/reg"."'>点击此处进行资料补全</a>，更新资料后开始省钱之旅";
                                 } else {
                                     return "欢迎关注" . config('config.name') . "您的自动注册请求失败，可能系统出现异常，您可以重新关注公众号或联系客服";
                                 }
@@ -56,7 +56,7 @@ class WeChatController extends Controller
                             } else {
                                 $reg = app(Users::class)->userRegistration($openid, $invite_id);
                                 if ($reg == 1) {
-                                    return "欢迎关注" . config('config.name') . "，已为您自动注册成功。" . "\n建议您点击下方个人中心-资料补全，更新资料后开始省钱之旅";
+                                    return "欢迎关注" . config('config.name') . "，已为您自动注册成功。" . "\n建议您<a href='".config('config.apiUrl') . "/reg"."'>点击此处进行资料补全</a>，更新资料后开始省钱之旅";
                                 } else {
                                     return "欢迎关注" . config('config.name') . "您的自动注册请求失败，可能系统出现异常，您可以重新关注公众号或联系客服";
                                 }
@@ -169,7 +169,17 @@ class WeChatController extends Controller
                             $image = new Image($media_id);
                             $app->customer_service->message($image)->to($openid)->send();
                             unlink("./code.jpg");
-                            return "您的专属邀请码已生成\n您邀请的好友第一笔订单确认收货，您可以获得" . config('config.invite_rewards') . "元奖励，并永久享受分成。";
+                            $app->customer_service->message("您的专属邀请码已生成\n您邀请的好友第一笔订单确认收货，您可以获得" . config('config.invite_rewards') . "元奖励，并永久享受分成。\n\n注意：当您的好友通过您的专属码关注，并首次打开资料补齐页面时，您才会收到邀请成功通知，但是即使未收到通知也不会影响奖励发放哦~")->to($openid)->send();
+                            //getUserCountByInviteId
+                            $count = app(Users::class)->getUserCountByInviteId($openid);
+                            if($count>0){
+                                $price = app(Users::class)->getUserCountByInviteIdAndInvitationReward($openid);
+                                return "您已经邀请" . $count . "位好友，已完成确认收货并结算给您的邀新奖励为" . $price . "元，请继续努力哦！";
+
+                            }
+                            return "您已成功邀请0人，获得邀新奖励0元，请继续努力哦！";
+
+
                         default:
                             $user = app(Users::class)->getUserById($message['EventKey']);
                             if ($openid == $message['EventKey']) {
@@ -387,6 +397,7 @@ class WeChatController extends Controller
         $app->template_message->setIndustry(1, 2);
         $app->template_message->addTemplate("OPENTM418431364");
         $app->template_message->addTemplate("OPENTM407328898");
+        $app->template_message->addTemplate("OPENTM415143385");
     }
 
     /**
@@ -434,6 +445,26 @@ class WeChatController extends Controller
             ],
         ]);
 
+    }
+
+    /**
+     * 发送邀请好友成功通知模板消息
+     */
+    public function sendInviteTemplateMessage($openid, $nickname,$inNickname,$remark){
+        $app = app('wechat.official_account');
+        date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
+        $app->template_message->send([
+            'touser' => $openid,
+            'template_id' => config("config.invite_template_id"),
+            'url' => config("config.apiUrl") . "/loading",
+            'data' => [
+                'first' => $remark,
+                'keyword1' => $nickname,
+                'keyword2' => date("Y-m-d H:i:s", time()),
+                'keyword3' => $inNickname,
+                'remark' => "请继续努力哦~",
+            ],
+        ]);
     }
 }
 

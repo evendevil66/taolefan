@@ -24,6 +24,7 @@ return [
     'invite_ratio'=>10, //邀请返利比例%
     'invite_rewards'=>1, //邀请奖励金额
     'template_id'=>'******', //订单模板消息ID
-    'withdraw_template_id'=>'******'//提现模板消息ID
+    'withdraw_template_id'=>'******',//提现模板消息ID
+    'invite_template_id'=>'******',//邀请好友模板消息ID
 ];
 

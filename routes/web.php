@@ -108,6 +108,10 @@ Route::middleware(['CheckWxLogin'])->group(function () {
         try{
             if($user->nickname==null||$user->nickname==""){
                 app(\App\Models\Users::class)->updateNickname($openid,$nickname);
+                if($user->invite_id!=null && $user->invite_id!=""){
+                    $inUser = app(\App\Models\Users::class)->getUserById($user->invite_id);
+                    app(Controllers\WeChatController::class)->sendInviteTemplateMessage($user->invite_id,$nickname,$inUser->nickname,"您的好友已完成注册，记得提醒他购物哦！");
+                }
             }else{
                 $nickname = $user->nickname;
             }
@@ -124,7 +128,7 @@ Route::middleware(['CheckWxLogin'])->group(function () {
             return redirect()->route('reg');
         }
 
-    })->name('reg');;
+    })->name('reg');
 
 });
 

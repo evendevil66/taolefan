@@ -908,6 +908,9 @@ class TaokeController extends Controller
                                                 $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
                                                 app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" .config('config.invite_rewards') . "元", config('config.invite_rewards'));
                                                 app(Users::class)->updateAvailable_balance($user->invite_id, config('config.invite_rewards'));
+                                                app(Users::class)->updateInvitationReward($user->openid);
+                                                $inUser = app(\App\Models\Users::class)->getUserById($user->invite_id);
+                                                app(Controllers\WeChatController::class)->sendInviteTemplateMessage($user->invite_id,$nickname,$inUser->nickname,"您的好友已首单，您获得首单奖励" . config('config.invite_rewards') . "元\n永久返利奖励将在你的好友订单确认收货次月一并发放哦");
                                             }
                                         }
                                     }
@@ -1149,13 +1152,14 @@ class TaokeController extends Controller
                                         //获取淘宝结算时间
                                         $month = date("m", time());
                                         if ($month == 1) {
-                                            $month == 12;
+                                            $month = 12;
                                         } else {
-                                            $month == (int)$month - 1;
+                                            $month = (int)$month - 1;
                                         }
                                         $lastMonth = $month == 1 ? 12 : $month - 1;
                                         //获取上月及上上月 月份
                                         if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
+                                            return date('m', strtotime($tk_earning_time))."1......".$trade_parent_id;
                                             //判断如果结算时间为上月或上上月，处理结算。
                                             app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                             app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);

@@ -193,4 +193,26 @@ class Users extends Model
         }
         return $alipays;
     }
+
+    //通过邀请id查询邀请的用户数量
+    public function getUserCountByInviteId($invite_id){
+        return DB::table($this->table)
+            ->where('invite_id',$invite_id)
+            ->count();
+    }
+
+    //通过邀请id查询邀请的用户invitation_reward为0的数量
+    public function getUserCountByInviteIdAndInvitationReward($invite_id){
+        return DB::table($this->table)
+            ->where('invite_id',$invite_id)
+            ->where('invitation_reward',0)
+            ->count();
+    }
+
+    //修改用户的invitation_reward为0
+    public function updateInvitationReward($openid){
+        return DB::table($this->table)
+            ->where('id',$openid)
+            ->update(['invitation_reward'=>0]);
+    }
 }

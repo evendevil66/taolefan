@@ -22,15 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/taolefan.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/taolefan.iml" afterDir="false" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update 2.x">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Receive.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Receive.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Users.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
@@ -210,7 +205,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/z7647/PhpstormProjects/taolefan2.x",
+    "last_opened_file_path": "C:/Users/z7647/PhpstormProjects/taolefan1.x",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -313,14 +308,7 @@
       <workItem from="1649605348368" duration="172000" />
       <workItem from="1649775413339" duration="149000" />
       <workItem from="1649852543828" duration="10477000" />
-      <workItem from="1649905384334" duration="29211000" />
-    </task>
-    <task id="LOCAL-00042" summary="update">
-      <created>1647437676662</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1647437676662</updated>
+      <workItem from="1649905384334" duration="35406000" />
     </task>
     <task id="LOCAL-00043" summary="update">
       <created>1647438180939</created>
@@ -658,7 +646,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649864371099</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="update 2.x">
+      <created>1649939747318</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1649939747319</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,6 +688,7 @@
     <MESSAGE value="修复结算上月/上上月订单中的一系列bug  &#10;减少一些不必要的判断提高运行效率  &#10;修改自动绑定订单返回的文案" />
     <MESSAGE value="淘宝订单相关接口全部更换为大淘客接口" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="update 2.x" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 2.x" />
   </component>
 </project>
