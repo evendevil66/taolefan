@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
         'CheckAdminLogin' => \App\Http\Middleware\CheckAdminLogin::class,
+        'CheckWxLogin' => \App\Http\Middleware\CheckWxLogin::class,
     ];
 }

@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\WeChatController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use mysql_xdevapi\Exception;
@@ -52,6 +53,7 @@ class Receive extends Model
     {
         try {
             date_default_timezone_set("Asia/Shanghai");
+            $receive=DB::table($this->table)->where('id',$id)->first();
             DB::beginTransaction();
             DB::table($this->table)
                 ->where('id', $id)
@@ -60,6 +62,7 @@ class Receive extends Model
                     'process_time' => date('Y-m-d H:i:s', time())
                 ]);
             DB::commit();
+            app(WeChatController::class)->sendReceiveTemplateMessage($receive->openid,"您的提现申请已受理完成",$receive->amount,"提现成功");
             return 1;
         } catch (Exception $e) {
             DB::rollBack();
@@ -90,6 +93,7 @@ class Receive extends Model
                     'reason' => $reason
                 ]);
             DB::commit();
+            app(WeChatController::class)->sendReceiveTemplateMessage($receive->openid,"您的提现申请被拒绝，余额已返还",$receive->amount,$reason);
             return 1;
         } catch (Exception $e) {
             DB::rollBack();
@@ -110,6 +114,13 @@ class Receive extends Model
             ->first();
     }
 
+    /**
+     * 申请提现
+     * @param $openid
+     * @param $amount
+     * @param $nickname
+     * @return void
+     */
     public function applyReceive($openid,$amount,$nickname){
         DB::table($this->table)
             ->insert([
@@ -118,5 +129,6 @@ class Receive extends Model
                 'nickname' => $nickname,
                 'receive_date' => date('Y-m-d h:i:s', time())
             ]);
+        app(WeChatController::class)->sendReceiveTemplateMessage($openid,"提现申请已收到",$amount,"等待处理");
     }
 }

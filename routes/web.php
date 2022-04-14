@@ -17,9 +17,17 @@ use Illuminate\Support\Facades\Redis;
 |
 */
 
-Route::get('/testRed',function (){
-    $title=Request::get('title');
-    return Redis::get($title);
+Route::get('/test',function (){
+    $request = Request::instance();
+    $app = app('wechat.official_account');
+    try {
+        $user =$app->oauth->user();
+        return $user->getNickname();
+    }catch (\Exception $e){
+        $response = $app->oauth->scopes(['snsapi_userinfo'])
+            ->redirect($request->fullUrl());
+        return $response;
+    }
 });
 
 Route::get('/', function () {
@@ -27,27 +35,7 @@ Route::get('/', function () {
 });
 
 Route::any('/wechat', [Controllers\WeChatController::class, 'serve']);
-Route::get('/reg/{openid}', function ($openid) {
-    $name = config('config.name');
-    $alert = "";
-    /** $ua = $_SERVER['HTTP_USER_AGENT'];
-     * if (strpos($ua, 'MicroMessenger') == false && strpos($ua, 'Windows Phone') == false) {
-     * $name = config('config.name');
-     * } else {
-     * $name = "请使用浏览器打开再进行注册";
-     * $alert="alert(\"请点击右上角浏览器打开后再注册～\");";
-     * }**/
-    $nickname = Request::get("nickname");
-    $username = Request::get("username");
-    $alipay = Request::get("alipay");
-    return view('reg', [
-        'title' => $name,
-        'openid' => $openid,
-        'alipay' => $alipay,
-        'username' => $username,
-        'nickname' => $nickname
-    ]);
-});
+
 
 Route::post('/userUpdate', [App\Models\Users::class, 'userUpdate']);
 
@@ -84,33 +72,60 @@ Route::post('/admin/setAdmin', function () {
     }
 });
 
+Route::middleware(['CheckWxLogin'])->group(function () {
+    Route::get('/loading', function () {
+        return view('loading');
+    });
 
-Route::get('/loading', function () {
-    Cookie::queue('openid', Request::get("openid"), 60);
-    return view('loading');
-});
+    Route::get('/loadOrder', function () {
+        app(\App\Http\Controllers\TaokeController::class)->updateOrder(Cookie::get('openid'));
+        return redirect()->route('order');
+    });
 
-Route::get('/loadOrder', function () {
-    app(\App\Http\Controllers\TaokeController::class)->updateOrder(Cookie::get('openid'));
-    return redirect()->route('order');
-});
+    Route::get('/order', function () {
+        $openid=Cookie::get('openid');
+        $orders = app(\App\Models\Orders::class)->getAllByPaginateInOpenid($openid);
+        return view('/order',[
+            'orders' => $orders,
+            'openid' => $openid
+        ]);
+    })->name('order');
 
-Route::get('/order', function () {
-    $openid=Cookie::get('openid');
-    $orders = app(\App\Models\Orders::class)->getAllByPaginateInOpenid($openid);
-    return view('/order',[
-        'orders' => $orders,
-        'openid' => $openid
-    ]);
-})->name('order');
+    Route::get('/balanceRecord', function () {
+        $openid=Cookie::get('openid');
+        $balanceRecord = app(\App\Models\BalanceRecord::class)->getRecord($openid);
+        return view('/balanceRecord',[
+            'balanceRecord' => $balanceRecord,
+            'openid' => $openid
+        ]);
+    });
 
-Route::get('/balanceRecord', function () {
-    $openid=Request::get('openid');
-    $balanceRecord = app(\App\Models\BalanceRecord::class)->getRecord($openid);
-    return view('/balanceRecord',[
-        'balanceRecord' => $balanceRecord,
-        'openid' => $openid
-    ]);
+    Route::get('/reg', function () {
+        $name = config('config.name');
+        $openid=Cookie::get('openid');
+        $nickname=Cookie::get('nickname');
+        $user = app(\App\Models\Users::class)->getUserById($openid);
+        try{
+            if($user->nickname==null||$user->nickname==""){
+                app(\App\Models\Users::class)->updateNickname($openid,$nickname);
+            }else{
+                $nickname = $user->nickname;
+            }
+            $username = $user->username;
+            $alipay = $user->alipay_id;
+            return view('reg', [
+                'title' => $name,
+                'openid' => $openid,
+                'alipay' => $alipay,
+                'username' => $username,
+                'nickname' => $nickname
+            ]);
+        }catch (\Exception $e){
+            return redirect()->route('reg');
+        }
+
+    })->name('reg');;
+
 });
 
 Route::get('/admin/login', function () {
@@ -124,6 +139,12 @@ Route::get('/admin/unicode', function () {
 });
 
 Route::middleware(['CheckAdminLogin'])->group(function () {
+
+    Route::get('/setIndustry', function () {
+        app(\App\Http\Controllers\WeChatController::class)->setIndustry();
+        return "设置模板成功，请前往微信公众号后台获取模板ID，请勿重复访问此页面。";
+    });
+
     Route::get('/admin', function () {
         return view('admin/index');
     });
@@ -246,10 +267,12 @@ Route::middleware(['CheckAdminLogin'])->group(function () {
             'alipays' => $alipays
         ]);
     });
+
     Route::get('/admin/receivePass', function () {
         $id=Request::get("id");
         return app(\App\Models\Receive::class)->receivePass($id);
     });
+
     Route::get('/admin/receiveRefuse', function () {
         $id=Request::get("id");
         $reason=Request::get("reason");

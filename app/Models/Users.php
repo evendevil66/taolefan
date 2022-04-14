@@ -43,10 +43,12 @@ class Users extends Model
      * @param $openid 微信openid
      * @return int 如执行成功返回1
      */
-    public function userRegistration($openid){
+    public function userRegistration($openid,$invite_id){
         return DB::table($this->table)
             ->insert([
                 'id' => $openid,
+                'invite_id'=>$invite_id,
+                'invitation_reward'=>$invite_id!=null?1:0,
                 'rebate_ratio' => config('config.default_rebate_ratio')
             ]);
     }
@@ -70,6 +72,14 @@ class Users extends Model
                 'nickname' => $nickname,
                 'username' => $username,
                 'alipay_id' => $alipay_id
+            ]);
+    }
+
+    public function updateNickname($openid,$nickname){
+        return DB::table($this->table)
+            ->where('id', $openid)
+            ->update([
+                'nickname' => $nickname
             ]);
     }
 

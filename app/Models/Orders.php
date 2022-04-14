@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\WeChatController;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Models\Users;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 use mysql_xdevapi\Exception;
 use Illuminate\Support\Facades\Redis;
+use Log;
 
 
 class Orders extends Model
@@ -42,14 +44,17 @@ class Orders extends Model
     {
         try {
             $orders = DB::table($this->table)->where('trade_parent_id', $trade_parent_id)->get();
+            //查询系统内是否有相同订单号
             $flag = true;
-            if(isset($orders->trade_parent_id)){
+            if(isset($orders->trade_parent_id)){//如果该项存在，则表示订单只有一条
                 if ($orders->trade_parent_id == $trade_parent_id && $orders->item_title == $item_title && $orders->pay_price == $pay_price) {
+                    //如果有相同订单号且商品名称相同，则不插入
                     $flag = false;
                 }
-            }else{
+            }else{//否则表示有多个订单
                 foreach ($orders as $order) {
                     if ($order->trade_parent_id == $trade_parent_id && $order->item_title == $item_title && $order->pay_price == $pay_price) {
+                        //如果有相同订单号且商品名称相同，则不插入
                         $flag = false;
                         break;
                     }
@@ -71,21 +76,43 @@ class Orders extends Model
                     'tk_commission_pre_fee_for_media_platform' => $tk_commission_pre_fee_for_media_platform,
                     'rebate_pre_fee' => $rebate_pre_fee
                 ]);
+                //插入订单信息
 
             }
+
+            $platform = "未知";
+            //订单号大于17位，则认为是淘宝订单。小于13位，则认为是京东订单
+            if(strlen($trade_parent_id)>17){
+                $platform= "淘宝".$trade_parent_id;
+            }else if(strlen($trade_parent_id)<13){
+                $platform= "京东".$trade_parent_id;
+            }
+
+
             if ($flag) {
                 $openid = Redis::get($item_title);
+                //Log::info($openid);
+                //从Redis中获取商品名称转链的openid
                 if($openid!=null && $openid!="" && $openid !="repeat"){
+                    //如果Redis中存在该商品名称转链的openid信息，且不为repeat，则绑定订单信息
                     $user = app(\App\Models\Users::class)->getUserById($openid);
                     $this->ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id,$user);
+                    //发送订单通知模板消息
+                    app(WeChatController::class)->sendTemplateMessage($openid, $platform,$item_title,$pay_price,round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
+
+
                 }else{
+                    //如果Redis中不存在，则查询订单是否存在运营id，如果存在，则绑定订单信息
                     $order = DB::table($this->table)->where([
                         'trade_parent_id' => $trade_parent_id,
                         'item_title' => $item_title,
                         'pay_price' => $pay_price
                     ])->orderBy('id', 'desc')->first();
                     if ($special_id != -1 && $tk_status != 13) {
-                        $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($order->id, $trade_parent_id, $special_id, $pub_share_pre_fee);
+                        $user = app(Users::class)->getUserBySpecialId($special_id);
+                        $this->findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($order->id, $trade_parent_id, $user, $pub_share_pre_fee);
+                        //发送订单通知模板消息
+                        app(WeChatController::class)->sendTemplateMessage($user->id, $platform,$item_title,$pay_price,round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
                     }
                 }
 
@@ -105,23 +132,21 @@ class Orders extends Model
      * @param $pub_share_pre_fee 联盟返利金额
      * @return int 检索成功并绑定返回1，否则为0
      */
-    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($id, $trade_parent_id, $special_id, $pub_share_pre_fee)
+    public function findAndModifyOpenIdBySpecialIdAndModifyRebateAmountAccordingToRebateRatio($id, $trade_parent_id, $user, $pub_share_pre_fee)
     {
-        $user = app(Users::class)->getUserBySpecialId($special_id);
         //DB::table($this->table)->where('special_id', $special_id)->first();//根据传入的会员运营id检索绑定该id的会员信息
         if ($user != null) {//判断是否成功获取到会员信息
             try {
                 DB::beginTransaction();
                 DB::table($this->table)
-                    ->where('trade_parent_id', $trade_parent_id)->where('id', $id)
+                    ->where('trade_parent_id', $trade_parent_id)->where('id', $id)->where("special_id",$user->special_id)
                     ->update([
                         'openid' => $user->id,
                         'rebate_pre_fee' => ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,
-                        'special_id' => $special_id,
                         'tlf_status' => 1
                     ]);
                 app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + (($user->rebate_ratio) * 0.01 * $pub_share_pre_fee));
-                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee . "元", ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee);
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee . "元", round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
                 DB::commit();
                 return 1;
             } catch (\Exception $e) {
@@ -160,6 +185,8 @@ class Orders extends Model
         if ($user != null) {//判断是否成功获取到会员信息
             $pay_price=0;
             $pub_share_pre_fee=0;
+            $platform = "未知";
+            $item_title = "获取失败";
             try {
                 DB::beginTransaction();
                 foreach ($orders as $order){
@@ -172,21 +199,29 @@ class Orders extends Model
                             'tlf_status' => 1
                         ]);
                     app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
-                    app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                    app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", round(($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee),2));
                     DB::commit();
                     $pay_price+=$order->pay_price;
                     $pub_share_pre_fee+=$order->pub_share_pre_fee;
+                    //订单号大于17位，则认为是淘宝订单。小于13位，则认为是京东订单
+                    if(strlen($trade_parent_id)>17){
+                        $platform= "淘宝".$trade_parent_id;
+                    }else if(strlen($trade_parent_id)<13){
+                        $platform= "京东".$trade_parent_id;
+                    }
+                    $item_title=$order->item_title;
                 }
-                return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee);
+                //发送订单通知模板消息
+                app(WeChatController::class)->sendTemplateMessage($user->id, $platform,$item_title,$pay_price,round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
+                //return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . round(($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee),2);
             } catch (\Exception $e) {
                 DB::rollBack();
                 return "系统错误，绑定失败，请稍后再试或联系客服";
+
             }
         } else {
             return "获取用户信息失败，请重新尝试绑定订单";
         }
-
-        return "系统错误，绑定失败，请稍后再试或联系客服";
     }
 
     /**
