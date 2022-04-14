@@ -202,7 +202,7 @@ class TaokeController extends Controller
                     "商品暂无无优惠券\n" .
                     "预计付款金额：" . $price . "元\n" .
                     "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . ($price * $rate * ($commissionShare / 100)) . "元\n" .
+                    "预计返现金额：" . round(($price * $rate * ($commissionShare / 100)),2) . "元\n" .
                     "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
             } else {
                 return $title . "\n" .
@@ -210,7 +210,7 @@ class TaokeController extends Controller
                     "优惠券：" . "满" . $couponInfo2 . "-" . $couponInfo1 . "元" . "\n" .
                     "预计付款金额：" . $actualPrice . "元\n" .
                     "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . ($actualPrice * $rate * ($commissionShare / 100)) . "元\n" .
+                    "预计返现金额：" . round(($actualPrice * $rate * ($commissionShare / 100)),2) . "元\n" .
                     "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
             }
         } else {
@@ -311,7 +311,7 @@ class TaokeController extends Controller
                     "优惠券：" . $couponInfo . "\n" .
                     "预计付款金额：" . $estimate . "元\n" .
                     "商品返现比例：" . $maxCommissionRate * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n" .
+                    "预计返现金额：" . round(($estimate * $rate * ($maxCommissionRate / 100)),2) . "元\n" .
                     "返现计算：实付款 * " . $maxCommissionRate * $rate . "%\n\n" .
                     "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
                     "增强自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。";
@@ -322,7 +322,7 @@ class TaokeController extends Controller
                     "优惠券：" . $couponInfo . "\n" .
                     "预计付款金额：" . $estimate . "元\n" .
                     "商品返现比例：" . $maxCommissionRate * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . ($estimate * $rate * ($maxCommissionRate / 100)) . "元\n" .
+                    "预计返现金额：" . round(($estimate * $rate * ($maxCommissionRate / 100)),2) . "元\n" .
                     "返现计算：实付款 * " . $maxCommissionRate * $rate . "%\n\n" .
                     "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
                     "自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。\n" .

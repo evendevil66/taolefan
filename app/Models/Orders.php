@@ -121,7 +121,7 @@ class Orders extends Model
                         'tlf_status' => 1
                     ]);
                 app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + (($user->rebate_ratio) * 0.01 * $pub_share_pre_fee));
-                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee . "元", ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee);
+                app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * $pub_share_pre_fee . "元", round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
                 DB::commit();
                 return 1;
             } catch (\Exception $e) {
@@ -172,12 +172,12 @@ class Orders extends Model
                             'tlf_status' => 1
                         ]);
                     app(Users::class)->updateUnsettled_balance($user->id, ($user->unsettled_balance) + ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
-                    app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee));
+                    app(BalanceRecord::class)->setRecord($user->id, "订单" . $trade_parent_id . "获得返利" . ($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee) . "元", round(($user->rebate_ratio) * 0.01 * ($order->pub_share_pre_fee),2));
                     DB::commit();
                     $pay_price+=$order->pay_price;
                     $pub_share_pre_fee+=$order->pub_share_pre_fee;
                 }
-                return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . ($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee);
+                return "订单绑定成功，您的付款金额为" . $pay_price . "，返利金额为" . round((($user->rebate_ratio) * 0.01 * ($pub_share_pre_fee)),2);
             } catch (\Exception $e) {
                 DB::rollBack();
                 return "系统错误，绑定失败，请稍后再试或联系客服";
