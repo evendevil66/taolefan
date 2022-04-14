@@ -2,7 +2,7 @@
 
 ## 关于项目
 淘乐饭是一款基于PHP的微信公众号返利项目，支持认证或未认证的订阅号及服务号使用。  
-本分支适用于订阅号及未认证的服务号，如果您的服务号已经认证，可以移步Master分支享受更多功能。
+**您当前查看的分支为1.X，本分支适用于订阅号及未认证的服务号，如果您的服务号已经认证，可以移步Master分支享受更多功能。**
 
 本项目使用 [Laravel](https://laravel.com/) 作为主架构进行开发，公众号交互使用 [EasyWechat](https://www.easywechat.com) 实现，管理后台基于 [X-admin](http://x.xuebingsi.com)二次开发。
 本项目使用GPLv3协议，允许复制、传播、修改及商业使用，禁止将修改后和衍生的代码做为闭源的商业软件发布和销售。
@@ -101,9 +101,9 @@
 下载或clone项目代码到所需环境  
 ````PHP
 #国外环境
-git clone https://github.com/evendevil66/taolefan.git
+git clone -b 1.x https://github.com/evendevil66/taolefan.git
 #国内环境
-git clone https://gitee.com/cdj8/taolefan.git
+git clone -b 1.x https://gitee.com/cdj8/taolefan.git
 ````
 在项目目录下执行Composer命令安装依赖包及自动加载  
 ````shell script
