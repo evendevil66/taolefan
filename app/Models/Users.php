@@ -35,7 +35,7 @@ class Users extends Model
      * @return \Illuminate\Support\Collection 返回用户对象或NULL
      */
     public function getUserBySpecialId($special_id){
-        $user = DB::table($this->table)->where('special_id', $special_id)->first();
+        return DB::table($this->table)->where('special_id', $special_id)->first();
     }
 
     /**

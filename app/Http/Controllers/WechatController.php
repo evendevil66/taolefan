@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Image;
 use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\Messages\Media;
+use App\Packages\tools\ImageProcess;
 
 class WeChatController extends Controller
 {
@@ -159,18 +160,30 @@ class WeChatController extends Controller
                             if (config('config.invite') != 1) {
                                 return "暂时不开放邀请功能";
                             }
+                            //生成qrcode 有效期7天
                             $result = $app->qrcode->temporary($openid, 7 * 24 * 3600);
                             $ticket = $result["ticket"];
                             $url = $app->qrcode->url($ticket);
                             $content = file_get_contents($url);
                             file_put_contents('./code.jpg', $content); // 写入文件
-                            $media = $app->media->uploadImage("./code.jpg");
-                            $media_id = $media["media_id"];
-                            $image = new Image($media_id);
-                            $app->customer_service->message($image)->to($openid)->send();
-                            unlink("./code.jpg");
+                            if(config('config.createPoster')==0){
+                                $media = $app->media->uploadImage("./code.jpg");
+                                $media_id = $media["media_id"];
+                                $image = new Image($media_id);
+                                $app->customer_service->message($image)->to($openid)->send();
+                                unlink("./code.jpg");
+                            }else{
+                                app(ImageProcess::createPoster());
+                                $media = $app->media->uploadImage("./posterCode.jpg");
+                                $media_id = $media["media_id"];
+                                $image = new Image($media_id);
+                                $app->customer_service->message($image)->to($openid)->send();
+                                unlink("./code.jpg");
+                                unlink("./posterCode.jpg");
+                            }
+
+
                             $app->customer_service->message("您的专属邀请码已生成\n您邀请的好友第一笔订单确认收货，您可以获得" . config('config.invite_rewards') . "元奖励，并永久享受分成。\n\n注意：当您的好友通过您的专属码关注，并首次打开资料补齐页面时，您才会收到邀请成功通知，但是即使未收到通知也不会影响奖励发放哦~")->to($openid)->send();
-                            //getUserCountByInviteId
                             $count = app(Users::class)->getUserCountByInviteId($openid);
                             if($count>0){
                                 $price = app(Users::class)->getUserCountByInviteIdAndInvitationReward($openid);

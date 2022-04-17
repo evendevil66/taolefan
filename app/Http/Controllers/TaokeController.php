@@ -1354,9 +1354,9 @@ class TaokeController extends Controller
                                     //获取淘宝结算时间
                                     $month = date("m", time());
                                     if ($month == 1) {
-                                        $month == 12;
+                                        $month = 12;
                                     } else {
-                                        $month == (int)$month - 1;
+                                        $month = (int)$month - 1;
                                     }
                                     $lastMonth = $month == 1 ? 12 : $month - 1;
                                     //获取上月及上上月 月份

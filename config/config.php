@@ -26,5 +26,9 @@ return [
     'template_id'=>'******', //订单模板消息ID
     'withdraw_template_id'=>'******',//提现模板消息ID
     'invite_template_id'=>'******',//邀请好友模板消息ID
+    'createPoster'=>1, //是否开启生成海报 开启填写1 关闭填写0 如开启生成海报，请将jpg格式海报模板上传到public下并命名为poster.jpg
+    'posterx'=>'206', //二维码在海报中x位置
+    'postery'=>'1057', //二维码在海报中y位置
+    'posterwh'=>'200', //二维码在海报中宽高
 ];
 
