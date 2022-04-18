@@ -3,7 +3,7 @@
 return [
 
     'name' => "猫乐饭", //产品名称 会反应在用户交互等场景
-    'url' => "https://xxx.xxx.xxx", //站点url
+    'url' => "https://xxx.xxx.xxx", //站点url（可填写自己的cms或大淘客免费的cms站点）
     'apiUrl' => "https://xxx.xxx.xxx", //微信url
     'dtkAppKey' => "******", //大淘客appKey 使用大淘客接口快速解析商品信息
     'dtkAppSecret' => "******", //大淘客AppSecret

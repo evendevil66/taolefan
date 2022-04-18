@@ -27,7 +27,6 @@ class WeChatController extends Controller
      */
     public function serve()
     {
-
         $app = app('wechat.official_account');
         $app->server->push(function ($message) use ($app) {
             $openid = $message['FromUserName'];
@@ -137,7 +136,8 @@ class WeChatController extends Controller
                             $url = config('config.apiUrl') . "/loading?openid=" . $openid;
                             return "<a href=\"" . $url . "\">点击此处快速查询订单</a>";*/
                         case 'Price':
-                            return "您当前可提现余额" . $user->available_balance . "元，待结算金额" . $user->unsettled_balance . "元。待结算余额会在您确认收货次月到账可提现余额哦～";
+                            return "您当前可提现余额" . $user->available_balance . "元，待结算金额" . $user->unsettled_balance . "元。待结算余额会在您确认收货次月到账可提现余额哦～\n".
+                                "如需查询余额变动明细，<a href='".config('config.apiUrl')." . /balanceRecord'>请点击此处</a>";
                         /*case 'BalanceRecord':
                             $url = config('config.apiUrl') . "/balanceRecord?openid=" . $openid;
                             return "<a href=\"" . $url . "\">点击此处查询余额变动</a>";*/
@@ -311,7 +311,7 @@ class WeChatController extends Controller
                         return app(TaokeController::class)->parse($user, $content);
                     }
                     break;
-                default:
+                      default:
                     return '哎呀,' . config('config.name') .
                         '暂时还不支持此类消息呢，你可以发送淘口令、订单号或指定关键词给我哦！
                         如不知道关键词是什么，可回复[关键词]给我获取哦';
@@ -325,17 +325,17 @@ class WeChatController extends Controller
     {
         $buttons = [
             [
-                "name" => "外卖饭粒",
+                "name" => "优惠汇总",
                 "sub_button" => [
                     [
                         "type" => "click",
-                        "name" => "饿了么（淘宝）",
-                        "key" => "ElmTb"
+                        "name" => "饿了么饭粒",
+                        "key" => "ElmWx"
                     ],
                     [
-                        "type" => "click",
-                        "name" => "饿了么（微信）",
-                        "key" => "ElmWx"
+                        "type" => "view",
+                        "name" => "高返活动商品",
+                        "url" => config('config.url')
                     ],
                 ],
             ],
@@ -353,9 +353,9 @@ class WeChatController extends Controller
                         "key" => "Price"
                     ],
                     [
-                        "type" => "view",
-                        "name" => "余额变动查询",
-                        "url" => config('config.apiUrl') . "/balanceRecord"
+                        "type" => "click",
+                        "name" => "饿了么",
+                        "key" => "ElmWx"
                     ],
                     [
                         "type" => "click",
@@ -478,6 +478,15 @@ class WeChatController extends Controller
                 'remark' => "请继续努力哦~",
             ],
         ]);
+    }
+
+    /**
+     * 发送文本信息到微信
+     */
+    public function sendText($openid, $content)
+    {
+        $app = app('wechat.official_account');
+        $app->customer_service->message($content)->to($openid)->send();
     }
 }
 

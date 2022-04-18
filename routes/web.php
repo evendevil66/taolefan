@@ -72,6 +72,44 @@ Route::post('/admin/setAdmin', function () {
     }
 });
 
+//淘口令中间页
+Route::get('/tklzjy', function () {
+    $title=Request::get("title");
+    $couponInfo=Request::get("couponInfo");
+    $maxCommissionRate=Request::get("maxCommissionRate");
+    $estimate=Request::get("estimate");
+    $tpwd=Request::get("tpwd");
+    $image=Request::get("image");
+    return view('/tklzjy',
+        [
+            'title' => $title,
+            'couponInfo' => $couponInfo,
+            'maxCommissionRate' => $maxCommissionRate,
+            'estimate' => $estimate,
+            'tpwd' => $tpwd,
+            'image' => $image
+        ]);
+});
+
+//京东中间页
+Route::get('/jdzjy', function () {
+    $title=Request::get("title");
+    $couponInfo=Request::get("couponInfo");
+    $maxCommissionRate=Request::get("maxCommissionRate");
+    $estimate=Request::get("estimate");
+    $url=Request::get("url");
+    $image=Request::get("image");
+    return view('/jdzjy',
+        [
+            'title' => $title,
+            'couponInfo' => $couponInfo,
+            'maxCommissionRate' => $maxCommissionRate,
+            'estimate' => $estimate,
+            'url' => $url,
+            'image' => $image
+        ]);
+});
+
 Route::middleware(['CheckWxLogin'])->group(function () {
     Route::get('/loading', function () {
         return view('loading');
