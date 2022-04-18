@@ -16,6 +16,8 @@ use TopAuthTokenCreateRequest;
 use TbkScPublisherInfoSaveRequest;
 use TbkOrderDetailsGetRequest;
 use Illuminate\Support\Facades\Redis;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\NewsItem;
 
 
 class TaokeController extends Controller
@@ -122,19 +124,45 @@ class TaokeController extends Controller
         if (!$skuId) {
             return "您发送的商品无饭粒活动，或链接不支持，目前支持淘宝商品分享，京东链接分享，京东商品全名方式搜索返利";
         }
-        $str = $this->getJdDetails($skuId, $rate, $user);
-        if (!$str) {
+        $dataArr = $this->getJdDetails($skuId, $rate, $user);
+        if (!$dataArr) {
             return "您发送的京东商品无饭粒活动哦";
         }
+        $title = $dataArr["skuName"];
+        $price = $dataArr["originPrice"];
+        $actualPrice = $dataArr["actualPrice"];
+        $couponInfo1 = $dataArr["couponAmount"];
+        $couponInfo2 = $dataArr["couponConditions"];
+        $commissionShare = $dataArr["commissionShare"];
+        $openid = Redis::get($title);
+        if ($openid != null && $openid != "" && $openid != $user->id) {
+            Redis::setex($title, 1800, "repeat");
+        } else {
+            Redis::setex($title, 600, $user->id);
+        }
         $url = $this->getJdUrl($url);
+        $couponInfo = "商品无优惠券";
+        $commissionShare= round( $commissionShare * $rate,2);
+        $estimate = round(($price * ($commissionShare / 100)),2);
+        $image= $dataArr["picMain"];
         if (!$url) {
             $url = $this->getJdUrl($skuId);
         }
         if (!$url) {
             return "获取京东链接失败，请稍后重试或尝试其他商品，如仍无法正常转链可联系客服";
         }
-        return $str . "您可以点击下方链接下单，或点击下方链接加入购物车后再回到京东APP下单即可获得返利。\n" . $url . "\n\n自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。";
-
+        $items = [
+            new NewsItem([
+                'title'       => $title,
+                'description' => $couponInfo.'，返现比例'.$commissionShare.'%，预计付款'.$price.'，预计返现'.$estimate.'，点击查看下单',
+                'url'         => config('app.url').'/jdzjy?title='.$title.'&url='.$url.'&couponInfo='.$couponInfo.'&maxCommissionRate='.$commissionShare.'&rate='.$rate.'&estimate='.$estimate.'&image='.$image,
+                'image'       => $image,
+                // ...
+            ]),
+        ];
+        $news = new News($items);
+        app(WeChatController::class)->sendText($user->id, "您的商品链接已生成，10分钟内下单将自动绑定订单，如超时或未自动绑定，请复制您的订单号发送到公众号进行绑定");
+        return $news;
 
     }
 
@@ -184,35 +212,7 @@ class TaokeController extends Controller
         //Log::info($output);
         //Log::info($dataArr["data"]);
         if (isset($dataArr["data"][0])) {
-            $title = $dataArr["data"][0]["skuName"];
-            $price = $dataArr["data"][0]["originPrice"];
-            $actualPrice = $dataArr["data"][0]["actualPrice"];
-            $couponInfo1 = $dataArr["data"][0]["couponAmount"];
-            $couponInfo2 = $dataArr["data"][0]["couponConditions"];
-            $commissionShare = $dataArr["data"][0]["commissionShare"];
-            $openid = Redis::get($title);
-            if ($openid != null && $openid != "" && $openid != $user->id) {
-                Redis::setex($title, 1800, "repeat");
-            } else {
-                Redis::setex($title, 600, $user->id);
-            }
-            if ($couponInfo1 == (-1)) {
-                return $title . "\n" .
-                    "售价：" . $price . "元\n" .
-                    "商品暂无无优惠券\n" .
-                    "预计付款金额：" . $price . "元\n" .
-                    "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . round(($price * $rate * ($commissionShare / 100)),2) . "元\n" .
-                    "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
-            } else {
-                return $title . "\n" .
-                    "售价：" . $price . "元\n" .
-                    "优惠券：" . "满" . $couponInfo2 . "-" . $couponInfo1 . "元" . "\n" .
-                    "预计付款金额：" . $actualPrice . "元\n" .
-                    "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . round(($actualPrice * $rate * ($commissionShare / 100)),2) . "元\n" .
-                    "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
-            }
+            return $dataArr["data"][0];
         } else {
             return false;
         }
@@ -304,7 +304,19 @@ class TaokeController extends Controller
             } else {
                 Redis::setex($title, 600, $user->id);
             }
-            if ($user->special_id != null && $user->special_id != "") {
+            $items = [
+                new NewsItem([
+                    'title'       => $title,
+                    'description' => $couponInfo.'，返现比例'.round($maxCommissionRate* $rate,2).'%，预计付款'.$estimate.'，预计返现'.round(($estimate * $rate * ($maxCommissionRate / 100)), 2).'，点击查看下单',
+                    'url'         => config('app.url').'/tklzjy?title='.$title.'&tpwd='.$tpwd.'&couponInfo='.$couponInfo.'&maxCommissionRate='.round($maxCommissionRate * $rate,2).'&rate='.$rate.'&estimate='.round(($estimate * $rate * ($maxCommissionRate / 100)), 2).'&image='.$image,
+                    'image'       => $image,
+                    // ...
+                ]),
+            ];
+            $news = new News($items);
+            //app(WeChatController::class)->sendText($user->id, "您的商品链接已生成，10分钟内下单将自动绑定订单，如超时或未自动绑定，请复制您的订单号发送到公众号进行绑定");
+            return $news;
+            /*if ($user->special_id != null && $user->special_id != "") {
                 return
                     "1" . $title . "\n" .
                     "售价：" . $price . "元\n" .
@@ -327,7 +339,7 @@ class TaokeController extends Controller
                     "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
                     "自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。\n" .
                     "您也可以点击右下角或发送'绑定淘宝'，绑定淘宝账号开启增强版自动跟单哦";
-            }
+            }*/
 
 
         } else if ($dataArr['code'] == '10006') {
