@@ -139,6 +139,11 @@ REDIS_PORT=6379 #Redis端口
 'invite_rewards'=>1, //邀请奖励金额
 'template_id'=>'******', //模板消息ID(后面会有获取方法)
 'withdraw_template_id'=>'******'//提现模板消息ID(后面会有获取方法)
+'invite_template_id'=>'******',//邀请好友模板消息ID
+'createPoster'=>1, //是否开启生成海报 开启填写1 关闭填写0 如开启生成海报，请将jpg格式海报模板上传到public下并命名为poster.jpg
+'posterx'=>'206', //二维码在海报中x位置
+'postery'=>'1057', //二维码在海报中y位置
+'posterwh'=>'200', //二维码在海报中宽高
 ````
 <span id="mediaId"></span>  
 --mediaId获取方法  
