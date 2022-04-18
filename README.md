@@ -65,7 +65,7 @@ UPDATE users SET invite_id = NULL WHERE invite_id = '0'
 ```
 
 ## 部署方法
-环境要求：PHP > 7 && PHP < 8  ｜ MySQL/MariaDB ｜ Redis  
+环境要求：PHP >= 7.4（支持PHP8） ｜ MySQL/MariaDB ｜ Redis  
 微信公众号：已认证服务号(订阅号、未认证请使用1.x分支)  
 
 下载或clone项目代码到所需环境  
