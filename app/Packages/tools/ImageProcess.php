@@ -20,5 +20,6 @@ class ImageProcess
         imagejpeg($target_file, './posterCode.jpg');
         imagedestroy($target_file);
         imagedestroy($source_file);
+        //imagedestroy($code_file);
     }
 }

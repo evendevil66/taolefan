@@ -22,16 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Packages/tools/ImageProcess.php" afterDir="false" />
+    <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="update 2.x">
+      <change afterPath="$PROJECT_DIR$/public/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WechatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Users.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/login.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/reg.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/reg.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Orders.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Orders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Packages/tools/ImageProcess.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Packages/tools/ImageProcess.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,6 +224,7 @@
       <recent name="$PROJECT_DIR$/public/css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\z7647\PhpstormProjects\taolefan2.x\public" />
       <recent name="C:\Users\z7647\PhpstormProjects\taolefan2.x" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/public" />
@@ -315,14 +313,8 @@
       <workItem from="1649905384334" duration="36875000" />
       <workItem from="1649950607601" duration="504000" />
       <workItem from="1649963328163" duration="341000" />
-      <workItem from="1650194618721" duration="2359000" />
-    </task>
-    <task id="LOCAL-00047" summary="修复商品名称过长时订单无法保存的问题">
-      <created>1647597092775</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1647597092775</updated>
+      <workItem from="1650194618721" duration="3485000" />
+      <workItem from="1650273631007" duration="1301000" />
     </task>
     <task id="LOCAL-00048" summary="update">
       <created>1647597099290</created>
@@ -660,7 +652,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649951086613</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="update 2.x">
+      <created>1650197038740</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1650197038740</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -98,7 +98,7 @@ class Orders extends Model
                     $user = app(\App\Models\Users::class)->getUserById($openid);
                     $this->ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id,$user);
                     //发送订单通知模板消息
-                    app(WeChatController::class)->sendTemplateMessage($openid, $platform,$item_title,$pay_price,round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
+                    //app(WeChatController::class)->sendTemplateMessage($openid, $platform,$item_title,$pay_price,round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
 
 
                 }else{

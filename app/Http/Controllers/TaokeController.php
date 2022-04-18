@@ -16,6 +16,8 @@ use TopAuthTokenCreateRequest;
 use TbkScPublisherInfoSaveRequest;
 use TbkOrderDetailsGetRequest;
 use Illuminate\Support\Facades\Redis;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\NewsItem;
 
 
 class TaokeController extends Controller
@@ -84,13 +86,14 @@ class TaokeController extends Controller
                 $title = $dataArr['data']['originInfo']['title'];
                 $price = $dataArr['data']['originInfo']['price'];
                 $goodsid = $dataArr['data']['goodsId'];
+                $image = $dataArr['data']['originInfo']['image'];
                 $dataArr = null;
                 if ($user->special_id != null && $user->special_id != "") {
                     $dataArr = $this->privilegeLinkBySpecialId($goodsid, $user->special_id);
                 } else {
                     $dataArr = $this->privilegeLink($goodsid);
                 }
-                return $this->formatDataByTb($user, $rate, $dataArr, $title, $price);
+                return $this->formatDataByTb($user, $rate, $dataArr, $title, $price,$image);
             case "-1":
                 return "哎呀，服务器出错了，请您再发送尝试一次或稍后再试";
             case "20002":
@@ -202,7 +205,7 @@ class TaokeController extends Controller
                     "商品暂无无优惠券\n" .
                     "预计付款金额：" . $price . "元\n" .
                     "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . round(($price * $rate * ($commissionShare / 100)),2) . "元\n" .
+                    "预计返现金额：" . round(($price * $rate * ($commissionShare / 100)), 2) . "元\n" .
                     "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
             } else {
                 return $title . "\n" .
@@ -210,7 +213,7 @@ class TaokeController extends Controller
                     "优惠券：" . "满" . $couponInfo2 . "-" . $couponInfo1 . "元" . "\n" .
                     "预计付款金额：" . $actualPrice . "元\n" .
                     "商品返现比例：" . $commissionShare * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . round(($actualPrice * $rate * ($commissionShare / 100)),2) . "元\n" .
+                    "预计返现金额：" . round(($actualPrice * $rate * ($commissionShare / 100)), 2) . "元\n" .
                     "返现计算：实付款 * " . $commissionShare * $rate . "%\n\n";
             }
         } else {
@@ -274,7 +277,7 @@ class TaokeController extends Controller
      * @param $dataArr
      * @return string
      */
-    public function formatDataByTb($user, $rate, $dataArr, $title, $price)
+    public function formatDataByTb($user, $rate, $dataArr, $title, $price,$image)
     {
         if ($dataArr['code'] == '0') {
             //$tbArr = $this->aliParse($goodsid);
@@ -298,38 +301,37 @@ class TaokeController extends Controller
             //$end= (strpos($longTpwd,"】"));
             //$title= substr($longTpwd,$start+1,$end-$start-1);
             $maxCommissionRate = $dataArr['data']['maxCommissionRate'] == "" || null ? $dataArr['data']['minCommissionRate'] : $dataArr['data']['maxCommissionRate']; //佣金比例
+            $kuaiZhanUrl = $dataArr['data']['kuaiZhanUrl']; //商品的快站链接
             $openid = Redis::get($title);
             if ($openid != null && $openid != "" && $openid != $user->id) {
                 Redis::setex($title, 1800, "repeat");
             } else {
                 Redis::setex($title, 600, $user->id);
             }
-            if ($user->special_id != null && $user->special_id != "") {
+            if($kuaiZhanUrl!=null&&$kuaiZhanUrl!=""){
+                $items = [
+                    new NewsItem([
+                        'title'       => $title,
+                        'description' => $couponInfo.'，返现比例'.$maxCommissionRate* $rate.'%，预计返现金额：'.round(($estimate * $rate * ($maxCommissionRate / 100)), 2).'元，点击查看下单',
+                        'url'         => $kuaiZhanUrl,
+                        'image'       => $image,
+                        // ...
+                    ]),
+                ];
+                $news = new News($items);
+                return $news;
+            }else{
                 return
                     "1" . $title . "\n" .
                     "售价：" . $price . "元\n" .
                     "优惠券：" . $couponInfo . "\n" .
                     "预计付款金额：" . $estimate . "元\n" .
                     "商品返现比例：" . $maxCommissionRate * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . round(($estimate * $rate * ($maxCommissionRate / 100)),2) . "元\n" .
+                    "预计返现金额：" . round(($estimate * $rate * ($maxCommissionRate / 100)), 2) . "元\n" .
                     "返现计算：实付款 * " . $maxCommissionRate * $rate . "%\n\n" .
                     "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
-                    "增强自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。";
-            } else {
-                return
-                    "1" . $title . "\n" .
-                    "售价：" . $price . "元\n" .
-                    "优惠券：" . $couponInfo . "\n" .
-                    "预计付款金额：" . $estimate . "元\n" .
-                    "商品返现比例：" . $maxCommissionRate * $rate . "%\n" . //用户返现比例为0.8 后续将从用户表中获取
-                    "预计返现金额：" . round(($estimate * $rate * ($maxCommissionRate / 100)),2) . "元\n" .
-                    "返现计算：实付款 * " . $maxCommissionRate * $rate . "%\n\n" .
-                    "复制" . $tpwd . "打开淘宝下单后将订单号发送至公众号即可绑定返现\n\n" .
-                    "自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。\n" .
-                    "您也可以点击右下角或发送'绑定淘宝'，绑定淘宝账号开启增强版自动跟单哦";
+                    "自动跟单已开启，将在您下单后尝试自动跟单，您可以在支付2分钟后查询您的订单信息。如无法查询到订单，您可以手动发送订单号绑定。";
             }
-
-
         } else if ($dataArr['code'] == '10006') {
             return "您发送的淘宝商品没有返利活动哦~";
         } else {
@@ -631,7 +633,7 @@ class TaokeController extends Controller
         $timeQuantum = 90;  //默认1分30秒用于冗余以免漏单
         date_default_timezone_set("Asia/Shanghai");//设置当前时区为Shanghai
         $host = "https://openapi.dataoke.com/api/tb-service/get-order-details";
-        $flag=true;
+        $flag = true;
         //开始处理未包含会员运营ID的普通订单
         $pageNo = 1;
         while ($flag) {
@@ -645,9 +647,9 @@ class TaokeController extends Controller
                 'queryType' => 2,//按照付款时间查询
                 'startTime' => $startTime,
                 'endTime' => $endTime,
-                'pageNo'=>$pageNo,
-                'orderScene'=>1,
-                'pageSize'=>100
+                'pageNo' => $pageNo,
+                'orderScene' => 1,
+                'pageSize' => 100
             ];
             $data['sign'] = $this->makeSign($data);
             $url = $host . '?' . http_build_query($data);
@@ -679,7 +681,7 @@ class TaokeController extends Controller
                     }
                     //return $testStr;
                 } else {
-                    if(!isset($publisher_order_dto['trade_parent_id'])){
+                    if (!isset($publisher_order_dto['trade_parent_id'])) {
                         break;
                     }
                     $count++;
@@ -712,9 +714,9 @@ class TaokeController extends Controller
                 'queryType' => 2,//按照付款时间查询
                 'startTime' => $startTime,
                 'endTime' => $endTime,
-                'pageNo'=>$pageNo,
-                'orderScene'=>3,
-                'pageSize'=>100
+                'pageNo' => $pageNo,
+                'orderScene' => 3,
+                'pageSize' => 100
             ];
             $data['sign'] = $this->makeSign($data);
             $url = $host . '?' . http_build_query($data);
@@ -745,7 +747,7 @@ class TaokeController extends Controller
                         //$testStr=$testStr."订单ID".$trade_parent_id."\n付款时间".$tk_paid_time."\n商品标题".$item_title."\n付款金额".$alipay_total_price."\n预估佣金".$pub_share_pre_fee."\n会员ID".$special_id."\n\n";
                     }
                 } else {
-                    if(!isset($publisher_order_dto['trade_parent_id'])){
+                    if (!isset($publisher_order_dto['trade_parent_id'])) {
                         break;
                     }
                     $count++;
@@ -849,7 +851,7 @@ class TaokeController extends Controller
             $pageNo = 1;
             while ($flag && strlen($order->trade_parent_id) > 13) {
                 $host = "https://openapi.dataoke.com/api/tb-service/get-order-details";
-                $orderScene=1;
+                $orderScene = 1;
                 if ($order->special_id == null || trim($order->special_id) == "") {
                     $orderScene = 1;
                 } else {
@@ -863,9 +865,9 @@ class TaokeController extends Controller
                     'queryType' => 2,//按照付款时间查询
                     'startTime' => $startTime,
                     'endTime' => $endTime,
-                    'pageNo'=>$pageNo,
-                    'orderScene'=>$orderScene,
-                    'pageSize'=>100
+                    'pageNo' => $pageNo,
+                    'orderScene' => $orderScene,
+                    'pageSize' => 100
                 ];
                 $data['sign'] = $this->makeSign($data);
                 $url = $host . '?' . http_build_query($data);
@@ -900,24 +902,24 @@ class TaokeController extends Controller
                                     DB::rollBack();
                                 }
                             } else if ($tk_status != $order->tk_status) {
-                                try{
+                                try {
                                     if ($tk_status == 3) {
                                         $tk_earning_time = $publisher_order_dto[$i]['tk_earning_time'];
-                                        if($user->invite_id !=null && $user->invite_id !=""  && config('config.invite')== 1){
-                                            if($user->invitation_reward == 1){
-                                                $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
-                                                app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" .config('config.invite_rewards') . "元", config('config.invite_rewards'));
+                                        if ($user->invite_id != null && $user->invite_id != "" && config('config.invite') == 1) {
+                                            if ($user->invitation_reward == 1) {
+                                                $nickname = $user->nickname == null ? "未设置昵称" : $user->nickname;
+                                                app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" . config('config.invite_rewards') . "元", config('config.invite_rewards'));
                                                 app(Users::class)->updateAvailable_balance($user->invite_id, config('config.invite_rewards'));
                                                 app(Users::class)->updateInvitationReward($user->openid);
                                                 $inUser = app(\App\Models\Users::class)->getUserById($user->invite_id);
-                                                app(Controllers\WeChatController::class)->sendInviteTemplateMessage($user->invite_id,$nickname,$inUser->nickname,"您的好友已首单，您获得首单奖励" . config('config.invite_rewards') . "元\n永久返利奖励将在你的好友订单确认收货次月一并发放哦");
+                                                app(Controllers\WeChatController::class)->sendInviteTemplateMessage($user->invite_id, $nickname, $inUser->nickname, "您的好友已首单，您获得首单奖励" . config('config.invite_rewards') . "元\n永久返利奖励将在你的好友订单确认收货次月一并发放哦");
                                             }
                                         }
                                     }
                                     //处理变更状态
                                     app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $tk_earning_time);
                                     DB::commit();
-                                }catch (\Exception $e){
+                                } catch (\Exception $e) {
                                     DB::rollBack();
                                 }
 
@@ -926,7 +928,7 @@ class TaokeController extends Controller
                             break;
                         }
                     } else {
-                        if(!isset($publisher_order_dto['trade_parent_id'])){
+                        if (!isset($publisher_order_dto['trade_parent_id'])) {
                             break;
                         }
                         $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
@@ -950,20 +952,20 @@ class TaokeController extends Controller
                                 DB::rollBack();
                             }
                         } else if ($tk_status != $order->tk_status) {
-                            try{
+                            try {
                                 if ($tk_status == 3) {
                                     $tk_earning_time = $publisher_order_dto['tk_earning_time'];
-                                    if($user->invite_id !=null && $user->invite_id !=""  && config('config.invite')== 1){
-                                        if($user->invitation_reward == 1){
-                                            $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
-                                            app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" .config('config.invite_rewards') . "元", config('config.invite_rewards'));
+                                    if ($user->invite_id != null && $user->invite_id != "" && config('config.invite') == 1) {
+                                        if ($user->invitation_reward == 1) {
+                                            $nickname = $user->nickname == null ? "未设置昵称" : $user->nickname;
+                                            app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" . config('config.invite_rewards') . "元", config('config.invite_rewards'));
                                             app(Users::class)->updateAvailable_balance($user->invite_id, config('config.invite_rewards'));
                                         }
                                     }
                                 }
                                 app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $tk_earning_time);
                                 DB::commit();
-                            }catch (\Exception $e){
+                            } catch (\Exception $e) {
                                 DB::rollBack();
                             }
 
@@ -1025,20 +1027,20 @@ class TaokeController extends Controller
                                 break;
                         }
                         if ($tk_status != 13 && $tk_status != $order->tk_status) {
-                            try{
+                            try {
                                 if ($tk_status == 3) {
                                     $finishTime = $data["finishTime"];
-                                    if($user->invite_id !=null && $user->invite_id !=""){
-                                        if($user->invitation_reward == 1){
-                                            $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
-                                            app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" .config('config.invite_rewards') . "元", config('config.invite_rewards'));
+                                    if ($user->invite_id != null && $user->invite_id != "") {
+                                        if ($user->invitation_reward == 1) {
+                                            $nickname = $user->nickname == null ? "未设置昵称" : $user->nickname;
+                                            app(BalanceRecord::class)->setRecord($user->invite_id, "邀请好友" . $nickname . "首次下单获得奖励" . config('config.invite_rewards') . "元", config('config.invite_rewards'));
                                             app(Users::class)->updateAvailable_balance($user->invite_id, config('config.invite_rewards'));
                                         }
                                     }
                                 }
                                 app(Orders::class)->changeStatusAndEarningTimeById($order->id, $tk_status, $finishTime);
                                 DB::commit();
-                            }catch (\Exception $e){
+                            } catch (\Exception $e) {
                                 DB::rollBack();
                             }
                         }
@@ -1094,9 +1096,9 @@ class TaokeController extends Controller
                 $startTime = date("Y-m-d H:i:s", strtotime($order->tk_paid_time) - 60);
                 //如果订单包含运营id，则按运营订单查询。否则按常规订单查询
                 if ($order->special_id == null || trim($order->special_id) == "") {
-                    $orderScene=1;
+                    $orderScene = 1;
                 } else {
-                    $orderScene=3;
+                    $orderScene = 3;
                 }
                 $data = [
                     'appKey' => config('config.dtkAppKey'),
@@ -1104,9 +1106,9 @@ class TaokeController extends Controller
                     'queryType' => 2,//按照付款时间查询
                     'startTime' => $startTime,
                     'endTime' => $endTime,
-                    'pageNo'=>$pageNo,
-                    'orderScene'=>$orderScene,
-                    'pageSize'=>100
+                    'pageNo' => $pageNo,
+                    'orderScene' => $orderScene,
+                    'pageSize' => 100
                 ];
                 $data['sign'] = $this->makeSign($data);
                 $url = $host . '?' . http_build_query($data);
@@ -1148,32 +1150,32 @@ class TaokeController extends Controller
                                 //如果订单状态为淘宝已结算（3），且站点未结算（！=2）
                                 try {
                                     DB::beginTransaction();
-                                        $tk_earning_time = $publisher_order_dto[$i]['tk_earning_time'];
-                                        //获取淘宝结算时间
-                                        $month = date("m", time());
-                                        if ($month == 1) {
-                                            $month = 12;
-                                        } else {
-                                            $month = (int)$month - 1;
-                                        }
-                                        $lastMonth = $month == 1 ? 12 : $month - 1;
-                                        //获取上月及上上月 月份
-                                        if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
-                                            return date('m', strtotime($tk_earning_time))."1......".$trade_parent_id;
-                                            //判断如果结算时间为上月或上上月，处理结算。
-                                            app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
-                                            app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);
-                                            app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
+                                    $tk_earning_time = $publisher_order_dto[$i]['tk_earning_time'];
+                                    //获取淘宝结算时间
+                                    $month = date("m", time());
+                                    if ($month == 1) {
+                                        $month = 12;
+                                    } else {
+                                        $month = (int)$month - 1;
+                                    }
+                                    $lastMonth = $month == 1 ? 12 : $month - 1;
+                                    //获取上月及上上月 月份
+                                    if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
+                                        return date('m', strtotime($tk_earning_time)) . "1......" . $trade_parent_id;
+                                        //判断如果结算时间为上月或上上月，处理结算。
+                                        app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                        app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);
+                                        app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
 
-                                            //如果用户为被邀请，则更新邀请人的可用余额
-                                            if($user->invite_id !=null && $user->invite_id !=""  && config('config.invite')== 1){
-                                                $invite_user = app(Users::class)->getUserById($user->invite_id);
-                                                app(Users::class)->updateAvailable_balance($invite_user->openid, $invite_user->available_balance + ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
-                                                $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
-                                                app(BalanceRecord::class)->setRecord($user->invite_id, "好友" . $nickname . "下单获得提成" .($order->rebate_pre_fee * config('config.invite_ratio') * 0.01). "元", ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
-                                            }
-
+                                        //如果用户为被邀请，则更新邀请人的可用余额
+                                        if ($user->invite_id != null && $user->invite_id != "" && config('config.invite') == 1) {
+                                            $invite_user = app(Users::class)->getUserById($user->invite_id);
+                                            app(Users::class)->updateAvailable_balance($invite_user->openid, $invite_user->available_balance + ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
+                                            $nickname = $user->nickname == null ? "未设置昵称" : $user->nickname;
+                                            app(BalanceRecord::class)->setRecord($user->invite_id, "好友" . $nickname . "下单获得提成" . ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01) . "元", ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
                                         }
+
+                                    }
                                     //处理变更状态
                                     if ($order->tk_status != 3) {
                                         //如果订单状态并非已结算或退款，且发生变化，处理变更。
@@ -1190,7 +1192,7 @@ class TaokeController extends Controller
                             break;
                         }
                     } else {
-                        if(!isset($publisher_order_dto['trade_parent_id'])){
+                        if (!isset($publisher_order_dto['trade_parent_id'])) {
                             break;
                         }
                         $trade_parent_id = $publisher_order_dto['trade_parent_id']; //订单号
@@ -1220,29 +1222,29 @@ class TaokeController extends Controller
                             //如果订单状态为淘宝已结算（3），且站点未结算（！=2）
                             try {
                                 DB::beginTransaction();
-                                    $tk_earning_time = $publisher_order_dto['tk_earning_time'];
-                                    //获取淘宝结算时间
-                                    $month = date("m", time());
-                                    if ($month == 1) {
-                                        $month = 12;
-                                    } else {
-                                        $month = (int)$month - 1;
+                                $tk_earning_time = $publisher_order_dto['tk_earning_time'];
+                                //获取淘宝结算时间
+                                $month = date("m", time());
+                                if ($month == 1) {
+                                    $month = 12;
+                                } else {
+                                    $month = (int)$month - 1;
+                                }
+                                $lastMonth = $month == 1 ? 12 : $month - 1;
+                                //获取上月及上上月 月份
+                                if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
+                                    //判断如果结算时间为上月或上上月，处理结算。
+                                    app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
+                                    app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);
+                                    app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
+                                    //如果用户为被邀请，则更新邀请人的可用余额
+                                    if ($user->invite_id != null && $user->invite_id != "" && config('config.invite') == 1) {
+                                        $invite_user = app(Users::class)->getUserById($user->invite_id);
+                                        app(Users::class)->updateAvailable_balance($invite_user->openid, $invite_user->available_balance + ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
+                                        $nickname = $user->nickname == null ? "未设置昵称" : $user->nickname;
+                                        app(BalanceRecord::class)->setRecord($user->invite_id, "好友" . $nickname . "下单获得提成" . ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01) . "元", ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
                                     }
-                                    $lastMonth = $month == 1 ? 12 : $month - 1;
-                                    //获取上月及上上月 月份
-                                    if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
-                                        //判断如果结算时间为上月或上上月，处理结算。
-                                        app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
-                                        app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);
-                                        app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
-                                        //如果用户为被邀请，则更新邀请人的可用余额
-                                        if($user->invite_id !=null && $user->invite_id !=""  && config('config.invite')== 1){
-                                            $invite_user = app(Users::class)->getUserById($user->invite_id);
-                                            app(Users::class)->updateAvailable_balance($invite_user->openid, $invite_user->available_balance + ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
-                                            $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
-                                            app(BalanceRecord::class)->setRecord($user->invite_id, "好友" . $nickname . "下单获得提成" .($order->rebate_pre_fee * config('config.invite_ratio') * 0.01). "元", ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
-                                        }
-                                    }
+                                }
                                 //处理变更状态
                                 if ($order->tk_status != 3) {
                                     //如果订单状态并非已结算或退款，且发生变化，处理变更。
@@ -1526,11 +1528,11 @@ class TaokeController extends Controller
                                         app(Orders::class)->changeTlfStatus($trade_parent_id, 2);
 
                                         //如果用户为被邀请，则更新邀请人的可用余额
-                                        if($user->invite_id !=null && $user->invite_id !="" && config('config.invite')== 1){
+                                        if ($user->invite_id != null && $user->invite_id != "" && config('config.invite') == 1) {
                                             $invite_user = app(Users::class)->getUserById($user->invite_id);
                                             app(Users::class)->updateAvailable_balance($invite_user->openid, $invite_user->available_balance + ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
-                                            $nickname = $user->nickname==null?"未设置昵称":$user->nickname;
-                                            app(BalanceRecord::class)->setRecord($user->invite_id, "好友" . $nickname . "下单获得提成" .($order->rebate_pre_fee * config('config.invite_ratio') * 0.01). "元", ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
+                                            $nickname = $user->nickname == null ? "未设置昵称" : $user->nickname;
+                                            app(BalanceRecord::class)->setRecord($user->invite_id, "好友" . $nickname . "下单获得提成" . ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01) . "元", ($order->rebate_pre_fee * config('config.invite_ratio') * 0.01));
                                         }
                                     }
                                     //处理变更状态
@@ -1545,7 +1547,7 @@ class TaokeController extends Controller
                                 }
                                 break;
                             default:
-                                try{
+                                try {
                                     $user = app(Users::class)->getUserById($order->openid);
                                     DB::beginTransaction();
                                     app(Orders::class)->changeStatusAndEarningTimeById($order->id, 13, $finishTime);
