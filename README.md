@@ -42,7 +42,7 @@ php artisan cache:clear
 php artisan route:cache
 ````
 
-2022.4.18 v2.1.10  
+2022.4.18 v1.1.10  
 将转链结果以链接形式返回，避免被微信检测  
 修复一些不影响使用的bug
 

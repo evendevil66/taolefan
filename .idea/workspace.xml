@@ -23,12 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/jdzjy.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/tklzjy.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,7 +207,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/z7647/PhpstormProjects/taolefan1.x/resources/views",
+    "last_opened_file_path": "C:/Users/z7647/PhpstormProjects/taolefan1.x",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -319,14 +314,8 @@
       <workItem from="1649939927883" duration="1262000" />
       <workItem from="1649948342518" duration="76000" />
       <workItem from="1649950729242" duration="139000" />
-      <workItem from="1650290658986" duration="459000" />
-    </task>
-    <task id="LOCAL-00045" summary="修复商品未参与推广时的文案回复错误问题">
-      <created>1647517038800</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1647517038800</updated>
+      <workItem from="1650290658986" duration="502000" />
+      <workItem from="1650291956238" duration="19000" />
     </task>
     <task id="LOCAL-00046" summary="修复同一订单包含多个商品时无法正常计算返利的问题">
       <created>1647597064583</created>
@@ -664,7 +653,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649950826700</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="update">
+      <created>1650291141507</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1650291141507</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
