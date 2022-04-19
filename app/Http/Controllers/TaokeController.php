@@ -144,6 +144,10 @@ class TaokeController extends Controller
         }
         $url = $this->getJdUrl($url);
         $couponInfo = "商品无优惠券";
+        if ($couponInfo1 != (-1)) {
+            $couponInfo=$couponInfo2."减".$couponInfo1."元优惠券";
+            $price=$price>$couponInfo1?$price-$couponInfo1:$price;
+        }
         $commissionShare= round( $commissionShare * $rate,2);
         $estimate = round(($price * ($commissionShare / 100)),2);
         $image= $dataArr["picMain"];
@@ -315,6 +319,7 @@ class TaokeController extends Controller
             //$price = $tbArr['results']['n_tbk_item'][0]['zk_final_price']; //商品价格
             $couponInfo = "商品无优惠券";
             $amount = "0";
+            $startFee="0";
             if ($dataArr['data']['couponInfo'] != null) {
                 $couponInfo = $dataArr['data']['couponInfo']; //优惠券信息
                 $start = (strpos($couponInfo, "元"));
@@ -322,10 +327,14 @@ class TaokeController extends Controller
                 //return $ci;
                 $end = (strpos($ci, "元"));
                 $amount = mb_substr($ci, 0, $end);
+                $end = (strpos($couponInfo, "元减"));
+                $startFee = mb_substr($couponInfo, 1, $end-3);
+                //return $startFee;
             }
             $tpwd = $dataArr['data']['tpwd']; //淘口令
             $kuaiZhanUrl = $dataArr['data']['kuaiZhanUrl']; //快站链接
-            $estimate = $price - $amount; //预估付款金额
+            $estimate = $price>=$startFee?$price - $amount:$price; //预估付款金额
+            //return $estimate."...".$price."...".$amount;
             //$longTpwd = $dataArr['data']['longTpwd']; //长淘口令
             //$start= (strpos($longTpwd,"【"));
             //$end= (strpos($longTpwd,"】"));

@@ -25,8 +25,7 @@
     <list default="true" id="251624b5-1cf4-4731-846d-cbee727273a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/jdzjy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/jdzjy.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/tklzjy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/tklzjy.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TaokeController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -315,6 +314,7 @@
       <workItem from="1650273631007" duration="11226000" />
       <workItem from="1650291936761" duration="81000" />
       <workItem from="1650298533182" duration="774000" />
+      <workItem from="1650343756327" duration="3573000" />
     </task>
     <task id="LOCAL-00051" summary="update">
       <created>1647685502271</created>

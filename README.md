@@ -45,6 +45,9 @@ php artisan cache:clear
 php artisan route:cache
 ````
 
+2022.4.19 v2.1.11  
+修复付款金额/返现金额可能显示为负数bug  
+
 2022.4.18 v2.1.10  
 将转链结果以链接形式返回，避免被微信检测  
 修复自动跟单成功发送两条信息的bug  
