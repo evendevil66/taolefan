@@ -97,6 +97,7 @@ class Orders extends Model
                     //如果Redis中存在该商品名称转链的openid信息，且不为repeat，则绑定订单信息
                     $user = app(\App\Models\Users::class)->getUserById($openid);
                     $this->ModifyOpenIdByTradeParentIdAndModifyRebateAmountAccordingToRebateRatio($trade_parent_id,$user);
+                    Redis::del($item_title);
                     //发送订单通知模板消息
                     //app(WeChatController::class)->sendTemplateMessage($openid, $platform,$item_title,$pay_price,round(($user->rebate_ratio) * 0.01 * $pub_share_pre_fee,2));
 
@@ -178,7 +179,7 @@ class Orders extends Model
             if ($orderFlag->openid == $user->id) {
                 return "您的订单本次已成功自动跟单，您可在订单查询中自行查询";
             } else {
-                return "您的订单已绑定过，如非您本人绑定请联系客服处理！";
+                return "您的订单号已被绑定，如非您本人操作，请退款后重新转链下单！";
             }
         }
 

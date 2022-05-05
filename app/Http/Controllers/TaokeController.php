@@ -344,8 +344,10 @@ class TaokeController extends Controller
             $openid = Redis::get($title);
             if ($openid != null && $openid != "" && $openid != $user->id) {
                 Redis::setex($title, 1800, "repeat");
+                app(WeChatController::class)->sendText($user->id, "您的商品链接已生成，当前商品有多个用户在下单，为防止跟单错误，自动跟单已关闭，请下单后2分钟复制您的订单号发送到公众号进行绑定");
             } else {
                 Redis::setex($title, 600, $user->id);
+                app(WeChatController::class)->sendText($user->id, "您的商品链接已生成，10分钟内下单将自动绑定订单，如超时或未自动绑定，请复制您的订单号发送到公众号进行绑定");
             }
             /*if($kuaiZhanUrl!=null&&$kuaiZhanUrl!=""){
                 $items = [
@@ -371,7 +373,6 @@ class TaokeController extends Controller
                     ]),
                 ];
                 $news = new News($items);
-                app(WeChatController::class)->sendText($user->id, "您的商品链接已生成，10分钟内下单将自动绑定订单，如超时或未自动绑定，请复制您的订单号发送到公众号进行绑定");
                 return $news;
                 /*return
                     "1" . $title . "\n" .
@@ -1213,7 +1214,6 @@ class TaokeController extends Controller
                                     $lastMonth = $month == 1 ? 12 : $month - 1;
                                     //获取上月及上上月 月份
                                     if ($month == date('m', strtotime($tk_earning_time)) || $lastMonth == date('m', strtotime($tk_earning_time))) {
-                                        return date('m', strtotime($tk_earning_time)) . "1......" . $trade_parent_id;
                                         //判断如果结算时间为上月或上上月，处理结算。
                                         app(Users::class)->updateUnsettled_balance($order->openid, $user->unsettled_balance - $order->rebate_pre_fee);
                                         app(Users::class)->updateAvailable_balance($order->openid, $user->available_balance + $order->rebate_pre_fee);

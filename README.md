@@ -2,6 +2,7 @@
 
 ## 关于项目
 淘乐饭是一款基于PHP的微信公众号返利项目，支持认证或未认证的订阅号及服务号使用。  
+注意：因为不可抗因素，本项目停止更新，当前版本可以正常使用，如需商业支持请加QQ764744445咨询。
 **您当前查看的为2.X版本分支，如需未认证公众号使用，请切换至1.X分支查看。1.X于2.X并行开发，仅区分认证和未认证调用不同接口。**
 
 本项目使用 [Laravel](https://laravel.com/) 作为主架构进行开发，公众号交互使用 [EasyWechat](https://www.easywechat.com) 实现，管理后台基于 [X-admin](http://x.xuebingsi.com)二次开发。
@@ -10,11 +11,6 @@
 ## 对接API
 
 本项目主要使用 [淘宝联盟](https://pub.alimama.com/) 、 [大淘客](https://www.dataoke.com) 、[微信公众开放平台](https://mp.weixin.qq.com/) 等平台接口进行开发
-
-## 项目体验
-<h4>欢迎扫码体验本项目，您在本公众号的任何下单，都是对项目的支持</h4>
-
-![Wechat](public/images/wechat.png)
 
 ## 主要配置文件
 1、/config/config.php &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件保存站点/平台基本信息、淘宝联盟和大淘客APPKEY等信息  
@@ -45,6 +41,9 @@ php artisan cache:clear
 php artisan route:cache
 ````
 
+2022.5.5 v2.1.12  
+修复月更新订单遗留代码导致无法正常更新的问题  
+
 2022.4.19 v2.1.11  
 修复付款金额/返现金额可能显示为负数bug  
 
@@ -68,8 +67,8 @@ UPDATE users SET invite_id = NULL WHERE invite_id = '0'
 ```
 
 ## 部署方法
-环境要求：PHP >= 7.4（支持PHP8） ｜ MySQL/MariaDB ｜ Redis  
-微信公众号：已认证服务号(订阅号、未认证请使用1.x分支)  
+环境要求：PHP >= 7.4（支持PHP8） ｜ MySQL/MariaDB ｜ Redis
+微信公众号：已认证服务号(订阅号、未认证请使用1.x分支)
 
 下载或clone项目代码到所需环境  
 ````PHP
@@ -79,6 +78,7 @@ git clone -b master https://github.com/evendevil66/taolefan.git
 git clone -b master https://gitee.com/cdj8/taolefan.git
 ````
 在项目目录下执行Composer命令安装依赖包及自动加载  
+如在PHP8环境使用，请自行将composer.json中的php版本修改为对应版本  
 ````shell script
 composer install
 composer dump-auto

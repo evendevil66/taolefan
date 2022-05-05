@@ -137,7 +137,7 @@ class WeChatController extends Controller
                             return "<a href=\"" . $url . "\">点击此处快速查询订单</a>";*/
                         case 'Price':
                             return "您当前可提现余额" . $user->available_balance . "元，待结算金额" . $user->unsettled_balance . "元。待结算余额会在您确认收货次月到账可提现余额哦～\n".
-                                "如需查询余额变动明细，<a href='".config('config.apiUrl')." . /balanceRecord'>请点击此处</a>";
+                                "如需查询余额变动明细，<a href='".config('config.apiUrl')."/balanceRecord'>请点击此处</a>";
                         /*case 'BalanceRecord':
                             $url = config('config.apiUrl') . "/balanceRecord?openid=" . $openid;
                             return "<a href=\"" . $url . "\">点击此处查询余额变动</a>";*/
