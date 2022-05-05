@@ -12,10 +12,6 @@
 
 本项目主要使用 [淘宝联盟](https://pub.alimama.com/) 、 [大淘客](https://www.dataoke.com) 、[微信公众开放平台](https://mp.weixin.qq.com/) 等平台接口进行开发
 
-## 项目体验
-<h4>欢迎扫码体验本项目，您在本公众号的任何下单，都是对项目的支持</h4>
-
-![Wechat](public/images/wechat.png)
 
 ## 主要配置文件
 1、/config/config.php &nbsp;&nbsp;&nbsp;&nbsp; #本配置文件保存站点/平台基本信息、淘宝联盟和大淘客APPKEY等信息  
